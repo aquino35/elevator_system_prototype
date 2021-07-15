@@ -1,3 +1,8 @@
+/*
+ * TODO : DOCUMENT
+ * 
+ * 
+ */
 #include "elevator_system.h"
 
 class Elevator: private System {
