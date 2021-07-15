@@ -3,73 +3,83 @@
  * 
  * 
  */
-#include "elevator_system.h"
+#include <stdint.h>
 
-class Elevator: private System {
-    
+class Elevator {
+
+    private:
+        bool doorState;
+        uint16_t loadWeight;
+        uint8_t floor;
+        bool lightStatus;
+        uint8_t currentTemp;
+        uint16_t maxLoadWeight;
+        uint8_t maxFloor;
+        uint8_t maxTemp;
+
     public:
 
-        bool isDoor_status() {
-            return door_status;
-            }
-
-        void setDoor_status(bool door_status) {
-            door_status = door_status; 
-            }
-
-        double getLoad_weight() {
-            return load_weight;
-            }
-
-        void setLoad_weight(double load_weight) {
-            load_weight = load_weight; 
-            }
-
-        int getFloor() {
-            return floor;
-            }
-
-        void setFloor(int floor) {
-            floor = floor;
-            }
-
-        bool isLight_status() {
-            return light_status;
-            }
-
-        void setLight_status(bool light_status) {
-            light_status = light_status;
-            }
-
-        double getCurrent_temp() {
-            return current_temp;
-            }
-
-        void setCurrent_temp(double current_temp) {
-            current_temp = current_temp;
-            }
-
-        double getMax_load_weight() {
-            return max_load_weight;
+        bool isDoorState(){
+            return doorState;
         }
 
-        void setMax_load_weight(double max_load_weight) {
-            max_load_weight = max_load_weight;
-            }
+        void setDoorState(bool inputDoorST){
+            doorState = inputDoorST;
+        }
 
-        int getMax_floor() {
-            return max_floor;
-            }
+        double getLoadWeight(){
+            return loadWeight;
+        }
 
-        void setMax_floor(int max_floor) {
-            max_floor = max_floor;
-            }
+        void setLoadWeight(uint16_t inputLoad){
+            loadWeight = inputLoad;
+        }
 
-        double getMax_temp() {
-            return max_temp;
-            }
+        int getFloor(){
+            return floor;
+        }
 
-        void setMax_temp(double max_temp) {
-            max_temp = max_temp;
-            }
+        void setFloor(uint8_t inputFloor){
+            floor = inputFloor;
+        }
+
+        bool isLightStatus(){
+            return lightStatus;
+        }
+
+        void setLightStatus(bool inputLight){
+            lightStatus = inputLight;
+        }
+
+        double getCurrentTemp(){
+            return currentTemp;
+        }
+
+        void setCurrentTemp(uint8_t inputTemp){
+            currentTemp = inputTemp;
+        }
+
+        double getMaxLoadWeight(){
+            return maxLoadWeight;
+        }
+
+        void setMaxLoadWeight(uint16_t inputLoad){
+            maxLoadWeight = inputLoad;
+        }
+
+        int getMaxFloor(){
+            return maxFloor;
+        }
+
+        void setMaxFloor(uint8_t inputFloor){
+            maxFloor = inputFloor;
+        }
+
+        double getMaxTemp(){
+            return maxTemp;
+        }
+
+        void setMaxTemp(uint8_t inputTemp){
+            maxTemp = inputTemp;
+        }
 };
