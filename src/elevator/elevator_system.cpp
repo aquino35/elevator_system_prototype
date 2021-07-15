@@ -27,7 +27,7 @@ class Elevator {
             doorState = inputDoorST;
         }
 
-        double getLoadWeight(){
+        uint16_t getLoadWeight(){
             return loadWeight;
         }
 
@@ -35,7 +35,7 @@ class Elevator {
             loadWeight = inputLoad;
         }
 
-        int getFloor(){
+        uint8_t getFloor(){
             return floor;
         }
 
@@ -51,7 +51,7 @@ class Elevator {
             lightStatus = inputLight;
         }
 
-        double getCurrentTemp(){
+        uint8_t getCurrentTemp(){
             return currentTemp;
         }
 
@@ -59,7 +59,7 @@ class Elevator {
             currentTemp = inputTemp;
         }
 
-        double getMaxLoadWeight(){
+       uint16_t getMaxLoadWeight(){
             return maxLoadWeight;
         }
 
@@ -67,7 +67,7 @@ class Elevator {
             maxLoadWeight = inputLoad;
         }
 
-        int getMaxFloor(){
+        uint8_t getMaxFloor(){
             return maxFloor;
         }
 
@@ -75,7 +75,7 @@ class Elevator {
             maxFloor = inputFloor;
         }
 
-        double getMaxTemp(){
+        uint8_t getMaxTemp(){
             return maxTemp;
         }
 
