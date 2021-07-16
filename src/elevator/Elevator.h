@@ -3,6 +3,7 @@
  * 
  * 
  */
+#pragma once
 #include <stdint.h>
 
 class Elevator {
@@ -17,69 +18,80 @@ class Elevator {
         uint8_t maxFloor;
         uint8_t maxTemp;
 
+        State* elevatorState; 
+
     public:
 
         bool isDoorState(){
             return doorState;
         }
 
+        bool isLightStatus(){
+            return lightStatus;
+        }
+
         void setDoorState(bool inputDoorST){
             doorState = inputDoorST;
         }
-
-        uint16_t getLoadWeight(){
-            return loadWeight;
-        }
-
+        
         void setLoadWeight(uint16_t inputLoad){
             loadWeight = inputLoad;
-        }
-
-        uint8_t getFloor(){
-            return floor;
         }
 
         void setFloor(uint8_t inputFloor){
             floor = inputFloor;
         }
 
-        bool isLightStatus(){
-            return lightStatus;
-        }
 
         void setLightStatus(bool inputLight){
             lightStatus = inputLight;
         }
 
-        uint8_t getCurrentTemp(){
-            return currentTemp;
+        void setMaxTemp(uint8_t inputTemp){
+            maxTemp = inputTemp;
         }
 
         void setCurrentTemp(uint8_t inputTemp){
             currentTemp = inputTemp;
         }
 
-       uint16_t getMaxLoadWeight(){
-            return maxLoadWeight;
-        }
-
         void setMaxLoadWeight(uint16_t inputLoad){
             maxLoadWeight = inputLoad;
-        }
-
-        uint8_t getMaxFloor(){
-            return maxFloor;
         }
 
         void setMaxFloor(uint8_t inputFloor){
             maxFloor = inputFloor;
         }
 
+        void setState(State& nexState){
+            elevatorState = nextState;
+        }
+
+        uint16_t getLoadWeight(){
+            return loadWeight;
+        }
+
+
+        uint8_t getFloor(){
+            return floor;
+        }
+
+
+        uint8_t getCurrentTemp(){
+            return currentTemp;
+        }
+
+        
+       uint16_t getMaxLoadWeight(){
+            return maxLoadWeight;
+        }
+
+        uint8_t getMaxFloor(){
+            return maxFloor;
+        }
+
         uint8_t getMaxTemp(){
             return maxTemp;
         }
 
-        void setMaxTemp(uint8_t inputTemp){
-            maxTemp = inputTemp;
-        }
 };
