@@ -5,6 +5,7 @@
  */
 #pragma once
 #include <stdint.h>
+#include <string>
 
 class Elevator {
 
@@ -22,6 +23,7 @@ class Elevator {
 
     public:
 
+        //booleans
         bool isDoorState(){
             return doorState;
         }
@@ -30,6 +32,7 @@ class Elevator {
             return lightStatus;
         }
 
+        //setters
         void setDoorState(bool inputDoorST){
             doorState = inputDoorST;
         }
@@ -67,15 +70,14 @@ class Elevator {
             elevatorState = nextState;
         }
 
+        //getters
         uint16_t getLoadWeight(){
             return loadWeight;
         }
 
-
         uint8_t getFloor(){
             return floor;
         }
-
 
         uint8_t getCurrentTemp(){
             return currentTemp;
@@ -92,6 +94,10 @@ class Elevator {
 
         uint8_t getMaxTemp(){
             return maxTemp;
+        }
+
+        string getState(){
+            return elevatorState->currentState();
         }
 
 };
