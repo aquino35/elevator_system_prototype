@@ -6,7 +6,7 @@
 
 String serData;
 Elevator* elevator = new Elevator();
-State* normalState = new NormalState();
+State* normalState = new NormalState(elevator, 1, 12);
 
 elevator->setState(normalState);
 
