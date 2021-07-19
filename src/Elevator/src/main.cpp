@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include "ElevatorSystem/Elevator.h"
-//#include <string.h>
+#include <string.h>
 
-//using std::string;
 
 String serData;
-Elevator elevator;
+Elevator* elevator = new Elevator();
+State* normalState = new NormalState();
+
+elevator->setState(normalState);
 
 void setup() {
   Serial.begin(9600);
