@@ -1,8 +1,5 @@
 #include <Arduino.h>
 #include "ElevatorSystem/Elevator.h"
-#include <string.h>
-
-
 
 String serData;
 Elevator* elevator = new Elevator();
