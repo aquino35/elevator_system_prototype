@@ -5,17 +5,18 @@
  */
 #pragma once
 #include <stdint.h>
-//#include <string>
+#include <State.h> 
+#include <string>
 
 class Elevator {
 
 private:
-        bool doorState, lightStatus;
+        bool doorState, lightStatus; //false means closed and lights off
         uint8_t floor, maxFloor;
-        uint8_t currentTemp, maxTemp;
-        uint16_t loadWeight, maxLoadWeight;
+        uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
+        uint16_t loadWeight, maxLoadWeight; //in lbs
 
-        //State* elevatorState; 
+        State* elevatorState; 
 
 public:
         // Constructors
@@ -43,7 +44,9 @@ public:
     
         void setMaxFloor(uint8_t inputFloor);
 
-        //void setState(State& nexState);
+        void setState(State& nexState);
+
+        void setNumber(uint8_t num);
 
         //getters
         uint16_t getLoadWeight();
@@ -58,5 +61,5 @@ public:
 
         uint8_t getMaxTemp();
 
-        //std::string getState();
+        string getState();
 };

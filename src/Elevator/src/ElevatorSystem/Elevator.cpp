@@ -4,6 +4,11 @@
 Elevator::Elevator(){
     setDoorState(false);
     setLightStatus(true);
+    setLoadWeight(0); //empty elevator initially
+    setFloor(1);
+    setMaxLoadWeight(2500);
+    setMaxTemp(90);
+    setCurrentTemp(60);
 }
 
 //booleans
@@ -48,9 +53,13 @@ void Elevator::setMaxFloor(uint8_t inputFloor){
     this->maxFloor = inputFloor;
 }
 
-// void Elevator::setState(State& nexState){
-//     this->elevatorState = nextState;
-// }
+void Elevator::setState(State& nexState){
+    this->elevatorState = nextState;
+}
+
+void Elevator::setNumber(uint8_t num){
+    elevatorNumber = num;         
+}
 
 //getters
 uint16_t Elevator::getLoadWeight(){
@@ -65,7 +74,6 @@ uint8_t Elevator::getCurrentTemp(){
     return currentTemp;
 }
 
-
 uint16_t Elevator::getMaxLoadWeight(){
     return maxLoadWeight;
 }
@@ -78,6 +86,6 @@ uint8_t Elevator::getMaxTemp(){
     return maxTemp;
 }
 
-// std::string Elevator::getState(){
-//     return elevatorState->currentState();
-// }
+string Elevator::getState(){
+    return elevatorState->currentState();
+}
