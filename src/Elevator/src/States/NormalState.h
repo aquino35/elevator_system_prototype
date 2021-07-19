@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <State.h> 
 #include <Elevator.h>
 

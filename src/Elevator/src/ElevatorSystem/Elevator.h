@@ -5,7 +5,6 @@
  */
 #pragma once
 #include <stdint.h>
-#include <string>
 #include <NormalState.h> 
 
 class Elevator {
