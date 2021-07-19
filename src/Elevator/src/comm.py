@@ -11,7 +11,7 @@ def init_comm():
     welcome_msg = arduino.readline()
     print(welcome_msg)
     while True:
-        num = raw_input("Enter a command: ")
+        num = input("Enter a command: ")
         final_command = arduino_comm(num)
         print(final_command)
         #arduino.close()
