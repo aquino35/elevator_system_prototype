@@ -2,13 +2,12 @@
 #include <State.h> 
 #include <Elevator.h>
 
-class NormalState : public State{
+class InitialState : public State{
 
     private:
-        string stateName = "Normal";
+        string stateName = "Initial";
 
     public:
-        NormalState(Elevator* elev, uint8_t num, uint8_t floors);
+        InitialState(Elevator* elev, uint8_t num, uint8_t floors);
         string currentState(){return this->stateName;}
-
 };
