@@ -14,12 +14,10 @@ void setup() {
 }
 
 void loop() {
-  //elevator = new Elevator();
   if (Serial.available() > 0) {
       serData = Serial.readString();
       Serial.print("Command executed: ");
       elevator.setDoorState(true);
-      //mapper(keypad);
       Serial.println(elevator.isDoorState());
       delay(5000);
 
