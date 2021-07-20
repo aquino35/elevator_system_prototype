@@ -1,7 +1,7 @@
 #include "ElevatorSystem/Elevator.h"
 
 String serData;
-Elevator* elevator = new Elevator();
+Elevator* elevator = new Elevator(); //elevator obj
 State* initialState = new InitialState(elevator, 1, 12, 65);
 
 elevator->setState(initialState);
