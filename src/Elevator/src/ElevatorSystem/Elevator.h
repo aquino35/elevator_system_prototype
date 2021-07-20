@@ -4,8 +4,9 @@
  * 
  */
 #pragma once
+#include <Arduino.h>
 #include <stdint.h>
-#include "InitialState.h" 
+#include <InitialState.h>  
 
 class Elevator {
 
@@ -60,5 +61,5 @@ public:
 
         uint8_t getMaxTemp();
 
-        string getState();
+        String getState();
 };

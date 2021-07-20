@@ -5,9 +5,9 @@
 class InitialState : public State{
 
     private:
-        string stateName = "Initial";
+        String stateName = "Initial";
 
     public:
         InitialState(Elevator* elev, uint8_t num, uint8_t floors, uint8_t temp);
-        string currentState(){return this->stateName;}
+        String currentState(){return this->stateName;}
 };

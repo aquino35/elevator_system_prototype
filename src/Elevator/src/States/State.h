@@ -3,5 +3,5 @@
 class State{
 
     public:
-        virtual string currentState() = 0; 
+        virtual String currentState() = 0; 
 };

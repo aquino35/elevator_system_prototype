@@ -85,6 +85,6 @@ uint8_t Elevator::getMaxTemp(){
     return maxTemp;
 }
 
-string Elevator::getState(){
+String Elevator::getState(){
     return elevatorState->currentState();
 }

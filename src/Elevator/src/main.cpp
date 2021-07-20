@@ -1,4 +1,3 @@
-#include <Arduino.h>
 #include "ElevatorSystem/Elevator.h"
 
 String serData;
