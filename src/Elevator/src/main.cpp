@@ -3,7 +3,7 @@
 
 String serData;
 Elevator* elevator = new Elevator();
-State* initialState = new InitialState(elevator, 1, 12);
+State* initialState = new InitialState(elevator, 1, 12, 65);
 
 elevator->setState(initialState);
 

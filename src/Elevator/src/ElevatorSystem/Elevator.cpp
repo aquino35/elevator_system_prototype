@@ -8,7 +8,6 @@ Elevator::Elevator(){
     setFloor(1);
     setMaxLoadWeight(2500);
     setMaxTemp(90);
-    setCurrentTemp(60);
 }
 
 //booleans

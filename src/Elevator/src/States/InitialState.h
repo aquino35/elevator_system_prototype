@@ -8,6 +8,6 @@ class InitialState : public State{
         string stateName = "Initial";
 
     public:
-        InitialState(Elevator* elev, uint8_t num, uint8_t floors);
+        InitialState(Elevator* elev, uint8_t num, uint8_t floors, uint8_t temp);
         string currentState(){return this->stateName;}
 };
