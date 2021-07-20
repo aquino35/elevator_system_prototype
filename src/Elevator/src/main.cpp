@@ -16,8 +16,8 @@ void loop() {
   if (Serial.available() > 0) {
       serData = Serial.readString();
       Serial.print("Command executed: ");
-      elevator->setDoorState(true);
-      Serial.println(elevator->isDoorState());
+      elevator->setDoorStatus(true);
+      Serial.println(elevator->isDoorStatus());
       delay(5000);
 
   }

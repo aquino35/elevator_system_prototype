@@ -2,7 +2,7 @@
 
 //Constructor
 Elevator::Elevator(){
-    setDoorState(false);
+    setDoorStatus(false);
     setLightStatus(true);
     setLoadWeight(0); //empty elevator initially
     setFloor(1);
@@ -11,8 +11,8 @@ Elevator::Elevator(){
 }
 
 //booleans
-bool Elevator::isDoorState(){
-    return doorState;
+bool Elevator::isDoorStatus(){
+    return doorStatus;
 }
 
 bool Elevator::isLightStatus(){
@@ -20,8 +20,8 @@ bool Elevator::isLightStatus(){
 }
 
 //setters
-void Elevator::setDoorState(bool inputDoorST){
-    this->doorState = inputDoorST;
+void Elevator::setDoorStatus(bool inputDoorST){
+    this->doorStatus = inputDoorST;
 }
 
 void Elevator::setLoadWeight(uint16_t inputLoad){
