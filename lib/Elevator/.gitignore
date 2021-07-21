@@ -2,3 +2,4 @@ include/
 lib/
 test/
 .DS_Store
+States/tempCodeRunnerFile.h
