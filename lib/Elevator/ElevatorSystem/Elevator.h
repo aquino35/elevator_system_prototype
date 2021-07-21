@@ -6,7 +6,7 @@
 #pragma once
 #include <Arduino.h>
 #include <stdint.h>
-#include "States/InitialState.h" 
+#include "States/State.h" 
 
 class Elevator {
 
