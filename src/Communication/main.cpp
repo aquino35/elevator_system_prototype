@@ -17,7 +17,7 @@ void loop() {
       serData = Serial.readString();
       Serial.print("Command executed: ");
       elevator->setDoorStatus(true);
-      Serial.println(elevator->isDoorStatus());
+      Serial.println((elevator->isDoorStatus()) ? "Door is open." : "Door is false");
       delay(5000);
   }
 }
