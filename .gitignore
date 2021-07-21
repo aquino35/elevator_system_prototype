@@ -35,3 +35,6 @@
 # Build Folders
 .vscode/
 .pio/
+
+# Project folders
+src/Elevator
