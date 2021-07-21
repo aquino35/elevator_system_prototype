@@ -22,7 +22,3 @@ void loop() {
 
   }
 }
-
-int main(){
-  return 0;
-}
