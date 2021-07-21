@@ -1,8 +1,9 @@
 #include "ElevatorSystem/Elevator.h"
 
+
 String serData;
-Elevator* elevator = new Elevator(); //elevator obj
-State* initialState = new InitialState(elevator, 1, 12, 65);
+Elevator* elevator = new Elevator(); 
+State* initialState = new InitialState(elevator, 1, 12, 25);
 
 void setup() {
   Serial.begin(9600);
