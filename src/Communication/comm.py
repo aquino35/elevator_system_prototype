@@ -12,8 +12,8 @@ def init_comm():
     print(welcome_msg)
     while True:
         num = input("Enter a command: ")
-        final_command = arduino_comm(num)
-        print(final_command)
+        final_command = arduino_comm(num.encode())
+        print(final_command.decode())
         #arduino.close()
 
 init_comm()

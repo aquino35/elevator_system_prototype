@@ -16,7 +16,7 @@ private:
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
         uint16_t loadWeight, maxLoadWeight; //in lbs
 
-        State* elevatorState; 
+        //State* elevatorState; 
 
 public:
         // Constructors
@@ -44,7 +44,7 @@ public:
     
         void setMaxFloor(uint8_t inputFloor);
 
-        void setState(State* nexState);
+        //void setState(State* nexState);
 
         void setNumber(uint8_t num);
 
@@ -61,5 +61,5 @@ public:
 
         uint8_t getMaxTemp();
 
-        String getState();
+        //String getState();
 };

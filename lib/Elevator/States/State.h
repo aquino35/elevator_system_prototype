@@ -1,8 +1,8 @@
-#pragma once
-#include "Arduino.h"
+// #pragma once
+// #include "Arduino.h"
 
-class State{
+// class State{
 
-    public:
-        virtual String currentState() = 0; 
-};
+//     public:
+//         virtual String currentState() = 0; 
+// };
