@@ -44,7 +44,7 @@ public:
     
         void setMaxFloor(uint8_t inputFloor);
 
-        void setState(State& nexState);
+        void setState(State* nexState);
 
         void setNumber(uint8_t num);
 

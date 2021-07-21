@@ -52,7 +52,7 @@ void Elevator::setMaxFloor(uint8_t inputFloor){
     this->maxFloor = inputFloor;
 }
 
-void Elevator::setState(State& nextState){
+void Elevator::setState(State* nextState){
     this->elevatorState = nextState;
 }
 

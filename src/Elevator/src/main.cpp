@@ -4,10 +4,9 @@ String serData;
 Elevator* elevator = new Elevator(); //elevator obj
 State* initialState = new InitialState(elevator, 1, 12, 65);
 
-elevator->setState(initialState);
-
 void setup() {
   Serial.begin(9600);
+  elevator->setState(initialState);
   Serial.println("Welcome to the Elevator System Prototype!");
   delay(2000);
 }
