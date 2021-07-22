@@ -52,9 +52,9 @@ void Elevator::setMaxFloor(uint8_t inputFloor){
     this->maxFloor = inputFloor;
 }
 
-// void Elevator::setState(State* nextState){
-//     this->elevatorState = nextState;
-// }
+void Elevator::setState(State* nextState){
+    this->elevatorState = nextState;
+}
 
 void Elevator::setNumber(uint8_t num){
     elevatorNumber = num;         
@@ -85,6 +85,6 @@ uint8_t Elevator::getMaxTemp(){
     return maxTemp;
 }
 
-// String Elevator::getState(){
-//     return elevatorState->currentState();
-// }
+String Elevator::getState(){
+    return elevatorState->currentState();
+}
