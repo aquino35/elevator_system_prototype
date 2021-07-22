@@ -18,6 +18,8 @@ void loop() {
       Serial.print("Command executed: ");
       elevator->setDoorStatus(true);
       Serial.println((elevator->isDoorStatus()) ? "Door is open." : "Door is closed.");
+      //Testing States
+      Serial.print("Current elevator State: " + elevator->getState());
       delay(5000);
   }
 }
