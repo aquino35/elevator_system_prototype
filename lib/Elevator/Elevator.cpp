@@ -25,7 +25,8 @@ void Elevator::setDoorStatus(bool inputDoorST){
 }
 
 void Elevator::setLoadWeight(uint16_t inputLoad){
-    this->loadWeight = inputLoad;
+    this->loadWeight += inputLoad; //change based on data structure
+    weights.push_back(inputLoad);
 }
 
 void Elevator::setFloor(uint8_t inputFloor){
@@ -87,4 +88,10 @@ uint8_t Elevator::getMaxTemp(){
 
 String Elevator::getState(){
     return elevatorState->currentState();
+}
+
+void Elevator::unload(){
+    uint16_t firstWeight = weights.pop_front()(); //pops the first weight (first person or object in)
+    this->loadWeight -= firstWeight;
+
 }
