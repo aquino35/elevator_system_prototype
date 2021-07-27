@@ -14,13 +14,9 @@ private:
         bool doorStatus, lightStatus; //false means closed and lights off
         uint8_t floor, maxFloor;
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
-        uint16_t loadWeight = 0; //so we can increment the loads
-        uint16_t maxLoadWeight; //in lbs
+        uint16_t loadWeight, maxLoadWeight; //in lbs
 
         State* elevatorState; 
-        
-        vector<uint16_t> weights; //keeps track of all the loads in the elevator; 
-        //code wont compile, pick a more clever approach or data structure
 
 public:
         // Constructors
@@ -67,6 +63,4 @@ public:
 
         String getState();
 
-        //functions
-        void unload();
 };
