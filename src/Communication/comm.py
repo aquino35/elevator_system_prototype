@@ -9,10 +9,22 @@ def arduino_comm(command):
 
 def init_comm():
     welcome_msg = arduino.readline()
-    print(welcome_msg)
+    print(welcome_msg.decode())
     while True:
-        num = input("Enter a command: ")
-        final_command = arduino_comm(num.encode())
+        msg = input("Enter a key to open the door: ")
+        final_command = arduino_comm(msg.encode())
+        print(final_command.decode())
+        msg = input("Enter a key to see current state of Elevator: ")
+        final_command = arduino_comm(msg.encode())
+        print(final_command.decode())
+        msg = input("Enter a key to change to Idle state: ")
+        final_command = arduino_comm(msg.encode())
+        print(final_command.decode())
+        msg = int(input("Enter a number to load the elevator: "))
+        final_command = arduino_comm(msg)
+        print(final_command.decode())
+        msg = int(input("Enter a key to unload the elevator: "))
+        final_command = arduino_comm(msg)
         print(final_command.decode())
         #arduino.close()
 
