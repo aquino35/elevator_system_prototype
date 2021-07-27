@@ -18,29 +18,36 @@ void setup() {
 
 void loop() {
   if (Serial.available() > 0) {
+    
       serData = Serial.readString();
       Serial.print("Command executed: ");
       elevator->setDoorStatus(true);
       Serial.println((elevator->isDoorStatus()) ? "Door is open." : "Door is closed.");
 
       //Testing Initial State
+      Serial.print("Command executed: ");
       Serial.println("Current elevator State: " + elevator->getState());
       delay(5000);
 
       //Testing Idle State
       elevator->setState(idleState);
+      Serial.print("Command executed: ");
       Serial.println("Current elevator State: " + elevator->getState());
       delay(2000);
 
-      Serial.print("Load the elevator: ");  
-      serInt = (uint16_t) Serial.parseInt();
+      //Testing load
+      serData = Serial.readString();
+      serInt = (uint16_t) serData.toInt();
+      Serial.print("Command executed: ");
       idleState->load(serInt);
       Serial.println("Current elevator Weight: " + elevator->getLoadWeight());
       delay(2000);
 
-      Serial.print("Unload the elevator: ");  
-      serInt = (uint16_t) Serial.parseInt();
+      //Testing unloading of elevator
+      serData = Serial.readString();
+      serInt = (uint16_t) serData.toInt();
       idleState->unload(serInt);
+      Serial.print("Command executed: ");
       Serial.println("Current elevator Weight: " + elevator->getLoadWeight());
       delay(5000);
     }
