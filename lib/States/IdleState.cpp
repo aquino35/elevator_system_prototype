@@ -21,14 +21,14 @@ void IdleState::unload(uint16_t weight){
     elev->setLoadWeight(toUnload);
 }
 
-void IdleState::energySaving(){
+// void IdleState::energySaving(){
 
-    unsigned long seconds = 1000L;
-    unsigned long minute = seconds * 60;
-    delay(minute); // 1 minute delay
-    elev-> setDoorStatus(false);
-    if(elev->getLoadWeight()<0){
-        elev->setLightStatus(false);
-    }
-}
+//     unsigned long seconds = 1000L;
+//     unsigned long minute = seconds * 60;
+//     delay(minute); // 1 minute delay
+//     elev-> setDoorStatus(false);
+//     if(elev->getLoadWeight()<0){
+//         elev->setLightStatus(false);
+//     }
+// }
 
