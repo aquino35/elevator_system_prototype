@@ -27,7 +27,7 @@ void IdleState::unload(uint16_t weight){
 void IdleState::tick(){ //only testing with 15 seconds for now
     uint16_t seconds_since_start = difftime(time(0), start);
 
-    if(seconds_since_start == 15){ //power saving mode
+    if(seconds_since_start == 15 && elev->getLoadWeight() == 0){ //power saving mode
         elev->setDoorStatus(false);
         elev->setLightStatus(false);
 
