@@ -27,14 +27,14 @@ void loop() {
     //Testing Initial State
     serData = Serial.readStringUntil('\n');
     Serial.print("Command executed: ");
-    Serial.println("Current elevator State: " + elevator->getState());
+    Serial.println("Current elevator State: " + elevator->getStateName());
     delay(5000);
 
     //Testing Idle State
     serData = Serial.readStringUntil('\n');
     elevator->setState(idleState);
     Serial.print("Command executed: ");
-    Serial.println("Current elevator State: " + elevator->getState());
+    Serial.println("Current elevator State: " + elevator->getStateName());
     delay(2000);
 
     //Testing load

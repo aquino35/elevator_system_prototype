@@ -61,6 +61,11 @@ public:
 
         uint8_t getMaxTemp();
 
-        String getState();
+        String getStateName();
+
+        State* getState();
+
+        uint8_t getNumber();
+
 
 };
