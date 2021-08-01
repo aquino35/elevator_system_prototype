@@ -24,10 +24,10 @@ void IdleState::unload(uint16_t weight){
     elev->setLoadWeight(toUnload);
 }
 
-void IdleState::tick(){ //only testing with 30 seconds for now
+void IdleState::tick(){ //only testing with 15 seconds for now
     uint16_t seconds_since_start = difftime(time(0), start);
 
-    if(seconds_since_start == 30){ //power saving mode
+    if(seconds_since_start == 15){ //power saving mode
         elev->setDoorStatus(false);
         elev->setLightStatus(false);
 
@@ -35,7 +35,7 @@ void IdleState::tick(){ //only testing with 30 seconds for now
         Serial.println("Elevator " + elevNum + " has entered power saving mode.");
     }
 
-    if(seconds_since_start > 30) //dont do anything during power saving mode
+    if(seconds_since_start > 15) //dont do anything during power saving mode
         return;
 
 }
