@@ -1,41 +1,39 @@
 #include "Elevator.h"
 #include "InitialState.h"
 #include "IdleState.h"
+#include "FSM.cpp"
 
 String serData;
 int serInt;
 
 Elevator* elevator = new Elevator(); 
-InitialState* initialState = new InitialState(elevator, (uint8_t) 1, (uint8_t) 12, (uint8_t) 25);
+FSM* state_machine = new FSM(); 
+
 IdleState* idleState = new IdleState(elevator);
+
 
 void setup() {
   Serial.begin(9600);
-  elevator->setState(initialState);
+  state_machine -> setup();
   Serial.println("-- Welcome to the Elevator System Prototype! --");
   delay(2000);
 }
 
 void loop() {
+
   if (Serial.available() > 0) {
+
+    state_machine -> run(elevator);
 
     serData = Serial.readStringUntil('\n');
     Serial.print("Command executed: ");
     elevator->setDoorStatus(true);
     Serial.println((elevator->isDoorStatus()) ? "Door is open." : "Door is closed.");
 
-    //Testing Initial State
+    //Testing States
     serData = Serial.readStringUntil('\n');
     Serial.print("Command executed: ");
     Serial.println("Current elevator State: " + elevator->getStateName());
-    delay(5000);
-
-    //Testing Idle State
-    serData = Serial.readStringUntil('\n');
-    elevator->setState(idleState);
-    Serial.print("Command executed: ");
-    Serial.println("Current elevator State: " + elevator->getStateName());
-    delay(2000);
 
     //Testing load
     serInt = Serial.parseInt();
@@ -51,6 +49,6 @@ void loop() {
     idleState->unload(serInt);
     Serial.print("Current elevator Weight: ");
     Serial.println(elevator->getLoadWeight());
-    delay(5000);
+    delay(2000);
     }
 }
