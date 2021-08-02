@@ -8,6 +8,8 @@ Elevator::Elevator(){
     setLoadWeight(0);
     setMaxLoadWeight(2500);
     setMaxTemp(90);
+    //this->statemachine = new FSM();
+
 }
 
 //booleans

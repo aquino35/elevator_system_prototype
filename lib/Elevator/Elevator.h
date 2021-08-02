@@ -7,6 +7,8 @@
 #include <Arduino.h>
 #include <stdint.h>
 #include "State.h" 
+//#include "FSM.h"
+
 
 class Elevator {
 
@@ -16,9 +18,12 @@ private:
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
         uint16_t loadWeight, maxLoadWeight; //in lbs
 
-        State* elevatorState; 
+        State* elevatorState;
+
+        //FSM* stateMachine;
 
 public:
+
         // Constructors
         Elevator();
 
@@ -66,6 +71,4 @@ public:
         State* getState();
 
         uint8_t getNumber();
-
-
 };
