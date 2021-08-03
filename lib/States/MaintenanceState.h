@@ -15,10 +15,9 @@ class MaintenanceState{
     
     public: 
 
-        MaintenanceState(boolean optionCommand);
-
         bool WorkMaintenance();
-
+        MaintenanceState(boolean Option);
+        
         String currentState(){return this->stateName;}
 
         
