@@ -13,9 +13,5 @@ MaintenanceState::MaintenanceState(boolean Option){
         //que no se puedan recibir comandos and prev ones must be cleared 
     }
     else{
-        //make an input variable to exit this state
-        //print this string
+        //with an exit option in the interface when maintenance is called, if called, exit this state
     }
-}
-
-
