@@ -15,6 +15,7 @@ bool EmergencyState::emergency(Elevator* elev){
    if(elev->getLoadWeight() > elev->getMaxLoadWeight() || elev->getMaxTemp() > elev->getCurrentTemp()){
        return true;
    }   
+   return false;
    
 }
 
