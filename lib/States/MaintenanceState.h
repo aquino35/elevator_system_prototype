@@ -1,5 +1,4 @@
 #pragma once
-#include "State.h"
 #include "Elevator.h"
 
 // //Special input that indicates this state
@@ -14,11 +13,9 @@ class MaintenanceState{
         String stateName = "Maintenance";
     
     public: 
-
-        bool WorkMaintenance();
-        MaintenanceState(boolean Option);
-        
+        void start(Elevator* elev);
+        bool workMaintenance();
+        void maintenanceState(boolean Option);
         String currentState(){return this->stateName;}
-
         
-}
+};

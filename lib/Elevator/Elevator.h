@@ -4,10 +4,10 @@
  * 
  */
 #pragma once
-#include <Arduino.h>
 #include <stdint.h>
+#include <Arduino.h>
 #include "State.h" 
-//#include "FSM.h"
+// #include "FSM.h"
 
 
 class Elevator {
@@ -17,7 +17,6 @@ private:
         uint8_t floor, maxFloor;
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
         uint16_t loadWeight, maxLoadWeight; //in lbs
-
         State* elevatorState;
 
         //FSM* stateMachine;
@@ -25,7 +24,7 @@ private:
 public:
 
         // Constructors
-        Elevator();
+        Elevator(uint8_t num);
 
         //booleans
         bool isDoorStatus();

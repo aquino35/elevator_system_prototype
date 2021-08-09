@@ -21,8 +21,9 @@ int transition; // temporary (used to test transition between states)
 // Helper Functions used to connect State Objects
 void _Initial(Elevator* elev)
 {
-    InitialState* initialState = new InitialState(elev, (uint8_t) 1, (uint8_t) 12, (uint8_t) 25);
+    InitialState* initialState = new InitialState();
     elev->setState(initialState);
+    initialState->start(elev);
     transition++;
     if (transition == 2) {
         curr_state = Idle;
@@ -38,8 +39,9 @@ void _Maintenece(Elevator* elev){}
 
 void _Idle(Elevator* elev)
 {
-    IdleState* idleState = new IdleState(elev);
+    IdleState* idleState = new IdleState();
     elev->setState(idleState);
+    idleState->start(elev);
 }
 
 void _Moving(Elevator* elev){}

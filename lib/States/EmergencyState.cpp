@@ -5,20 +5,22 @@
 //in this state the elevator will stop at the nearest floor, open the door and has its lights on
 //it cannot receive any commands in this state, Any commads previously entered should be cleared. 
 
-bool EmergencyState::Emergency(Elevator* elev){
+void EmergencyState::start(Elevator* elev){
+    elev->setDoorStatus(true);
+    elev->setLightStatus(true);
+}
+
+bool EmergencyState::emergency(Elevator* elev){
     
-   if(getLoadWeight() > getMaxLoadWeight() || getMaxTemp() > getCurrentTemp()){
+   if(elev->getLoadWeight() > elev->getMaxLoadWeight() || elev->getMaxTemp() > elev->getCurrentTemp()){
        return true;
    }   
    
 }
 
-void EmergencyState::EmergencyWorking(Elevator* elev){
-    if (Emergency() == true){
-        this->elev = elev;
-        elev->setDoorStatus(true);
-        elev->setLightStatus(true);
-        elev ->getFloor();
+void EmergencyState::emergencyWorking(Elevator* elev){ //this all needs to be heavily reworked
+    if (elev->getStateName().compareTo("Emergency") == 0){
+        elev->getFloor();
         //and no input should be received
     }
     else{

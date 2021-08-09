@@ -4,8 +4,7 @@
  * 
  */
 #pragma once
-#include<stdlib.h>
-#include"elevator.h"
+#include"Elevator.h"
 #include"InitialState.h"
 #include"IdleState.h"
 

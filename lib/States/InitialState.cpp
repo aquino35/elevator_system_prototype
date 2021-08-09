@@ -1,8 +1,10 @@
 #include "InitialState.h"
 
-InitialState::InitialState(Elevator* elev, uint8_t num, uint8_t floors, uint8_t temp)
+void InitialState::start(Elevator* elev)
 {
-    elev->setNumber(num);
-    elev->setMaxFloor(floors);
-    elev->setCurrentTemp(temp);
+    elev->setLoadWeight(0);
+    elev->setDoorStatus(false);
+    elev->setLightStatus(true);
+    elev->setFloor(1);
+    elev->setCurrentTemp(60);
 }

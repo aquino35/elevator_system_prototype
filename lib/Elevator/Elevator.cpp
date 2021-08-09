@@ -1,11 +1,8 @@
 #include "Elevator.h"
 
 //Constructor
-Elevator::Elevator(){
-    setDoorStatus(false);
-    setLightStatus(true);
-    setFloor(1);
-    setLoadWeight(0);
+Elevator::Elevator(uint8_t num){
+    setNumber(num);
     setMaxLoadWeight(2500);
     setMaxTemp(90);
     //this->statemachine = new FSM();
