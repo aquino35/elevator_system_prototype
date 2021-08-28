@@ -5,9 +5,9 @@ class SerialMessage //immutable class, should have no setters
     private: 
         uint8_t const packetSize;
         uint16_t const packetID;
-        const unsigned char* message; //https://stackoverflow.com/questions/21476869/constant-pointer-vs-pointer-to-constant
+        const unsigned char* message; //can set the address to null in case of corruption but cant change msg content
         int byte;
-        uint16_t* buffer;
+        const unsigned char* buffer; //treated as a byte
         
     public:
         void buildHeader(); 
