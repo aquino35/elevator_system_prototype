@@ -3,13 +3,14 @@
 class SerialMessage //immutable class, should have no setters
 {
     private: 
-        uint8_t const packetSize;
-        uint16_t const packetID;
         const char* message; //can set the address to null in case of corruption but cant change msg content
-        int byte;
         const unsigned char* buffer; //treated as a byte
+        uint16_t const packetID;
+        uint8_t const packetSize;
+        int byte;
         
     public:
+
         void buildHeader(); 
         void encode(); 
         void transmitData();
