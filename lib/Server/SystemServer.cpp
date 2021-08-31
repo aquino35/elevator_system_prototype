@@ -1,12 +1,13 @@
 #include "SystemServer.h"
 
+// Global objects
 SerialMessage* rxMsg = new SerialMessage(); // rx signal
 SerialMessage* txMsg = new SerialMessage(); // tx signal 
 
 
 Server::Server()
 {
-    begin();
+
 }
 
 void Server::begin()
@@ -17,8 +18,8 @@ void Server::begin()
 
 void Server::run()
 {
-}
 
+}
 
 void Server::transmitData(unsigned char* msgBuffer, uint8_t msgSize)
 {

@@ -10,15 +10,16 @@
 // #include "FSM.h"
 
 
-class Elevator {
+class Elevator 
+{
 
 private:
+
         bool doorStatus, lightStatus; //false means closed and lights off
         uint8_t floor, maxFloor;
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
         uint16_t loadWeight, maxLoadWeight; //in lbs
         State* elevatorState;
-
         //FSM* stateMachine;
 
 public:

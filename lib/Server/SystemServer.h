@@ -8,12 +8,12 @@
 
 
 
-class Server {
+class Server 
+{
 
 private: 
-        const unsigned char* msgBuffer[1080]; // buffer for msg packet
-        
 
+        const unsigned char* msgBuffer[1080]; // buffer for msg packet
 
 public:
         // Constructor
