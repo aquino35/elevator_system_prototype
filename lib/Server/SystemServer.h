@@ -1,17 +1,19 @@
-#include <stdint.h>
 
 /* 
  *  This script contains all the methods of the
  *  server object used to process anything given by a Client.
  */ 
-
 #pragma once
-#include <Arduino.h>
 #include <SerialMessage.h>
 
 
 
 class Server {
+
+private: 
+        const unsigned char* msgBuffer[1080]; // buffer for msg packet
+        
+
 
 public:
         // Constructor
@@ -19,6 +21,7 @@ public:
 
         void begin();
         void run();
-        void respond();
+        void transmitData(unsigned char* msgBuffer, uint8_t msg_size); // tx
+        void recieveData(); // rx
         void end(); 
 };
