@@ -12,14 +12,15 @@
 
 class SerialMessage //immutable class, should have no setters
 {
-    private: 
+    private:
 
             // header attributes: 
 
-            const char* message; //can set the address to null in case of corruption but cant change msg content
-            //const unsigned char* buffer[1080]; //treated as a byte
-            uint8_t const elevatorNum = 0;
-            uint8_t const taskNum = 0;
+            unsigned char* message; // pointer to our packet structure
+            const unsigned char* buffer[1080]; // temporary memory allocation
+            uint8_t elevatorNum; // indicates what elevator is being requested
+            uint8_t taskNum; // indicates the task requested
+            uint8_t isCorrupted; // indicates if the message is corrupted.
             //uint8_t const packetSize;
             
     public:
@@ -27,13 +28,15 @@ class SerialMessage //immutable class, should have no setters
             SerialMessage();
 
             // rx methods:
-            void verifyHeader();
+            void verifyHeader(unsigned bitOffset);
 
             // tx methods: 
             void buildHeader(); 
 
+            void checkBuffer(); // check if buffer is full
+
             //Packet Info getters
             uint8_t getPacketSize();
-            uint8_t getElevatorNum();
-            uint8_t getTaskNum();
+            uint8_t getElevatorNum(unsigned bitOffset);
+            uint8_t getTaskNum(unsigned bitOffset);
 };
