@@ -10,18 +10,18 @@ Elevator::Elevator(uint8_t num)
 }
 
 //booleans
-bool Elevator::isDoorStatus()
+uint8_t Elevator::isDoorStatus()
 {
     return doorStatus;
 }
 
-bool Elevator::isLightStatus()
+uint8_t Elevator::isLightStatus()
 {
     return lightStatus;
 }
 
 //setters
-void Elevator::setDoorStatus(bool inputDoorST)
+void Elevator::setDoorStatus(uint8_t inputDoorST)
 {
     this->doorStatus = inputDoorST;
 }
@@ -36,7 +36,7 @@ void Elevator::setFloor(uint8_t inputFloor)
     this->floor = inputFloor;
 }
 
-void Elevator::setLightStatus(bool inputLight)
+void Elevator::setLightStatus(uint8_t inputLight)
 {
     this->lightStatus = inputLight;
 }

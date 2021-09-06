@@ -5,7 +5,7 @@
  */ 
 #pragma once
 #include <SerialMessage.h>
-
+#define BUFSIZE 1024
 
 
 class Server 
@@ -13,7 +13,7 @@ class Server
 
 private: 
 
-        const unsigned char* msgBuffer[1080]; // buffer for msg packet
+        const unsigned char* msgBuffer[BUFSIZE]; // buffer for msg packet
 
 public:
         // Constructor
@@ -21,7 +21,7 @@ public:
 
         void begin();
         void run();
-        void transmitData(unsigned char* msgBuffer, uint8_t msg_size); // tx
+        void transmitData(const unsigned char* msgBuffer, uint8_t msg_size); // tx
         void recieveData(); // rx
         void end(); 
 };

@@ -21,7 +21,8 @@ void Server::run()
 
 }
 
-void Server::transmitData(unsigned char* msgBuffer, uint8_t msgSize)
+// Transmit to serial channel
+void Server::transmitData(const unsigned char* msgBuffer, uint8_t msgSize)
 {
     
     size_t bytesToSend = msgSize;
@@ -42,7 +43,17 @@ void Server::transmitData(unsigned char* msgBuffer, uint8_t msgSize)
 
 }
 
+// Read from serial channel
 void Server::recieveData()
 {
     int byte;
+
+    while( (byte = Serial.read() ) >= 0)
+    {
+        if ( (rxMsg->storeRxByte()) )
+        {
+            
+        }
+
+    }
 }

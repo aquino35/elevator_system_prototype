@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <cobs.h>
+#define BUFSIZE 1024
+
 
 
 class SerialMessage //immutable class, should have no setters
@@ -17,7 +19,7 @@ class SerialMessage //immutable class, should have no setters
             // header attributes: 
 
             unsigned char* message; // pointer to our packet structure
-            const unsigned char* buffer[1080]; // temporary memory allocation
+            const unsigned char* buffer[BUFSIZE]; // temporary memory allocation
             uint8_t elevatorNum; // indicates what elevator is being requested
             uint8_t taskNum; // indicates the task requested
             uint8_t isCorrupted; // indicates if the message is corrupted.
@@ -28,7 +30,9 @@ class SerialMessage //immutable class, should have no setters
             SerialMessage();
 
             // rx methods:
-            void verifyHeader(unsigned bitOffset);
+            void verifyHeader(unsigned x);
+
+            uint8_t storeRxByte();
 
             // tx methods: 
             void buildHeader(); 
@@ -37,6 +41,6 @@ class SerialMessage //immutable class, should have no setters
 
             //Packet Info getters
             uint8_t getPacketSize();
-            uint8_t getElevatorNum(unsigned bitOffset);
-            uint8_t getTaskNum(unsigned bitOffset);
+            uint8_t getElevatorNum();
+            uint8_t getTaskNum();
 };

@@ -9,15 +9,18 @@ SerialMessage::SerialMessage()
 }
 
 // rx methods:
-void SerialMessage::verifyHeader(unsigned bitOffset)
+void SerialMessage::verifyHeader(unsigned x)
 {
-    if(isCorrupted == 0){
+    if(isCorrupted == 0)
+    {
         message++;
-        getTaskNum(message);
-        bitOffset>>1;
-        getElevatorNum(message);
-        bitOffset>>1;
-        if (getPacketSize()>sizeof(buffer)){
+        taskNum = x & 0x1; // Masking attribute with bits to extract
+        x>>1; // shift 
+        elevatorNum = x & 0x1; // Masking attribute with bits to extract
+        x>>1; // shift 
+
+        if (getPacketSize()>sizeof(buffer))
+        {
             isCorrupted = 1;
         }
     }
@@ -27,22 +30,22 @@ void SerialMessage::verifyHeader(unsigned bitOffset)
 void SerialMessage::buildHeader()
 {
 
+
 }
 
 //Packet Info getters
 uint8_t SerialMessage::getPacketSize()
 {
 
+
 }
 
-uint8_t SerialMessage::getElevatorNum(unsigned bitOffset)
+uint8_t SerialMessage::getElevatorNum()
 {
-    elevatorNum = bitOffset;
-    message++;
+
 }
 
-uint8_t SerialMessage::getTaskNum(unsigned bitOffset)
+uint8_t SerialMessage::getTaskNum()
 {
-    taskNum = bitOffset;
-    message++;
+
 }

@@ -15,7 +15,7 @@ class Elevator
 
 private:
 
-        bool doorStatus, lightStatus; //false means closed and lights off
+        uint8_t doorStatus, lightStatus; //treated as bools
         uint8_t floor, maxFloor;
         uint8_t currentTemp, maxTemp, elevatorNumber; //temp in F
         uint16_t loadWeight, maxLoadWeight; //in lbs
@@ -28,18 +28,18 @@ public:
         Elevator(uint8_t num);
 
         //booleans
-        bool isDoorStatus();
+        uint8_t isDoorStatus();
 
-        bool isLightStatus();
+        uint8_t isLightStatus();
 
         //setters
-        void setDoorStatus(bool inputDoorST);
+        void setDoorStatus(uint8_t inputDoorST);
 
         void setLoadWeight(uint16_t inputLoad); //increases load weight
 
         void setFloor(uint8_t inputFloor);
 
-        void setLightStatus(bool inputLight);
+        void setLightStatus(uint8_t inputLight);
 
         void setMaxTemp(uint8_t inputTemp);
 
