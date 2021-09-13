@@ -40,7 +40,7 @@ void Server::transmitData(const unsigned char* msgBuffer, uint8_t msgSize)
             break;
         }
     }
-
+    free(encoded_buffer);
 }
 
 // Read from serial channel

@@ -3,7 +3,6 @@
 //Constructor
 SerialMessage::SerialMessage()
 {
-    isCorrupted = 0; 
     elevatorNum = 1;
     taskNum = 1;
 }
@@ -11,32 +10,22 @@ SerialMessage::SerialMessage()
 // rx methods:
 void SerialMessage::verifyHeader(unsigned x)
 {
-    if(isCorrupted == 0)
-    {
-        message++;
-        taskNum = x & 0x1; // Masking attribute with bits to extract
-        x>>1; // shift 
-        elevatorNum = x & 0x1; // Masking attribute with bits to extract
-        x>>1; // shift 
-
-        if (getPacketSize()>sizeof(buffer))
-        {
-            isCorrupted = 1;
-        }
-    }
+    cobsOverhead = buffer[COBS]; // Masking attribute with bits to extract
+    buffer+TASKNUMBER;
+    taskNum = buffer[TASKNUMBER]; // Masking attribute with bits to extract
+    buffer+ELEVATORNUMBER;
+    elevatorNum = buffer[ELEVATORNUMBER]; // Masking attribute with bits to extract
 }
-
+ 
 // tx methods: 
 void SerialMessage::buildHeader()
 {
-
 
 }
 
 //Packet Info getters
 uint8_t SerialMessage::getPacketSize()
 {
-
 
 }
 
