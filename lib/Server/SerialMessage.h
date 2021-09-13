@@ -34,7 +34,7 @@ class SerialMessage //immutable class, should have no setters
             SerialMessage();
 
             // rx methods:
-            void verifyHeader(unsigned x);
+            void verifyHeader();
 
             uint8_t storeRxByte();
 

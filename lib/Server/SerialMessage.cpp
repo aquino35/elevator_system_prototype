@@ -8,7 +8,7 @@ SerialMessage::SerialMessage()
 }
 
 // rx methods:
-void SerialMessage::verifyHeader(unsigned x)
+void SerialMessage::verifyHeader()
 {
     cobsOverhead = buffer[COBS]; // Masking attribute with bits to extract
     buffer+TASKNUMBER;
