@@ -21,13 +21,11 @@ class SerialMessage //immutable class, should have no setters
     private:
 
             // header attributes: 
-
             unsigned char* message; // pointer to our packet structure
             uint8_t buffer[BUFSIZE]; // temporary memory allocation
             uint8_t elevatorNum; // indicates what elevator is being requested
             uint8_t taskNum; // indicates the task requested
             uint8_t cobsOverhead; // First cobs byte
-            //uint8_t const packetSize;
             
     public:
 
@@ -40,7 +38,6 @@ class SerialMessage //immutable class, should have no setters
 
             // tx methods: 
             void buildHeader(); 
-
             void checkBuffer(); // check if buffer is full
 
             //Packet Info getters
