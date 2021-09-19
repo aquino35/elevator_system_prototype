@@ -29,7 +29,7 @@ class SerialMessage //immutable class, should have no setters
             
     public:
 
-            SerialMessage();
+            SerialMessage(uint8_t elev, uint8_t task);
 
             // rx methods:
             void verifyHeader();
