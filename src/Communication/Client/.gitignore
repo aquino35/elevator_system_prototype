@@ -1,0 +1,44 @@
+# Prerequisites
+*.d
+.DS_Store
+src/.DS_Store
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+__init__.py
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Build Folders
+.vscode/
+.pio/
+/__pycache__
+
+# Project folders
+src/Elevator
+include/
