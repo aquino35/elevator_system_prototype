@@ -2,39 +2,39 @@ import serial
 import time 
 from cobs import cobs
 
-class SerialMessage:
+class Serial_Message:
 
     serialChannel = None #pyserial API reference
 
     def __init__(self):
 
         self.msg = ""
-        self.msgID = 1
-        self.isFormed = False # indicates if the message structure is formed properly
+        self.eid = 1
+        self.sid = 1
 
     @classmethod
-    def initializePort(cls):
+    def initialize_port(cls):
         cls.serialChannel = serial.Serial('/dev/cu.usbmodem14201', 9600)  # (needs to find any kind of port) (soon)
     
     @classmethod
-    def closePort(cls):
+    def close_port(cls):
         cls.serialChannel.close()
 
-    def verifyHeader():
+    def verify_header():
         return None
 
-    def retrieveHeader():
+    def retrieve_header():
         return None
     
-    def buildHeader():
+    def build_header():
         return None
     
-    def recieveData():
+    def recieve_data():
         return None
     
-    def retrieveData():
+    def retrieve_data():
         return None
 
     @classmethod
-    def transmitData(cls,msg):
+    def transmit_data(cls,msg):
         cls.serialChannel.write(msg.cobs.encode())

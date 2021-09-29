@@ -1,3 +1,4 @@
+#soon to be deleted
 import serial
 
 arduino = serial.Serial('/dev/cu.usbmodem14201', 9600)  # mega2560

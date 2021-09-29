@@ -1,20 +1,20 @@
-/*
- * TODO : DOCUMENT
- * 
- * 
- */
-#pragma once
-#include"Elevator.h"
-#include"InitialState.h"
-#include"IdleState.h"
+// /*
+//  * TODO : DOCUMENT
+//  * 
+//  * 
+//  */
+// #pragma once
+// #include"Elevator.h"
+// #include"InitialState.h"
+// #include"IdleState.h"
 
-class FSM {
+// class FSM {
 
-public:
+// public:
 
-    FSM();
+//     FSM();
 
-    void setup();
+//     void setup();
 
-    void run(Elevator* elev);
-};
+//     void run(Elevator* elev);
+// };

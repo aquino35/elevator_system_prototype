@@ -1,23 +1,28 @@
-#include "FSM.cpp"
+//#include "FSM.cpp"
+#include <Arduino.h>
 
-String serData;
-int serInt;
+// String serData;
+// int serInt;
 
-Elevator* elevator = new Elevator(1); 
-FSM* state_machine = new FSM(); 
+// elevator* elevator = new elevator(1); 
+// FSM* state_machine = new FSM(); 
 
 void setup() {
   Serial.begin(9600);
-  state_machine -> setup();
-  Serial.println("-- Welcome to the Elevator System Prototype! --");
-  delay(2000);
+  Serial.println("-- eid is arriving 2 ! --");
+
+  // state_machine -> setup();
+  // Serial.println("-- Welcome to the Elevator System Prototype! --");
+  // delay(2000);
 }
 
-void loop() {
+void loop() 
+{
 
-  if (Serial.available() > 0) {
-    state_machine -> run(elevator);
-    }
+
+  // if (Serial.available() > 0) {
+  //   state_machine -> run(elevator);
+  //   }
 
     // serData = Serial.readStringUntil('\n');
     // Serial.print("Command executed: ");

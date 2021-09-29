@@ -1,8 +1,8 @@
 #include "MaintenanceState.h"
 
 void MaintenanceState::start(Elevator* elev){
-    elev->setDoorStatus(true);
-    elev->setLightStatus(true);
+    elev->set_door_status(true);
+    elev->set_light_status(true);
 }
 
 bool MaintenanceState::workMaintenance(){

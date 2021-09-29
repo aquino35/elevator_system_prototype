@@ -6,13 +6,13 @@
 //it cannot receive any commands in this state, Any commads previously entered should be cleared. 
 
 void EmergencyState::start(Elevator* elev){
-    elev->setDoorStatus(true);
-    elev->setLightStatus(true);
+    elev->set_door_status(true);
+    elev->set_light_status(true);
 }
 
 bool EmergencyState::emergency(Elevator* elev){
     
-   if(elev->getLoadWeight() > elev->getMaxLoadWeight() || elev->getMaxTemp() > elev->getCurrentTemp()){
+   if(elev->get_load_weight() > elev->get_max_load_weight() || elev->get_max_temp() > elev->get_current_temp()){
        return true;
    }   
    return false;
@@ -20,8 +20,8 @@ bool EmergencyState::emergency(Elevator* elev){
 }
 
 void EmergencyState::emergencyWorking(Elevator* elev){ //this all needs to be heavily reworked
-    if (elev->getStateName().compareTo("Emergency") == 0){
-        elev->getFloor();
+    if (elev->get_state_name().compareTo("Emergency") == 0){
+        elev->get_floor();
         //and no input should be received
     }
     else{
