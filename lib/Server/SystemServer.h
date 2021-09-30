@@ -75,9 +75,12 @@ class Server
         uint8_t get_eid(pkt_t* pkt); /* returns elevator id from pkt */ 
         uint8_t get_sid(pkt_t* pkt); /* returns service id from pkt */ 
         void allocate_pkt(pkt_t* pkt); /* allocate structure in memory */
+        void deallocate_pkt(pkt_t* pkt); /* deallocate structure in memory */
+        
 
         /* Request Methods */
         void allocate_request(request_t* request); /* allocate structure in memory */
+        void deallocate_request(request_t* request); /* deallocate structure in memory */
         uint8_t build_rx_task_pkt(int byte);
 
         /* Queue Methods */

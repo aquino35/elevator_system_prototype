@@ -59,9 +59,19 @@ void Server::recieve_data(void)
     }
 }
 
+//Returns true if it terminates correctly
 void Server::terminate(void)
 {
-
+    clear_queue();
+    delete elements;
+    delete service_handler;
+    if(is_queue_empty()){
+        Serial.println("Server has been cleared, elevator system service terminated.");
+    }
+    else{
+        Serial.println("Server not cleared correctly, an error has occured."); 
+    }
+    
 }
 
 void Server::register_service(const char* service_msg, uint8_t sid, void (*cb)(void))
@@ -122,9 +132,19 @@ void Server::allocate_pkt(pkt_t* pkt)
     pkt = (pkt_t*)malloc(sizeof(pkt_t));
 }
 
+void Server::deallocate_pkt(pkt_t* pkt)
+{
+    free(pkt); //memory must be free once again
+}
+
 void Server::allocate_request(request_t* request)
 {
     request = (request_t*)malloc(sizeof(request_t));
+}
+
+void Server::deallocate_request(request_t* request)
+{
+    free(request); 
 }
 
 void Server::enqueue(request_t* request)
