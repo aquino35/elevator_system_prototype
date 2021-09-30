@@ -33,7 +33,7 @@ class Elevator_Manager:
 
     def init_comm(self):
 
-        if not (self.arduino_1.inWaiting() or self.arduino_2.inWaiting()): # only read if there is something waiting to be read
+        if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
             welcome_msg = self.arduino_1.readline()
             welcome_msg1 = self.arduino_2.readline()
             print(welcome_msg.decode())
