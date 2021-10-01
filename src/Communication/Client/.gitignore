@@ -8,7 +8,7 @@ src/.DS_Store
 *.lo
 *.o
 *.obj
-__init__.py
+*.pyc
 
 # Precompiled Headers
 *.gch
