@@ -2,7 +2,7 @@
 
 from tkinter import *
 from tkinter import messagebox
-from elevator_manager import Elevator_ManagerP
+from elevator_manager import Elevator_Manager
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
