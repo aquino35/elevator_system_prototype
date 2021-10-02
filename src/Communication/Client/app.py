@@ -100,7 +100,7 @@ class App():
 
         # tests
         self.tupple = self.elev_manager.init_comm()
-        self.arduino_test = self.create_label(self.tupple[0], LABEL_SIZE, 1, 2)
+        self.arduino_test = self.create_label(self.tupple[0], LABEL_SIZE, 3, 1)
 
         """"self.elev_manager.get_elevator_floor(FIRST_FLOOR) # EJEMPLO PARA ANA"""
 
@@ -166,8 +166,8 @@ class App():
     def build_seventh_keypad_layer(self):
         """ Makes buttons for seventh layer of the keypad."""
 
-        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 12)
-        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 12)
+        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 18)
+        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 18)
 
 
     def dummy(self):
@@ -180,10 +180,10 @@ class App():
         self.elev_manager.display_elevator_attr()
 
         self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
-        self.label.grid(column=1, row=1) # changing the main label's grid location
-        self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 1, 2) # current temp
-        self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 1, 3) # current weight
-        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 1, 4) # current persons
+        self.label.grid(column=0, row=0) # changing the main label's grid location
+        self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 0, 2) # current temp
+        self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 0, 3) # current weight
+        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current persons
 
 
     def open_elevator_door(self):

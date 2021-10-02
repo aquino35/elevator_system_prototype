@@ -1,5 +1,8 @@
 import serial
 import serial.tools.list_ports
+from threading import Thread, Lock
+import time
+import Queue # not being recognized
 BAUDRATE = 9600
 
 class Elevator_Manager:
@@ -31,17 +34,36 @@ class Elevator_Manager:
         self.arduino_list.append(self.arduino_1) # appending arduino 1 on to the arduino container
         self.arduino_list.append(self.arduino_2) # appending arduino 2 to on to the arduino container
 
+    # def init_comm(self):
+    #     """ Dummy communication stablish to initially test the prototype """
+    #     for arduino in self.arduino_list:
+    #         if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
+    #             welcome_msg = self.arduino_1.readline()
+    #             welcome_msg1 = self.arduino_2.readline()
+    #             print(welcome_msg.decode())
+    #             print(welcome_msg1.decode())
+    #         return welcome_msg, welcome_msg1
+
     def init_comm(self):
         """ Dummy communication stablish to initially test the prototype """
+        for arduino in self.arduino_list:
+            if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
+                welcome_msg = self.arduino_1.readline()
+                welcome_msg1 = self.arduino_2.readline()
+                print(welcome_msg.decode())
+                print(welcome_msg1.decode())
+            return welcome_msg, welcome_msg1
 
-        if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
+
+    def processArduino(self):
+        mutex.acquire()
+        try:
             welcome_msg = self.arduino_1.readline()
-            welcome_msg1 = self.arduino_2.readline()
             print(welcome_msg.decode())
-            print(welcome_msg1.decode())
-        return welcome_msg, welcome_msg1
-    
+        finally:
+            mutex.release()
 
+    
     #def display_elevator_attr(self, aid):
     def display_elevator_attr(self):
         """ Return an attribute of a designated elevator to display to the user. """

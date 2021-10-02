@@ -9,7 +9,7 @@
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("-- eid is arriving 1 ! --");
+  Serial.println("eid 2!");
 
   // state_machine -> setup();
   // Serial.println("-- Welcome to the Elevator System Prototype! --");
