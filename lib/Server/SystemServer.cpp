@@ -92,6 +92,7 @@ void Server::verify_header(pkt_t* pkt)
     pkt->cobs_overhead = pkt->buffer[COBS_OFFSET]; // Masking attribute with bits to extract
     pkt->sid = pkt->buffer[SERVICEID_OFFSET]; 
     pkt->eid = pkt->buffer[ELEVATORID_OFFSET];
+    pkt->payload = pkt->buffer[PAYLOAD_OFFSET];
 }
 
 void Server::build_header(pkt_t* pkt)
@@ -99,6 +100,7 @@ void Server::build_header(pkt_t* pkt)
     cobs_encode(pkt->message, sizeof(pkt->message), pkt->buffer); //encode message with COBS and store those bytes
     pkt->buffer[SERVICEID_OFFSET] = pkt->sid; //increase as the next tasknumber
     pkt->buffer[ELEVATORID_OFFSET] = pkt->eid;
+    pkt->buffer[PAYLOAD_OFFSET] = pkt->payload;
 }
 
 void Server::verify_pkt_buffer(pkt_t* pkt)
