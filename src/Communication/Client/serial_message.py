@@ -13,8 +13,7 @@ class Serial_Message:
         self.aid = 1
         self.eid = 1
         self.sid = 1
-        self.payload = []
-        self.buff = [self.eid, self.sid, self.aid, self.payload] #will send info as bytes to the C++ side to be read
+        self.buff = [self.eid, self.sid, self.aid] #will send info as bytes to the C++ side to be read
 
     @classmethod
     def initialize_port(cls):
