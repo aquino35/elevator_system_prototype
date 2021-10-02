@@ -2,11 +2,11 @@
 
 from tkinter import *
 from tkinter import messagebox
-from elevator_manager import Elevator_Manager
+from elevator_manager import Elevator_ManagerP
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
-GEOMETRY = '300x310'
+GEOMETRY = '320x320'
 TITLE = "Elevator System Prototype"
 WELCOME_MSG = "Welcome to our prototype!"
 FONT = "Helvetica"
@@ -17,8 +17,11 @@ LABEL_SIZE = 15
 CURRENT_FLOOR_LABEL = "Current Floor:"
 CURRENT_TEMPERATURE_LABEL = "Current Temp: "
 CURRENT_WEIGHT_LABEL = "Current Label: "
+CURRENT_PERSONS_LABEL = "Current Persons: "
 OPEN_DOOR_LABEL = "Open Door" # change to OPEN_DOOR_LABEL
+CAPACITY_LABEL = "Capacity: 10"
 CLOSE_DOOR_LABEL = "Close Door"
+MAXIMUM_WEIGHT_LABEL = "Maximum Weight: 1,200lb "
 MAINTENANCE_LABEL = "Maintenance" # change to maintenance_label
 LOBBY_LABEL = "Lobby"
 FIRST_FLOOR_LABEL = "1"
