@@ -39,6 +39,31 @@ class Elevator_Manager:
             print(welcome_msg.decode())
             print(welcome_msg1.decode())
         return welcome_msg, welcome_msg1
+    
+
+    def set_elevator_floor(self, floor):
+        """ Sets the floor of the current elevator """
+        return
+
+
+    def open_elevator_door(self, floor):
+        """ opens the floor of the current elevator """
+        return
+    
+
+    def close_elevator_door(self, floor):
+        """ opens the floor of the current elevator """
+        return
+
+
+    def get_elevator_lobby(self):
+        """ opens the floor of the current elevator """
+        return
+
+    
+    def get_elevator_maintenance_state(self, floor):
+        """ opens the floor of the current elevator """
+        return
 
 
 #Elevator_Manager()
