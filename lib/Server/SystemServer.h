@@ -33,6 +33,7 @@ class Server
                 uint8_t eid; /* indicates what elevator is being requested */
                 uint8_t sid; /* indicates what service is being requested  */
                 uint8_t cobs_overhead; /* First cobs encode byte*/
+                payload_t payload;
         }pkt_t;
 
         /* 
@@ -44,6 +45,24 @@ class Server
                 uint8_t eid; /* indicates what elevator is being requested */
                 uint8_t sid; /* indicates what service is being requested  */
         }request_t;
+        
+
+        /* 
+        Contains specific information about the elevator such as 
+        what floor the elevator is on, the elevator num, and so on.
+        */
+        typedef struct payload
+        {
+                uint8_t door_status;
+                uint8_t lights; 
+                uint8_t floor;
+                uint8_t temp;
+                uint8_t capacity; 
+                uint16_t load_weight; 
+                uint8_t direction /* 1 for up, 0 for down. Making it a bool would be confusing as one could interpret the elevator is stuck */
+                bool canMove; /* Whether the elevator can move, for example, it can't in emergency and maintance states */
+                
+        }payload_t;
 
 
         Server(void); /* Constructor */
