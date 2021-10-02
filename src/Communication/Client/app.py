@@ -84,7 +84,6 @@ class App():
 
         messagebox.showerror(TITLE, info) 
     
-
     # Next up we can see our callbacks defined for the buttons
 
     def build_elevator_keypad(self):
