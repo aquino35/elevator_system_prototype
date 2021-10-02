@@ -100,7 +100,7 @@ class App():
 
         # tests
         self.tupple = self.elev_manager.init_comm()
-        self.arduino_test = self.create_label(self.tupple[0], 15, 3, 0)
+        self.arduino_test = self.create_label(self.tupple[0], LABEL_SIZE, 1, 2)
 
         """"self.elev_manager.get_elevator_floor(FIRST_FLOOR) # EJEMPLO PARA ANA"""
 
@@ -166,8 +166,8 @@ class App():
     def build_seventh_keypad_layer(self):
         """ Makes buttons for seventh layer of the keypad."""
 
-        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 10)
-        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 10)
+        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 12)
+        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 12)
 
 
     def dummy(self):
