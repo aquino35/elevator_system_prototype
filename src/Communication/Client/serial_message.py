@@ -1,6 +1,7 @@
 import serial
 import time 
 from cobs import cobs
+import app_macros
 
 import struct
 
@@ -9,11 +10,11 @@ class Serial_Message:
     serialChannel = None #pyserial API reference
 
     def __init__(self):
-        self.msg = ""
-        self.rx = bytes()
+        self.aid = 1
         self.eid = 1
         self.sid = 1
-        self.buff = [] #will send info as bytes to the C++ side to be read
+        self.payload = []
+        self.buff = [self.eid, self.sid, self.aid, self.payload] #will send info as bytes to the C++ side to be read
 
     @classmethod
     def initialize_port(cls):
