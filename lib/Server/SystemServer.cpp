@@ -60,6 +60,7 @@ uint8_t* SystemServer::recieve_data(void)
            encodedMsg[index] = cobsByte;
            encodedMsg[++index] = nextByte;
        }
+       index = 0; //reset the index
  
    }
    return encodedMsg;
