@@ -165,7 +165,7 @@ class App():
     
     def build_seventh_keypad_layer(self):
         """ Makes buttons for seventh layer of the keypad."""
-        
+
         self.current_weight_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, column= 1, row= 6)
         self.current_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, column= 4, row= 6)
 
@@ -184,6 +184,8 @@ class App():
 
 
     def open_elevator_door(self):
+        """ Calls the manager to open the door."""
+
         self.elev_manager.set_elevator_door_status()
     
 
