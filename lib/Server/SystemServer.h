@@ -83,7 +83,7 @@ class SystemServer
        void transmit_data(const unsigned char* msgBuffer, uint8_t msg_size); /* tx */
        uint8_t* recieve_data(void); /* rx */
        pkt_t* decode_data(uint8_t* encodedData[]); /* Decodes recieved packet */
-       void terminate(void); /* end server life */
+       void terminate(pkt_t* pkt); /* end server life */
        void register_service(const char* service_msg, uint8_t service_num, void (*cb)(void)); /* function is still incompleate */
  
        /* Packet Methods */

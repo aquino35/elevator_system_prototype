@@ -78,16 +78,18 @@ SystemServer::pkt_t* SystemServer::decode_data(uint8_t* encodedData[]){
     cobs_decode(encodedData[8], 2, &pkt->payload[WEIGHT]); //Saves weight, uint16 is the next two bytes
     cobs_decode(encodedData[10], 1, &pkt->payload[DIRECTION]); //Saves direction bool, true is up
     cobs_decode(encodedData[11], 1, &pkt->payload[MOVING]); //Savves moving bool
+    delete encodedData;
     return pkt;
 
 }
  
 
-void SystemServer::terminate(void)
+void SystemServer::terminate(pkt_t* pkt)
 {
    clear_queue();
    delete elements;
    delete service_handler;
+   delete pkt;
    if(is_queue_empty()){
        Serial.println("SystemServer has been cleared, elevator system service terminated.");
    }
