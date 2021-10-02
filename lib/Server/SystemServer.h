@@ -93,6 +93,8 @@ class SystemServer
        uint8_t get_pkt_size(pkt_t* pkt); /* get size of pkt */
        uint8_t get_eid(pkt_t* pkt); /* returns elevator id from pkt */
        uint8_t get_sid(pkt_t* pkt); /* returns service id from pkt */
+       uint8_t get_aid(pkt_t* pkt);
+       uint8_t* get_payload(pkt_t* pkt);
        void allocate_pkt(pkt_t* pkt); /* allocate structure in memory */
        void deallocate_pkt(pkt_t* pkt); /* deallocate structure in memory */
       

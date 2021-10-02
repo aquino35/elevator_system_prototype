@@ -148,6 +148,16 @@ uint8_t SystemServer::get_sid(pkt_t* pkt)
 {
    return pkt->sid;
 }
+
+uint8_t SystemServer::get_aid(pkt_t* pkt)
+{
+   return pkt->aid;
+}
+
+uint8_t* SystemServer::get_payload(pkt_t* pkt)
+{
+   return pkt->payload;
+}
  
 void SystemServer::allocate_pkt(pkt_t* pkt)
 {
