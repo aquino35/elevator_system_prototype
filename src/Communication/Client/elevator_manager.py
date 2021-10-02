@@ -42,13 +42,16 @@ class Elevator_Manager:
         return welcome_msg, welcome_msg1
     
 
-    def display_elevator_attr(self, aid):
+    #def display_elevator_attr(self, aid):
+    def display_elevator_attr(self):
+        """ Return an attribute of a designated elevator to display to the user. """
 
         return 
 
 
     def get_elevator_floor(self):
         """ Return the floor of the designated elevator """
+
         return
 
 
@@ -59,31 +62,37 @@ class Elevator_Manager:
     
     def get_elevator_maintenance_state(self):
         """ Return the maintenance state of the designated elevator """
+
         return
 
         
     def get_elevator_temperature(self):
         """ Returns current temperature of the designated elevator """
+
         return
 
     
     def get_elevator_capacity(self):
         """ Returns current temperature of the designated elevator """
+
         return
 
 
     def set_elevator_floor(self, floor):
         """ Sets the floor of the designated elevator """
+
         return
 
 
     def set_elevator_temperature(self, floor):
         """ Returns current temperature of the designated elevator """
+
         return
 
 
     def set_elevator_door_status(self):
         """ Open or Close the door of the designated elevator  """
+
         return
     
 
