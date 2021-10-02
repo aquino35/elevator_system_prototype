@@ -126,48 +126,48 @@ class App():
         """ Makes buttons for second layer of the keypad."""
 
         self.open_door_button = self.create_button("open_door_button", self.frame,
-            OPEN_DOOR_LABEL, self.open_elevator_door, 3, 12)
+            OPEN_DOOR_LABEL, self.open_elevator_door, 3, 6)
         self.close_door_button = self.create_button("close_door_button",self.frame,
-            CLOSE_DOOR_LABEL, self.close_elevator_door, 4, 12)
-        self.lobby_button = self.create_button("lobby_button", self.frame, LOBBY_LABEL, self.dummy, 5, 12)
+            CLOSE_DOOR_LABEL, self.close_elevator_door, 4, 6)
+        self.lobby_button = self.create_button("lobby_button", self.frame, LOBBY_LABEL, self.dummy, 5, 6)
 
 
     def build_third_keypad_layer(self):
         """ Makes buttons for third layer of the keypad."""
 
-        self.f1_button = self.create_button("f1_button", self.frame, FIRST_FLOOR_LABEL, self.set_elevator_floor(FIRST_FLOOR), 3, 9)
-        self.f2_button = self.create_button("f2_button", self.frame, SECOND_FLOOR_LABEL, self.set_elevator_floor(SECOND_FLOOR), 4, 9)
-        self.f3_button = self.create_button("f3_button", self.frame, THIRD_FLOOR_LABEL, self.set_elevator_floor(THIRD_FLOOR), 6, 9)
+        self.f1_button = self.create_button("f1_button", self.frame, FIRST_FLOOR_LABEL, self.set_elevator_floor(FIRST_FLOOR), 3, 4)
+        self.f2_button = self.create_button("f2_button", self.frame, SECOND_FLOOR_LABEL, self.set_elevator_floor(SECOND_FLOOR), 4, 4)
+        self.f3_button = self.create_button("f3_button", self.frame, THIRD_FLOOR_LABEL, self.set_elevator_floor(THIRD_FLOOR), 5, 4)
 
 
     def build_fourth_keypad_layer(self):
         """ Makes buttons for fourth layer of the keypad."""
 
-        self.f4_button = self.create_button("f4_button", self.frame, FOURTH_FLOOR_LABEL, self.set_elevator_floor(FOURTH_FLOOR), 3, 6)
-        self.f5_button = self.create_button("f5_button", self.frame, FITH_FLOOR_LABEL, self.set_elevator_floor(FITH_FLOOR), 4, 6)
-        self.f6_button = self.create_button("f6_button", self.frame, SIXTH_FLOOR_LABEL, self.set_elevator_floor(SIXTH_FLOOR), 5, 6)
+        self.f4_button = self.create_button("f4_button", self.frame, FOURTH_FLOOR_LABEL, self.set_elevator_floor(FOURTH_FLOOR), 3, 3)
+        self.f5_button = self.create_button("f5_button", self.frame, FITH_FLOOR_LABEL, self.set_elevator_floor(FITH_FLOOR), 4, 3)
+        self.f6_button = self.create_button("f6_button", self.frame, SIXTH_FLOOR_LABEL, self.set_elevator_floor(SIXTH_FLOOR), 5, 3)
 
 
     def build_fith_keypad_layer(self):
         """ Makes buttons for fith layer of the keypad."""
 
-        self.f7_button = self.create_button("f7_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(SEVENTH_FLOOR), 3, 3)
-        self.f8_button = self.create_button("f8_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(EIGHTH_FLOOR), 4, 3)
-        self.f9_button = self.create_button("f9_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(NEIGH_FLOOR), 5, 3)
+        self.f7_button = self.create_button("f7_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(SEVENTH_FLOOR), 3, 2)
+        self.f8_button = self.create_button("f8_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(EIGHTH_FLOOR), 4, 2)
+        self.f9_button = self.create_button("f9_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(NEIGH_FLOOR), 5, 2)
 
 
     def build_sixth_keypad_layer(self):
         """ Makes buttons for sixth layer of the keypad."""
 
-        self.f10_button = self.create_button("f10_button", self.frame, TENTH_FLOOR_LABEL, self.set_elevator_floor(TENTH_FLOOR_LABEL), 3, 0)
-        self.f11_button = self.create_button("f11_button", self.frame, ELEVENTH_FLOOR_LABEL, self.set_elevator_floor(ELEVENTH_FLOOR_LABEL), 4, 0)
-        self.f12_button = self.create_button("f12_button", self.frame, TWELFTH_FLOOR_LABEL, self.set_elevator_floor(TWELFTH_FLOOR_LABEL), 5, 0)
+        self.f10_button = self.create_button("f10_button", self.frame, TENTH_FLOOR_LABEL, self.set_elevator_floor(TENTH_FLOOR_LABEL), 3, 1)
+        self.f11_button = self.create_button("f11_button", self.frame, ELEVENTH_FLOOR_LABEL, self.set_elevator_floor(ELEVENTH_FLOOR_LABEL), 4, 1)
+        self.f12_button = self.create_button("f12_button", self.frame, TWELFTH_FLOOR_LABEL, self.set_elevator_floor(TWELFTH_FLOOR_LABEL), 5, 1)
     
     def build_seventh_keypad_layer(self):
         """ Makes buttons for seventh layer of the keypad."""
 
-        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 18)
-        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 18)
+        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 10)
+        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 10)
 
 
     def dummy(self):
@@ -180,10 +180,10 @@ class App():
         self.elev_manager.display_elevator_attr()
 
         self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
-        self.label.grid(column=1, row=0) # changing the main label's grid location
-        self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 1, 1) # current temp
-        self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 1, 2) # current weight
-        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 1, 3) # current persons
+        self.label.grid(column=1, row=1) # changing the main label's grid location
+        self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 1, 2) # current temp
+        self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 1, 3) # current weight
+        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 1, 4) # current persons
 
 
     def open_elevator_door(self):
