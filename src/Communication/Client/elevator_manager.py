@@ -32,6 +32,7 @@ class Elevator_Manager:
         self.arduino_list.append(self.arduino_2) # appending arduino 2 to on to the arduino container
 
     def init_comm(self):
+        """ Dummy communication stablish to initially test the prototype """
 
         if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
             welcome_msg = self.arduino_1.readline()
@@ -41,29 +42,50 @@ class Elevator_Manager:
         return welcome_msg, welcome_msg1
     
 
-    def set_elevator_floor(self, floor):
-        """ Sets the floor of the current elevator """
-        return
+    def display_elevator_attr(self, aid):
+
+        return 
 
 
-    def open_elevator_door(self, floor):
-        """ opens the floor of the current elevator """
-        return
-    
-
-    def close_elevator_door(self, floor):
-        """ opens the floor of the current elevator """
+    def get_elevator_floor(self):
+        """ Return the floor of the designated elevator """
         return
 
 
     def get_elevator_lobby(self):
-        """ opens the floor of the current elevator """
+        """ opens the floor of the designated elevator """
         return
 
     
-    def get_elevator_maintenance_state(self, floor):
-        """ opens the floor of the current elevator """
+    def get_elevator_maintenance_state(self):
+        """ Return the maintenance state of the designated elevator """
         return
+
+        
+    def get_elevator_temperature(self):
+        """ Returns current temperature of the designated elevator """
+        return
+
+    
+    def get_elevator_capacity(self):
+        """ Returns current temperature of the designated elevator """
+        return
+
+
+    def set_elevator_floor(self, floor):
+        """ Sets the floor of the designated elevator """
+        return
+
+
+    def set_elevator_temperature(self, floor):
+        """ Returns current temperature of the designated elevator """
+        return
+
+
+    def set_elevator_door_status(self):
+        """ Open or Close the door of the designated elevator  """
+        return
+    
 
 
 #Elevator_Manager()
