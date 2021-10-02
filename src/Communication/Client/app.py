@@ -164,6 +164,8 @@ class App():
         self.f12_button = self.create_button("f12_button", self.frame, TWELFTH_FLOOR_LABEL, self.set_elevator_floor(TWELFTH_FLOOR_LABEL), 6, 3)
     
     def build_seventh_keypad_layer(self):
+        """ Makes buttons for seventh layer of the keypad."""
+        
         self.current_weight_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, column= 1, row= 6)
         self.current_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, column= 4, row= 6)
 
