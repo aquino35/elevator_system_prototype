@@ -6,7 +6,7 @@ from elevator_manager import Elevator_Manager
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
-GEOMETRY = '300x200'
+GEOMETRY = '300x310'
 TITLE = "Elevator System Prototype"
 WELCOME_MSG = "Welcome to our prototype!"
 FONT = "Helvetica"
