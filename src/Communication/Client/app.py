@@ -93,16 +93,10 @@ class App():
         self.destroy_button(self.elevator_request_button) # destroy the request button
         self.display_info(REQUEST_MSG) # alert user that an elevator is on its way.
         # creating the elevator's keypad:
-
-        self.elev_manager = Elevator_Manager()
+        self.elev_manager = ElevatorManager()
         self.display_elevator_attr()
         self.build_keypad_layers()
 
-        # tests
-        self.tupple = self.elev_manager.init_comm()
-        self.arduino_test = self.create_label(self.tupple[0], LABEL_SIZE, 4, 0)
-
-        """"self.elev_manager.get_elevator_floor(FIRST_FLOOR) # EJEMPLO PARA ANA"""
 
     def build_keypad_layers(self):        
         """ Builds all the layers of the keypad."""
@@ -180,10 +174,15 @@ class App():
         self.elev_manager.display_elevator_attr()
 
         self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
-        self.label.grid(column=0, row=1) # changing the main label's grid location
+        self.label.grid(column=0, row=0) # changing the main label's grid location
         self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 0, 2) # current temp
         self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 0, 3) # current weight
-        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current persons
+        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current person count
+        # tests
+        self.elev_manager.init_comm()
+        self.arduino_test_msg = self.elev_manager.arduino_message_queue.pop()
+        print(self.arduino_test_msg)
+        self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 1, 1)
 
 
     def open_elevator_door(self):

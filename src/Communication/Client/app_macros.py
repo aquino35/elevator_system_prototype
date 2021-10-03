@@ -2,11 +2,11 @@
 
 from tkinter import *
 from tkinter import messagebox
-from elevator_manager import Elevator_Manager
+from elevator_manager import ElevatorManager
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
-GEOMETRY = '400x350'
+GEOMETRY = '600x300'
 TITLE = "Elevator System Prototype"
 WELCOME_MSG = "Welcome to our prototype!"
 FONT = "Helvetica"

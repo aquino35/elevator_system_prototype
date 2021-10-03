@@ -1,23 +1,26 @@
 import serial
 import serial.tools.list_ports
-from threading import Thread, Lock
 import time
 import Queue # not being recognized
+from multiprocessing.pool import ThreadPool
 BAUDRATE = 9600
+POOL_SIZE = 2
 
-class Elevator_Manager:
+class ElevatorManager:
 
     def __init__(self):
 
         self.arduino_list = [] # container for arduinos
-        self.port_finder = serial.tools.list_ports.comports(include_links=False)
+        self.arduino_message_queue = [] 
+        self.port_list = serial.tools.list_ports.comports(include_links=False)
         self.detect_port() 
         #self.init_comm() # method for testing 
 
     def detect_port(self):
         """ Will automatically detect the two ports of the arduinos."""
+
         tmp = [] # temporary container for ports
-        for port in self.port_finder:
+        for port in self.port_list:
             #print('Find port '+ port.device)
             tmp.append(port.device)
 
@@ -33,38 +36,29 @@ class Elevator_Manager:
         self.arduino_2 = serial.Serial(port2, baudrate)  # mega2560
         self.arduino_list.append(self.arduino_1) # appending arduino 1 on to the arduino container
         self.arduino_list.append(self.arduino_2) # appending arduino 2 to on to the arduino container
-
-    # def init_comm(self):
-    #     """ Dummy communication stablish to initially test the prototype """
-    #     for arduino in self.arduino_list:
-    #         if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
-    #             welcome_msg = self.arduino_1.readline()
-    #             welcome_msg1 = self.arduino_2.readline()
-    #             print(welcome_msg.decode())
-    #             print(welcome_msg1.decode())
-    #         return welcome_msg, welcome_msg1
+        
 
     def init_comm(self):
         """ Dummy communication stablish to initially test the prototype """
+
+        self.pool = ThreadPool(POOL_SIZE)
         for arduino in self.arduino_list:
-            if not (self.arduino_1.in_waiting or self.arduino_2.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
-                welcome_msg = self.arduino_1.readline()
-                welcome_msg1 = self.arduino_2.readline()
-                print(welcome_msg.decode())
-                print(welcome_msg1.decode())
-            return welcome_msg, welcome_msg1
+            self.pool.apply_async(self.processArduinos, (arduino,))
+        self.pool.close()
+        self.pool.join()
 
 
-    def processArduino(self):
-        mutex.acquire()
+    def processArduinos(self, arduino):
+
         try:
-            welcome_msg = self.arduino_1.readline()
-            print(welcome_msg.decode())
-        finally:
-            mutex.release()
+            if not (arduino.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
+                self.welcome_msg = arduino.readline()
+                print(self.welcome_msg.decode())
+                self.arduino_message_queue.append(self.welcome_msg.decode())
+        except:
+            print('Error handling arduino')
 
     
-    #def display_elevator_attr(self, aid):
     def display_elevator_attr(self):
         """ Return an attribute of a designated elevator to display to the user. """
 
