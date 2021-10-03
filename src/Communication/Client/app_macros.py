@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 from tkinter import *
 from tkinter import messagebox
 from elevator_manager import ElevatorManager
@@ -12,6 +11,7 @@ WELCOME_MSG = "Welcome to our prototype!"
 FONT = "Helvetica"
 ELEVATOR_REQUEST = "Request Elevator"
 REQUEST_MSG = "An elevator will arrive shortly"
+
 #KEYPAD MACROS:
 LABEL_SIZE = 15
 CURRENT_FLOOR_LABEL = "Current Floor:"
