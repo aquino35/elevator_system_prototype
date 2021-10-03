@@ -196,13 +196,16 @@ class App():
     
 
     def set_elevator_floor(self, floor):
+
         self.elev_manager.set_elevator_floor(floor)
     
 
     def get_elevator_lobby(self):
+
         self.elev_manager.get_elevator_lobby()
     
 
     def get_elevator_maintenance_state(self):
+        
         self.elev_manager.get_elevator_maintenance_state()
 
