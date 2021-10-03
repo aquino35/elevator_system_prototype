@@ -180,9 +180,10 @@ class App():
         self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current person count
         # tests
         self.elev_manager.init_comm()
-        self.arduino_test_msg = self.elev_manager.arduino_message_queue.pop()
-        print(self.arduino_test_msg)
-        self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 1, 1)
+        if not (self.elev_manager.arduino_message_queue.empty()):
+            self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
+            print(self.arduino_test_msg)
+            self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 1, 1)
 
 
     def open_elevator_door(self):
@@ -206,6 +207,6 @@ class App():
     
 
     def get_elevator_maintenance_state(self):
-        
+
         self.elev_manager.get_elevator_maintenance_state()
 
