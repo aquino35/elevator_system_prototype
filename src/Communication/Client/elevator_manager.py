@@ -111,6 +111,4 @@ class ElevatorManager:
 
         return
     
-
-
 #Elevator_Manager()
