@@ -21,13 +21,11 @@ class ElevatorManager:
 
     def initialize_containers(self):
 
-        try:
-            self.arduino_list = [] # Container for arduinos
-            self.eid_list = [] # Container for unique eids
-            self.tid_container = []
-            self.elevator_dictionary = {} # Dictionary to that has unique eid's to difference between conflictin eid's.
-        except:
-            print("Error initializing the Elevator Manager containers.\n")
+        self.arduino_list = [] # Container for arduinos
+        self.eid_list = [] # Container for unique eids
+        self.tid_container = []
+        self.elevator_dictionary = {} # Dictionary to that has unique eid's to difference between conflictin eid's.
+
 
     def detect_port(self):
         """ Will automatically detect the two ports of the arduinos."""
@@ -48,9 +46,9 @@ class ElevatorManager:
         """ Connect pair of arduinos."""
         try:
             self.arduino_1 = serial.Serial(port1, baudrate)  # mega2560
-            self.elevator_counter=+2 # 2 elevators in each arduino
+            self.elevator_count=+2 # 2 elevators in each arduino
             self.arduino_2 = serial.Serial(port2, baudrate)  # mega2560
-            self.elevator_counter=+2 # 2 elevators in each arduino
+            self.elevator_count=+2 # 2 elevators in each arduino
             self.arduino_list.append(self.arduino_1) # appending arduino 1 on to the arduino container
             self.arduino_list.append(self.arduino_2) # appending arduino 2 to on to the arduino container
         except:
@@ -92,9 +90,9 @@ class ElevatorManager:
     def get_global_eid(self, arduino_bin):
 
         try:
-            total_bins = arduino_bin * (self.elevator_counter - 1)  # elevator bins (2)
-            desired_bin = total_bins/self.elevator_counter # to get correct bin
-            desired_elevator = total_bins%self.elevator_counter # to get specific elevator
+            total_bins = arduino_bin * (self.elevator_count - 1)  # elevator bins (2)
+            desired_bin = total_bins/self.elevator_count # to get correct bin
+            desired_elevator = total_bins%self.elevator_count # to get specific elevator
             unique_eid = desired_elevator + desired_bin
             global_eid = self.elevator_dictionary['{}'.format(unique_eid)]
             self.eid_list.append(unique_eid)
