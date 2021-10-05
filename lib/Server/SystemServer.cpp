@@ -57,20 +57,29 @@ uint8_t* SystemServer::recieve_data()
 }
  
 SystemServer::pkt_t* SystemServer::decode_data(uint8_t* encodedData[]){
-   pkt_t* pkt;
-   cobs_decode(encodedData[0], 1, &pkt->eid); //Saves the elevatorIdyyyyyyyy
-   cobs_decode(encodedData[1], 1, &pkt->sid); //Saves the serviceId
-   cobs_decode(encodedData[2], 1, &pkt->aid); //Saves the attributeId
-   cobs_decode(encodedData[3], 1, &pkt->payload[DOOR]); //Saves the doorOpen bool
-   cobs_decode(encodedData[4], 1, &pkt->payload[LIGHTS]); //Saves the lightsOn bool
-   cobs_decode(encodedData[5], 1, &pkt->payload[FLOOR]); //Saves the floor
-   cobs_decode(encodedData[6], 1, &pkt->payload[TEMP]); //Saves the temp
-   cobs_decode(encodedData[7], 1, &pkt->payload[LOAD]); //Saves the current load
-   cobs_decode(encodedData[8], 2, &pkt->payload[WEIGHT]); //Saves weight, uint16 is the next two bytes
-   cobs_decode(encodedData[10], 1, &pkt->payload[DIRECTION]); //Saves direction bool, true is up
-   cobs_decode(encodedData[11], 1, &pkt->payload[MOVING]); //Savves moving bool
-   delete encodedData;
-   return pkt;
+  pkt_t* pkt;
+  uint8_t* decoded[12]; 
+
+  cobs_decode(*encodedData, 12, decoded); 
+  pkt->eid = decode[0]; //Saves the elevatorId
+  pkt->sid = decode[1]; //Saves the serviceId
+  pkt->aid = decode[2]; //Saves the attributeId
+  pkt->payload[DOOR] = decode[3]; //Saves the doorOpen bool
+  pkt->payload[LIGHTS] = decode[4] //Saves the lightsOn bool
+  pkt->payload[FLOOR] = decode[5] //Saves the floor
+  pkt->payload[TEMP] = decode[6]; //Saves the temp
+  pkt->payload[LOAD] = decode[7] //Saves the current load
+
+  uint16_t* weight;
+  memccpy(weight, *{decode[8], decode[9]}, 2); //dest, src, number of bytes
+  pkt->payload[WEIGHT] = weight; //Saves weight, uint16 is the next two bytes
+  pkt->payload[DIRECTION] = decode[10]; //Saves direction bool, true is up
+  pkt->payload[MOVING] = decode[11]; //Saves moving bool
+
+  delete encodedData; //free memory
+  delete weight
+  delete decoded;
+  return pkt;
  
 }
  
