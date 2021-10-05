@@ -183,7 +183,7 @@ class App():
         if not (self.elev_manager.arduino_message_queue.empty()):
             self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
             #print(self.arduino_test_msg)
-            self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 1, 1)
+            self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 0, 1)
 
 
     def open_elevator_door(self):

@@ -23,10 +23,10 @@ class ElevatorManager:
 
     def initialize_containers(self):
 
-        self.arduino_list = [] # Container for arduinos
-        self.eid_list = [] # Container for unique eids
+        self.arduino_container = [] # Container for arduinos
+        self.eid_container = [] # Container for unique eids
         self.tid_container = []
-        self.unique_eids = {} # Dictionary to that has unique eid's to difference between conflicting eid's.
+        self.aduino_thread_dict = {} # Dictionary to that has unique eid's to difference between conflicting eid's.
 
 
     def detect_port(self):
@@ -49,8 +49,8 @@ class ElevatorManager:
         try:
             self.arduino_1 = serial.Serial(port1, baudrate)  # mega2560
             self.arduino_2 = serial.Serial(port2, baudrate)  # mega2560
-            self.arduino_list.append(self.arduino_1) # appending arduino 1 on to the arduino container
-            self.arduino_list.append(self.arduino_2) # appending arduino 2 to on to the arduino container
+            self.arduino_container.append(self.arduino_1) # appending arduino 1 on to the arduino container
+            self.arduino_container.append(self.arduino_2) # appending arduino 2 to on to the arduino container
         except:
             print("Error connecting to an Arduino.\n")
 
@@ -59,18 +59,17 @@ class ElevatorManager:
         """ Dummy communication stablish to initially test the prototype """
 
         try:
-            self.pool = ThreadPool(CONST_ARDUINO_COUNT)
-            for arduino in self.arduino_list:
-                self.pool.apply_async(self.process_arduinos, (arduino,))
-            self.pool.close()
-            self.pool.join()
+            self.thread_pool = ThreadPool(CONST_ARDUINO_COUNT)
+            for arduino in self.arduino_container:
+                self.thread_pool.apply_async(self.process_arduinos, (arduino,))
+            self.thread_pool.close()
+            self.thread_pool.join()
             self.create_unique_eids()
             self.get_global_eid(0)
             self.get_global_eid(1)
             self.get_global_eid(2)
             self.get_global_eid(3)
-            print("The original dictionary : {}\n".format(self.unique_eids))
-
+            print("The original dictionary : {}\n".format(self.aduino_thread_dict))
         except:
             print("Error threading incoming arduinos.\n") 
 
@@ -94,18 +93,19 @@ class ElevatorManager:
     def create_unique_eids(self):
 
 
-        self.unique_eids[0] = self.tid_container[0]
-        self.unique_eids[1] = self.tid_container[1] 
+        self.aduino_thread_dict[0] = self.tid_container[0]
+        self.aduino_thread_dict[1] = self.tid_container[1] 
 
 
     def get_global_eid(self, global_eid):
+        """ Uses modular arithmetic to get reference a specific arduino 
+        to a specific elevator."""
 
         try:
-            m = global_eid * (CONST_ELEVATOR_COUNT - 1)  # elevator bins (2)
-            q = m/CONST_ELEVATOR_COUNT # to get correct bin
-            r = m%CONST_ELEVATOR_COUNT # to get specific elevator
-            print(self.unique_eids[q],r)
-
+            number_of_bins = global_eid * (CONST_ELEVATOR_COUNT - 1)  # elevator bins (2)
+            desired_bin = number_of_bins/CONST_ELEVATOR_COUNT # to get correct bin
+            desired_elevator = number_of_bins%CONST_ELEVATOR_COUNT # to get specific elevator
+            print(self.aduino_thread_dict[desired_bin],desired_elevator)
         except: 
             print("Cannot initialize four unique eid's.\n")
 

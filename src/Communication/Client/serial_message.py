@@ -5,7 +5,7 @@ import app_macros
 
 import struct
 
-class Serial_Message:
+class SerialMessage:
 
     serialChannel = None #pyserial API reference
 
