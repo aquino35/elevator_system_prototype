@@ -6,9 +6,7 @@ import threading
 from multiprocessing.pool import ThreadPool
 CONST_BAUDRATE = 9600
 CONST_ARDUINO_COUNT = 2
-CONST_ELEVATOR_COUNT = 4
-CONST_EIDS = [0,1]
-
+CONST_ELEVATOR_COUNT = 2
 
 
 class ElevatorManager:
@@ -67,7 +65,10 @@ class ElevatorManager:
             self.pool.close()
             self.pool.join()
             self.create_unique_eids()
-            self.get_global_eid()
+            self.get_global_eid(0)
+            self.get_global_eid(1)
+            self.get_global_eid(2)
+            self.get_global_eid(3)
             print("The original dictionary : {}\n".format(self.unique_eids))
 
         except:
@@ -80,45 +81,30 @@ class ElevatorManager:
 
         try:
             current_tid = threading.current_thread().ident 
-            print(current_tid)         
+            #print(current_tid)         
             self.tid_container.append(current_tid)
             #if not (arduino.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
             self.welcome_msg = arduino.readline()
-            self.arduino_message_queue.put(self.welcome_msg.decode())
-            print(self.welcome_msg.decode())
+            self.arduino_message_queue.put(self.welcome_msg.decode("ascii", "ignore"))
+            print(self.welcome_msg.decode("ascii", "ignore"))
         except:
              print('Error processing {}.\n'.format(arduino))
 
 
     def create_unique_eids(self):
 
-        self.unique_eids[0] = self.tid_container[0] + CONST_EIDS[0]
-        self.unique_eids[1] = self.tid_container[0] + CONST_EIDS[1]
-        self.unique_eids[2] = self.tid_container[1] + CONST_EIDS[0]
-        self.unique_eids[3] = self.tid_container[1] + CONST_EIDS[1]
+
+        self.unique_eids[0] = self.tid_container[0]
+        self.unique_eids[1] = self.tid_container[1] 
 
 
-    #def get_global_eid(self, arduino_bin):
-    def get_global_eid(self):
+    def get_global_eid(self, global_eid):
 
         try:
-            # total_bins = arduino_bin * (CONST_ARDUINO_COUNT - 1)  # elevator bins (2)
-            # desired_bin = total_bins/CONST_ARDUINO_COUNT # to get correct bin
-            # desired_elevator = total_bins% CONST_ARDUINO_COUNT # to get specific elevator
-            # unique_eid = desire d_elevator + desired_bin
-            # global_eid = self.unique_eids['{}'.format(unique_eid)]
-            # self.eid_list.append(unique_eid)
-            #     #print(result)
-            # #print(self.eid_list)
-            # print('{}\n'.format(global_eid))
-            # return global_eid
-            for j in range(CONST_ELEVATOR_COUNT):
-                m = j * (CONST_ELEVATOR_COUNT - 1)  # elevator bins (2)
-                q = m/CONST_ELEVATOR_COUNT # to get correct bin
-                r = m%CONST_ELEVATOR_COUNT # to get specific elevator
-                result = r + q
-                print(result)
-                #print(self.unique_eids['{}'.format(result)]) # the money print
+            m = global_eid * (CONST_ELEVATOR_COUNT - 1)  # elevator bins (2)
+            q = m/CONST_ELEVATOR_COUNT # to get correct bin
+            r = m%CONST_ELEVATOR_COUNT # to get specific elevator
+            print(self.unique_eids[q],r)
 
         except: 
             print("Cannot initialize four unique eid's.\n")
