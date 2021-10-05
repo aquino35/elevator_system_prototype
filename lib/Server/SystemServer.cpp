@@ -56,30 +56,27 @@ uint8_t* SystemServer::recieve_data()
   return encodedMsg;
 }
  
-SystemServer::pkt_t* SystemServer::decode_data(uint8_t* encodedData[]){
-  pkt_t* pkt;
-  uint8_t* decoded[12]; 
+SystemServer::pkt_t* SystemServer::decode_data(uint8_t* encodedData){ //pointer decay, function sees array as pointer instead
+  pkt_t pkt;
+  uint8_t decoded[12]; 
 
-  cobs_decode(*encodedData, 12, decoded); 
-  pkt->eid = decode[0]; //Saves the elevatorId
-  pkt->sid = decode[1]; //Saves the serviceId
-  pkt->aid = decode[2]; //Saves the attributeId
-  pkt->payload[DOOR] = decode[3]; //Saves the doorOpen bool
-  pkt->payload[LIGHTS] = decode[4] //Saves the lightsOn bool
-  pkt->payload[FLOOR] = decode[5] //Saves the floor
-  pkt->payload[TEMP] = decode[6]; //Saves the temp
-  pkt->payload[LOAD] = decode[7] //Saves the current load
+  cobs_decode(encodedData, sizeof(encodedData), *decoded);  //decoded is now a 12 element array of pointers
+  pkt.eid = *decode[EID_OFFSET]; //Saves the elevatorId
+  pkt.sid = *decode[SAID_OFFSET]; //Saves the serviceId
+  pkt.aid = *decode[AID_OFFSET]; //Saves the attributeId
+  pkt.payload[DOOR] = *decode[DOOR_OFFSET]; //Saves the doorOpen bool
+  pkt.payload[LIGHTS] = *decode[LIGHTS_OFFSET] //Saves the lightsOn bool
+  pkt.payload[FLOOR] = *decode[FLOOR_OFFSET] //Saves the floor
+  pkt.payload[TEMP] = *decode[TEMP_OFFSET]; //Saves the temp
+  pkt.payload[LOAD] = *decode[LOAD_OFFSET] //Saves the current load
 
-  uint16_t* weight;
-  memccpy(weight, *{decode[8], decode[9]}, 2); //dest, src, number of bytes
-  pkt->payload[WEIGHT] = weight; //Saves weight, uint16 is the next two bytes
-  pkt->payload[DIRECTION] = decode[10]; //Saves direction bool, true is up
-  pkt->payload[MOVING] = decode[11]; //Saves moving bool
+  uint16_t weight;
+  memcpy(*weight, *(decode + WEIGHT_OFFSET), 2); //dest, src, number of bytes
+  pkt.payload[WEIGHT] = *weight; //Saves weight, uint16 is the next two bytes
+  pkt.payload[DIRECTION] = *decode[DIRECTION_OFFSET]; //Saves direction bool, true is up
+  pkt.payload[MOVING] = *decode[MOVING_OFFSET]; //Saves moving bool
 
-  delete encodedData; //free memory
-  delete weight
-  delete decoded;
-  return pkt;
+  return *pkt;
  
 }
  

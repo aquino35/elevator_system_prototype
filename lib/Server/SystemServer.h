@@ -16,6 +16,19 @@
 #define SERVICEID_OFFSET      1
 #define ELEVATORID_OFFSET     2
 #define PAYLOAD_OFFSET        3
+
+#define EID_OFFSET             0
+#define SAID_OFFSET            1
+#define AID_OFFSET             2
+
+#define DOOR_OFFSET             3
+#define LIGHTS_OFFSET           4
+#define FLOOR_OFFSET            5
+#define TEMP_OFFSET             6
+#define LOAD_OFFSET             7
+#define WEIGHT_OFFSET           8
+#define DIRECTION_OFFSET        10
+#define MOVING_OFFSET           11
 /* PAYLOAD MACROS */
 #define PAYLOAD_SIZE     8
 #define DOOR             0
@@ -42,7 +55,7 @@ class SystemServer
               uint8_t sid; /* indicates what service is being requested  */
               uint8_t aid; /* Indicates what attribute we're referring to */
               uint8_t cobs_overhead; /* First cobs encode byte*/
-              uint8_t payload[PAYLOAD_SIZE]; /* Contains specific information about the elevator */
+              uint16_t payload[PAYLOAD_SIZE]; /* Contains specific information about the elevator */
       }pkt_t;
       /*
       We use this next structure "request" to define more
