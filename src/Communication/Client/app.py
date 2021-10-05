@@ -12,13 +12,14 @@ class App():
 
     def init_app(self):
         """ Initializes the App. """
-
-        self.setup_app()
-        self.main_label = self.create_label(WELCOME_MSG, 25, 5, 5)
-        self.elevator_request_button = self.create_button("elevator_request_button", 
-            self.frame, ELEVATOR_REQUEST, self.build_elevator_keypad, 5, 8)
-        self.run_app() # runs app on a loop
-
+        try:
+            self.setup_app()
+            self.main_label = self.create_label(WELCOME_MSG, 25, 5, 5)
+            self.elevator_request_button = self.create_button("elevator_request_button", 
+                self.frame, ELEVATOR_REQUEST, self.build_elevator_keypad, 5, 8)
+            self.run_app() # runs app on a loop
+        except:
+            print("Error initializing the app")
 
     def setup_app(self):
         """ Sets the App's frame and title. """
@@ -30,10 +31,12 @@ class App():
 
     def create_button(self, button_name, frame, txt, cb, _col, _row):
         """ Makes a button. """
-
-        button_name = Button(frame, text=txt, command=cb)
-        button_name.grid(column=_col, row=_row )
-        return button_name
+        try:
+            button_name = Button(frame, text=txt, command=cb)
+            button_name.grid(column=_col, row=_row )
+            return button_name
+        except:
+            print("Error creating button for the App")
 
     def run_app(self):
         """ Runs the App. """
@@ -170,20 +173,22 @@ class App():
 
     def display_elevator_attr(self):        
         """ Display elevator attributes to the user."""
+        try:
+            self.elev_manager.display_elevator_attr()
 
-        self.elev_manager.display_elevator_attr()
-
-        self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
-        self.label.grid(column=0, row=0) # changing the main label's grid location
-        self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 0, 2) # current temp
-        self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 0, 3) # current weight
-        self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current person count
-        # tests
-        self.elev_manager.init_comm()
-        if not (self.elev_manager.arduino_message_queue.empty()):
-            self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
-            #print(self.arduino_test_msg)
-            self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 0, 1)
+            self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
+            self.label.grid(column=0, row=0) # changing the main label's grid location
+            self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 0, 2) # current temp
+            self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 0, 3) # current weight
+            self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current person count
+            # tests
+            self.elev_manager.init_comm()
+            if not (self.elev_manager.arduino_message_queue.empty()):
+                self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
+                #print(self.arduino_test_msg)
+                self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 0, 1)
+        except:
+            print("Elevator attributes could not be displayed")
 
 
     def open_elevator_door(self):
