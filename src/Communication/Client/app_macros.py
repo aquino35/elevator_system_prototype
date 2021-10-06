@@ -5,7 +5,7 @@ from elevator_manager import ElevatorManager
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
-CONST_GEOMETRY = '600x300'
+CONST_GEOMETRY = '580x420'
 CONST_TITLE = 'Elevator System Prototype'
 CONST_WELCOME_MSG = 'Welcome to our prototype!'
 CONST_FONT = 'Helvetica'

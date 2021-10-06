@@ -22,7 +22,6 @@ class ElevatorManager:
 
     def initialize_containers(self):
 
-        self.arduino_channel_container = [] # Container for arduinos
         self.eid_container = [] # Container for unique eids
         self.tid_container = [] # Container for tids.
         self.aduino_thread_dict = {} # Dictionary to that has unique eid's to difference between conflicting eid's.
@@ -59,8 +58,6 @@ class ElevatorManager:
         try:
             self.arduino_channel_1 = serial.Serial(port1, baudrate)  # mega2560
             self.arduino_channel_2 = serial.Serial(port2, baudrate)  # mega2560
-            self.arduino_channel_container.append(self.arduino_channel_1) # appending arduino 1 on to the arduino container
-            self.arduino_channel_container.append(self.arduino_channel_2) # appending arduino 2 to on to the arduino container
             self.assign_serial_channels(self.arduino_channel_1, self.arduino_channel_2)
 
         except:
@@ -84,7 +81,8 @@ class ElevatorManager:
 
         try:
             self.thread_pool = ThreadPool(CONST_ARDUINO_COUNT)
-            for arduino_channel in self.arduino_channel_container:
+            arduino_channel_container = SerialMessage.serial_channel_container
+            for arduino_channel in arduino_channel_container:
                 self.thread_pool.apply_async(self.process_arduinos, (arduino_channel,))
             self.thread_pool.close()
             self.thread_pool.join()
