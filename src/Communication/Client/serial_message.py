@@ -45,9 +45,12 @@ class SerialMessage:
         packed_buf = struct.pack(str(len(self.buff[AID_OFFSET])) + 's i i', *self.buff) #string is represented as array of characters, then we read two integers
         return packed_buf
 
+    def decode(self):
+        return
+
 
     def recieve_data(self, data):
-        self.rx = data.cobs.decode()
+        self.retrieve_data()
     
 
     def retrieve_data(self):
