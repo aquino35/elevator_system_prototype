@@ -4,7 +4,7 @@ from tkinter import messagebox
 from elevator_manager import ElevatorManager
 
 
-#MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
+# APP MACROS:
 CONST_GEOMETRY = '580x420'
 CONST_TITLE = 'Elevator System Prototype'
 CONST_WELCOME_MSG = 'Welcome to our prototype!'
@@ -12,7 +12,7 @@ CONST_FONT = 'Helvetica'
 CONST_ELEVATOR_REQUEST_LABEL = 'Request Elevator'
 REQUEST_MSG = 'An elevator will arrive shortly'
 
-#KEYPAD MACROS:
+    #KEYPAD MACROS:
 CONST_LABEL_SIZE = 15
 CURRENT_FLOOR_LABEL = 'Current Floor:'
 CURRENT_TEMPERATURE_LABEL = 'Current Temp: '
@@ -52,3 +52,8 @@ CONST_NEIGH_FLOOR = 9
 CONST_TENTH_FLOOR = 10
 CONST_ELEVENTH_FLOOR = 11
 CONST_TWELFTH_FLOOR = 12
+
+# MANAGER MACROS
+EID_OFFSET = 0
+SID_OFFSET = 1
+AID_OFFSET = 2
