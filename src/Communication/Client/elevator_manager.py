@@ -16,9 +16,7 @@ class ElevatorManager:
         self.arduino_message_queue = Queue(maxsize = 20)
         self.port_list = serial.tools.list_ports.comports(include_links=False) # searches for all computer ports 
         self.initialize_arduino_ports()
-        self.elevator_count = 0 
-        self.rx_msg = SerialMessage()
-        self.tx_msg = SerialMessage()
+        self.initialize_messages()
         #self.init_comm() # method for testing 
 
 
@@ -44,6 +42,13 @@ class ElevatorManager:
    
         except:
             print("Error detecting ports.\n")
+
+
+    def initialize_messages(self):
+
+        self.rx_msg = SerialMessage()
+        self.tx_msg = SerialMessage()
+
 
     def terminate_arduino_ports(self):
         """ Closes the two ports of the arduinos."""
