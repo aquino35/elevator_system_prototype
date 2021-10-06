@@ -14,9 +14,9 @@ class App():
         """ Initializes the App. """
         try:
             self.setup_app()
-            self.main_label = self.create_label(WELCOME_MSG, 25, 5, 5)
+            self.main_label = self.create_label(CONST_WELCOME_MSG, 25, 5, 5)
             self.elevator_request_button = self.create_button("elevator_request_button", 
-                self.frame, ELEVATOR_REQUEST, self.build_elevator_keypad, 5, 8)
+                self.frame, CONST_ELEVATOR_REQUEST_LABEL, self.build_elevator_keypad, 5, 8)
             self.run_app() # runs app on a loop
         except:
             print("Error initializing the app")
@@ -25,18 +25,16 @@ class App():
         """ Sets the App's frame and title. """
 
         self.frame = Tk() # Creating main window application
-        self.frame.geometry(GEOMETRY) # Setting size of the application's frame.
-        self.frame.title(TITLE) # Assigning the application a title.
+        self.frame.geometry(CONST_GEOMETRY) # Setting size of the application's frame.
+        self.frame.title(CONST_TITLE) # Assigning the application a title.
     
 
     def create_button(self, button_name, frame, txt, cb, _col, _row):
         """ Makes a button. """
-        try:
-            button_name = Button(frame, text=txt, command=cb)
-            button_name.grid(column=_col, row=_row )
-            return button_name
-        except:
-            print("Error creating button for the App")
+        button_name = Button(frame, text=txt, command=cb)
+        button_name.grid(column=_col, row=_row )
+        return button_name
+
 
     def run_app(self):
         """ Runs the App. """
@@ -53,7 +51,7 @@ class App():
     def create_label(self, txt, size, _col, _row):
         """ Set the App's main label. """
 
-        self.label = Label(self.frame, text=txt, font=(FONT, size))
+        self.label = Label(self.frame, text=txt, font=(CONST_FONT, size))
         self.label.grid(column= _col, row= _row)
         return self.label
 
@@ -61,7 +59,7 @@ class App():
     def change_label(self, label, txt, size):
         """ Changes App's main label. Note: Does not change grid. """
 
-        self.label.configure(text=txt, font=(FONT, size)) 
+        self.label.configure(text=txt, font=(CONST_FONT, size)) 
 
     
     def terminate_app(self):
@@ -73,19 +71,19 @@ class App():
     def display_info(self, info):
         """ Display pop-up information of the elevator system."""
 
-        messagebox.showinfo(TITLE, info) 
+        messagebox.showinfo(CONST_TITLE, info) 
 
 
     def display_warning(self, info):
         """ Display pop-up warnings of the elevator system."""
 
-        messagebox.showwarning(TITLE, info) 
+        messagebox.showwarning(CONST_TITLE, info) 
 
 
     def display_error(self, info):
         """ Display pop-up errors of the elevator system."""
 
-        messagebox.showerror(TITLE, info) 
+        messagebox.showerror(CONST_TITLE, info) 
     
 
     # Next up we can see our callbacks defined for the buttons
@@ -132,25 +130,25 @@ class App():
     def build_third_keypad_layer(self):
         """ Makes buttons for third layer of the keypad."""
 
-        self.f1_button = self.create_button("f1_button", self.frame, FIRST_FLOOR_LABEL, self.set_elevator_floor(FIRST_FLOOR), 3, 4)
-        self.f2_button = self.create_button("f2_button", self.frame, SECOND_FLOOR_LABEL, self.set_elevator_floor(SECOND_FLOOR), 4, 4)
-        self.f3_button = self.create_button("f3_button", self.frame, THIRD_FLOOR_LABEL, self.set_elevator_floor(THIRD_FLOOR), 5, 4)
+        self.f1_button = self.create_button("f1_button", self.frame, FIRST_FLOOR_LABEL, self.set_elevator_floor(CONST_FIRST_FLOOR), 3, 4)
+        self.f2_button = self.create_button("f2_button", self.frame, SECOND_FLOOR_LABEL, self.set_elevator_floor(CONST_SECOND_FLOOR), 4, 4)
+        self.f3_button = self.create_button("f3_button", self.frame, THIRD_FLOOR_LABEL, self.set_elevator_floor(CONST_THIRD_FLOOR), 5, 4)
 
 
     def build_fourth_keypad_layer(self):
         """ Makes buttons for fourth layer of the keypad."""
 
-        self.f4_button = self.create_button("f4_button", self.frame, FOURTH_FLOOR_LABEL, self.set_elevator_floor(FOURTH_FLOOR), 3, 3)
-        self.f5_button = self.create_button("f5_button", self.frame, FITH_FLOOR_LABEL, self.set_elevator_floor(FITH_FLOOR), 4, 3)
-        self.f6_button = self.create_button("f6_button", self.frame, SIXTH_FLOOR_LABEL, self.set_elevator_floor(SIXTH_FLOOR), 5, 3)
+        self.f4_button = self.create_button("f4_button", self.frame, FOURTH_FLOOR_LABEL, self.set_elevator_floor(CONST_FOURTH_FLOOR), 3, 3)
+        self.f5_button = self.create_button("f5_button", self.frame, FITH_FLOOR_LABEL, self.set_elevator_floor(CONST_FITH_FLOOR), 4, 3)
+        self.f6_button = self.create_button("f6_button", self.frame, SIXTH_FLOOR_LABEL, self.set_elevator_floor(CONST_SIXTH_FLOOR), 5, 3)
 
 
     def build_fith_keypad_layer(self):
         """ Makes buttons for fith layer of the keypad."""
 
-        self.f7_button = self.create_button("f7_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(SEVENTH_FLOOR), 3, 2)
-        self.f8_button = self.create_button("f8_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(EIGHTH_FLOOR), 4, 2)
-        self.f9_button = self.create_button("f9_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(NEIGH_FLOOR), 5, 2)
+        self.f7_button = self.create_button("f7_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(CONST_SEVENTH_FLOOR), 3, 2)
+        self.f8_button = self.create_button("f8_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(CONST_EIGHTH_FLOOR), 4, 2)
+        self.f9_button = self.create_button("f9_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(CONST_NEIGH_FLOOR), 5, 2)
 
 
     def build_sixth_keypad_layer(self):
@@ -163,8 +161,8 @@ class App():
     def build_seventh_keypad_layer(self):
         """ Makes buttons for seventh layer of the keypad."""
 
-        self.capacity_label = self.create_label(CAPACITY_LABEL, LABEL_SIZE, 1, 18)
-        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, LABEL_SIZE, 4, 18)
+        self.capacity_label = self.create_label(CAPACITY_LABEL, CONST_LABEL_SIZE, 1, 18)
+        self.max_weight_label = self.create_label(MAXIMUM_WEIGHT_LABEL, CONST_LABEL_SIZE, 4, 18)
 
 
     def dummy(self):
@@ -176,17 +174,17 @@ class App():
         try:
             self.elev_manager.display_elevator_attr()
 
-            self.change_label(self.main_label,CURRENT_FLOOR_LABEL, LABEL_SIZE) # current floor
+            self.change_label(self.main_label,CURRENT_FLOOR_LABEL, CONST_LABEL_SIZE) # current floor
             self.label.grid(column=0, row=0) # changing the main label's grid location
-            self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, LABEL_SIZE, 0, 2) # current temp
-            self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, LABEL_SIZE, 0, 3) # current weight
-            self.person_count_label = self.create_label(PERSON_COUNT_LABEL, LABEL_SIZE, 0, 4) # current person count
+            self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, CONST_LABEL_SIZE, 0, 2) # current temp
+            self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, CONST_LABEL_SIZE, 0, 3) # current weight
+            self.person_count_label = self.create_label(PERSON_COUNT_LABEL, CONST_LABEL_SIZE, 0, 4) # current person count
             # tests
             self.elev_manager.init_comm()
             if not (self.elev_manager.arduino_message_queue.empty()):
                 self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
                 #print(self.arduino_test_msg)
-                self.arduino_test = self.create_label(self.arduino_test_msg, LABEL_SIZE, 0, 1)
+                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 1)
         except:
             print("Elevator attributes could not be displayed")
 

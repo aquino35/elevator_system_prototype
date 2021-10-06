@@ -25,7 +25,7 @@ class ElevatorManager:
 
         self.arduino_container = [] # Container for arduinos
         self.eid_container = [] # Container for unique eids
-        self.tid_container = []
+        self.tid_container = [] # Container for tids.
         self.aduino_thread_dict = {} # Dictionary to that has unique eid's to difference between conflicting eid's.
 
 

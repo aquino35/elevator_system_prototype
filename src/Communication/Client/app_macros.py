@@ -5,24 +5,24 @@ from elevator_manager import ElevatorManager
 
 
 #MACROS DEFINITION FOR ELEVATOR SYSTEM APPLICATION:
-GEOMETRY = '600x300'
-TITLE = "Elevator System Prototype"
-WELCOME_MSG = "Welcome to our prototype!"
-FONT = "Helvetica"
-ELEVATOR_REQUEST = "Request Elevator"
-REQUEST_MSG = "An elevator will arrive shortly"
+CONST_GEOMETRY = '600x300'
+CONST_TITLE = 'Elevator System Prototype'
+CONST_WELCOME_MSG = 'Welcome to our prototype!'
+CONST_FONT = 'Helvetica'
+CONST_ELEVATOR_REQUEST_LABEL = 'Request Elevator'
+REQUEST_MSG = 'An elevator will arrive shortly'
 
 #KEYPAD MACROS:
-LABEL_SIZE = 15
-CURRENT_FLOOR_LABEL = "Current Floor:"
-CURRENT_TEMPERATURE_LABEL = "Current Temp: "
-CURRENT_WEIGHT_LABEL = "Current Label: "
-PERSON_COUNT_LABEL = "Person Count: "
-OPEN_DOOR_LABEL = "Open Door" # change to OPEN_DOOR_LABEL
-CAPACITY_LABEL = "Capacity: 10"
-CLOSE_DOOR_LABEL = "Close Door"
-MAXIMUM_WEIGHT_LABEL = "Maximum Weight: 1,200lb "
-MAINTENANCE_LABEL = "Maintenance" # change to maintenance_label
+CONST_LABEL_SIZE = 15
+CURRENT_FLOOR_LABEL = 'Current Floor:'
+CURRENT_TEMPERATURE_LABEL = 'Current Temp: '
+CURRENT_WEIGHT_LABEL = 'Current Weight: '
+PERSON_COUNT_LABEL = 'Person Count: '
+OPEN_DOOR_LABEL = 'Open Door' # change to OPEN_DOOR_LABEL
+CAPACITY_LABEL = 'Capacity: 10'
+CLOSE_DOOR_LABEL = 'Close Door'
+MAXIMUM_WEIGHT_LABEL = 'Maximum Weight: 1,200lb '
+MAINTENANCE_LABEL = 'Maintenance' # change to maintenance_label
 LOBBY_LABEL = "Lobby"
 FIRST_FLOOR_LABEL = "1"
 SECOND_FLOOR_LABEL = "2"
@@ -37,18 +37,18 @@ TENTH_FLOOR_LABEL = "10"
 ELEVENTH_FLOOR_LABEL = "11"
 TWELFTH_FLOOR_LABEL = "12"
 
-OPEN_DOOR = 1 # related to door status
-CLOSE_DOOR = 0 # related to door status
-LOBBY = 0
-FIRST_FLOOR = 1
-SECOND_FLOOR = 2
-THIRD_FLOOR = 3
-FOURTH_FLOOR = 4
-FITH_FLOOR = 5
-SIXTH_FLOOR = 6
-SEVENTH_FLOOR = 7
-EIGHTH_FLOOR= 8
-NEIGH_FLOOR = 9
-TENTH_FLOOR = 10
-ELEVENTH_FLOOR = 11
-TWELFTH_FLOOR = 12
+CONST_OPEN_DOOR = 1 # related to door status
+CONST_CLOSE_DOOR = 0 # related to door status
+CONST_LOBBY = 0
+CONST_FIRST_FLOOR = 1
+CONST_SECOND_FLOOR = 2
+CONST_THIRD_FLOOR = 3
+CONST_FOURTH_FLOOR = 4
+CONST_FITH_FLOOR = 5
+CONST_SIXTH_FLOOR = 6
+CONST_SEVENTH_FLOOR = 7
+CONST_EIGHTH_FLOOR= 8
+CONST_NEIGH_FLOOR = 9
+CONST_TENTH_FLOOR = 10
+CONST_ELEVENTH_FLOOR = 11
+CONST_TWELFTH_FLOOR = 12
