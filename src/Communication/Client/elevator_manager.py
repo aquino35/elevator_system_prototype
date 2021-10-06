@@ -1,6 +1,5 @@
-import serial
 import serial.tools.list_ports
-import time
+from serial_message import SerialMessage
 from queue import Queue # not being recognized
 import threading
 from multiprocessing.pool import ThreadPool
@@ -16,20 +15,22 @@ class ElevatorManager:
         self.initialize_containers()
         self.arduino_message_queue = Queue(maxsize = 20)
         self.port_list = serial.tools.list_ports.comports(include_links=False) # searches for all computer ports 
-        self.detect_port()
+        self.initialize_arduino_ports()
         self.elevator_count = 0 
+        self.rx_msg = SerialMessage()
+        self.tx_msg = SerialMessage()
         #self.init_comm() # method for testing 
 
 
     def initialize_containers(self):
 
-        self.arduino_container = [] # Container for arduinos
+        self.arduino_channel_container = [] # Container for arduinos
         self.eid_container = [] # Container for unique eids
         self.tid_container = [] # Container for tids.
         self.aduino_thread_dict = {} # Dictionary to that has unique eid's to difference between conflicting eid's.
 
 
-    def detect_port(self):
+    def initialize_arduino_ports(self):
         """ Will automatically detect the two ports of the arduinos."""
         try:
             tmp = [] # temporary container for ports
@@ -40,19 +41,37 @@ class ElevatorManager:
             self.port1 = tmp[2] 
             self.port2 = tmp[3] 
             self.connect_arduinos(self.port1, self.port2, CONST_BAUDRATE)
+   
         except:
             print("Error detecting ports.\n")
+
+    def terminate_arduino_ports(self):
+        """ Closes the two ports of the arduinos."""
 
 
     def connect_arduinos(self, port1, port2, baudrate):
         """ Connect pair of arduinos."""
         try:
-            self.arduino_1 = serial.Serial(port1, baudrate)  # mega2560
-            self.arduino_2 = serial.Serial(port2, baudrate)  # mega2560
-            self.arduino_container.append(self.arduino_1) # appending arduino 1 on to the arduino container
-            self.arduino_container.append(self.arduino_2) # appending arduino 2 to on to the arduino container
+            self.arduino_channel_1 = serial.Serial(port1, baudrate)  # mega2560
+            self.arduino_channel_2 = serial.Serial(port2, baudrate)  # mega2560
+            self.arduino_channel_container.append(self.arduino_channel_1) # appending arduino 1 on to the arduino container
+            self.arduino_channel_container.append(self.arduino_channel_2) # appending arduino 2 to on to the arduino container
+            self.assign_serial_channels(self.arduino_channel_1, self.arduino_channel_2)
+
         except:
             print("Error connecting to an Arduino.\n")
+
+
+    def assign_serial_channels(self, arduino_channel_1, arduino_channel_2):
+        """ This method assigns the incoming a arduino channels to a serial channel 
+        container where it can later be used to read and write. """
+
+        try:
+            SerialMessage.serial_channel_container.append(arduino_channel_1)
+            SerialMessage.serial_channel_container.append(arduino_channel_2)
+            print(SerialMessage.serial_channel_container)
+        except:
+            print("Cannot assign serial channels")
 
         
     def init_comm(self):
@@ -60,8 +79,8 @@ class ElevatorManager:
 
         try:
             self.thread_pool = ThreadPool(CONST_ARDUINO_COUNT)
-            for arduino in self.arduino_container:
-                self.thread_pool.apply_async(self.process_arduinos, (arduino,))
+            for arduino_channel in self.arduino_channel_container:
+                self.thread_pool.apply_async(self.process_arduinos, (arduino_channel,))
             self.thread_pool.close()
             self.thread_pool.join()
             self.create_unique_eids()
@@ -69,12 +88,12 @@ class ElevatorManager:
             self.get_global_eid(1)
             self.get_global_eid(2)
             self.get_global_eid(3)
-            print("The original dictionary : {}\n".format(self.aduino_thread_dict))
+            #print("The original dictionary : {}\n".format(self.aduino_thread_dict))
         except:
             print("Error threading incoming arduinos.\n") 
 
 
-    def process_arduinos(self, arduino):
+    def process_arduinos(self, arduino_channel):
         """ Subroutine inside each thread that excutes the UART protocol.
         MORE TO BE IMPLEMENTED.  """
 
@@ -83,11 +102,11 @@ class ElevatorManager:
             #print(current_tid)         
             self.tid_container.append(current_tid)
             #if not (arduino.in_waiting): # only read if there is something waiting to be read, inWaiting is deprecated
-            self.welcome_msg = arduino.readline()
+            self.welcome_msg = arduino_channel.readline()
             self.arduino_message_queue.put(self.welcome_msg.decode("ascii", "ignore"))
-            print(self.welcome_msg.decode("ascii", "ignore"))
+            #print(self.welcome_msg.decode("ascii", "ignore"))
         except:
-             print('Error processing {}.\n'.format(arduino))
+             print('Error processing {}.\n'.format(arduino_channel))
 
 
     def create_unique_eids(self):
@@ -105,7 +124,7 @@ class ElevatorManager:
             number_of_bins = global_eid * (CONST_ELEVATOR_COUNT - 1)  # elevator bins (2)
             desired_bin = number_of_bins/CONST_ELEVATOR_COUNT # to get correct bin
             desired_elevator = number_of_bins%CONST_ELEVATOR_COUNT # to get specific elevator
-            print(self.aduino_thread_dict[desired_bin],desired_elevator)
+            #print(self.aduino_thread_dict[desired_bin],desired_elevator)
         except: 
             print("Cannot initialize four unique eid's.\n")
 
