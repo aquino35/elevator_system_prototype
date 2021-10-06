@@ -3,6 +3,10 @@ import time
 from cobs import cobs
 import app_macros
 
+EID_OFFSET = 0
+SID_OFFSET = 1
+AID_OFFSET = 2
+
 import struct
 
 class SerialMessage:
@@ -31,11 +35,9 @@ class SerialMessage:
     
     def build_header(self):
         '''Builds an encoded header for sending data.'''
-        self.buff.append(bytes(self.msg, "utf-8")) #must encode strings before tightly packing
-        self.buff.append(self.eid)
-        self.buff.append(self.sid)
+        self.buff.append(bytes(self.buff[AID_OFFSET]), "utf-8") #must encode strings before tightly packing
         
-        packed_buf = struct.pack(str(len(self.msg)) + 's i i', *self.buff) #string is represented as array of characters, then we read two integers
+        packed_buf = struct.pack(str(len(self.buff[AID_OFFSET])) + 's i i', *self.buff) #string is represented as array of characters, then we read two integers
         return packed_buf
         
 
