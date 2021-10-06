@@ -56,28 +56,27 @@ uint8_t* SystemServer::recieve_data()
   return encodedMsg;
 }
  
-SystemServer::pkt_t* SystemServer::decode_data(uint8_t* encodedData){ //pointer decay, function sees array as pointer instead
+SystemServer::void SystemServer::decode_data(uint8_t* encodedData, size_t lenEncoded, uint8_t* buff){ //pointer decay, function sees array as pointer instead
   pkt_t pkt;
   uint8_t decoded[12]; 
 
-  cobs_decode(encodedData, sizeof(encodedData), *decoded);  //decoded is now a 12 element array of pointers
-  pkt.eid = *decode[EID_OFFSET]; //Saves the elevatorId
-  pkt.sid = *decode[SAID_OFFSET]; //Saves the serviceId
-  pkt.aid = *decode[AID_OFFSET]; //Saves the attributeId
-  pkt.payload[DOOR] = *decode[DOOR_OFFSET]; //Saves the doorOpen bool
-  pkt.payload[LIGHTS] = *decode[LIGHTS_OFFSET] //Saves the lightsOn bool
-  pkt.payload[FLOOR] = *decode[FLOOR_OFFSET] //Saves the floor
-  pkt.payload[TEMP] = *decode[TEMP_OFFSET]; //Saves the temp
-  pkt.payload[LOAD] = *decode[LOAD_OFFSET] //Saves the current load
+  cobs_decode(encodedData, lenEncoded, &decoded);  //decoded is now a 12 element array of pointers
+  pkt.eid = decode[EID_OFFSET]; //Saves the elevatorId
+  pkt.sid = decode[SAID_OFFSET]; //Saves the serviceId
+  pkt.aid = decode[AID_OFFSET]; //Saves the attributeId
+  pkt.payload[DOOR] = decode[DOOR_OFFSET]; //Saves the doorOpen bool
+  pkt.payload[LIGHTS] = decode[LIGHTS_OFFSET] //Saves the lightsOn bool
+  pkt.payload[FLOOR] = decode[FLOOR_OFFSET] //Saves the floor
+  pkt.payload[TEMP] = decode[TEMP_OFFSET]; //Saves the temp
+  pkt.payload[LOAD] = decode[LOAD_OFFSET] //Saves the current load
 
-  uint16_t weight;
-  memcpy(*weight, *(decode + WEIGHT_OFFSET), 2); //dest, src, number of bytes
-  pkt.payload[WEIGHT] = *weight; //Saves weight, uint16 is the next two bytes
-  pkt.payload[DIRECTION] = *decode[DIRECTION_OFFSET]; //Saves direction bool, true is up
-  pkt.payload[MOVING] = *decode[MOVING_OFFSET]; //Saves moving bool
+  //Saves weight, two bytes
+  memcpy(&pkt.payload[WEIGHT], decode + WEIGHT_OFFSET, 2); //dest, src, number of bytes
+  pkt.payload[DIRECTION] = decode[DIRECTION_OFFSET]; //Saves direction bool, true is up
+  pkt.payload[MOVING] = decode[MOVING_OFFSET]; //Saves moving bool
 
-  return *pkt;
- 
+  buff[PAYLOAD_OFFSET] = pkt;
+
 }
  
 bool SystemServer::terminate(pkt_t* pkt)

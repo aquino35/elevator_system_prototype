@@ -55,7 +55,7 @@ class SystemServer
               uint8_t sid; /* indicates what service is being requested  */
               uint8_t aid; /* Indicates what attribute we're referring to */
               uint8_t cobs_overhead; /* First cobs encode byte*/
-              uint16_t payload[PAYLOAD_SIZE]; /* Contains specific information about the elevator */
+              uint8_t payload[PAYLOAD_SIZE]; /* Contains specific information about the elevator */
       }pkt_t;
       /*
       We use this next structure "request" to define more
