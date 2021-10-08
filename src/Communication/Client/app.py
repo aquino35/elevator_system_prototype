@@ -174,21 +174,22 @@ class App():
         try:
             self.elev_manager.display_elevator_attr()
 
+            self.keypad_label = self.create_label(KEYPAD_LABEL, CONST_LABEL_SIZE, 0, 0) # title of keypad
             self.change_label(self.main_label,CURRENT_FLOOR_LABEL, CONST_LABEL_SIZE) # current floor
-            self.label.grid(column=0, row=0) # changing the main label's grid location
-            self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, CONST_LABEL_SIZE, 0, 2) # current temp
-            self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, CONST_LABEL_SIZE, 0, 4) # current weight
-            self.person_count_label = self.create_label(PERSON_COUNT_LABEL, CONST_LABEL_SIZE, 0, 6) # current person count
+            self.label.grid(column=0, row=1) # changing the main label's grid location
+            self.current_temperature_label = self.create_label(CURRENT_TEMPERATURE_LABEL, CONST_LABEL_SIZE, 0, 3) # current temp
+            self.current_weight_label = self.create_label(CURRENT_WEIGHT_LABEL, CONST_LABEL_SIZE, 0, 5) # current weight
+            self.person_count_label = self.create_label(PERSON_COUNT_LABEL, CONST_LABEL_SIZE, 0, 7) # current person count
             
             # tests
             self.elev_manager.init_comm()
             if not (self.elev_manager.arduino_message_queue.empty()):
                 self.arduino_test_msg = self.elev_manager.arduino_message_queue.get()
                 #print(self.arduino_test_msg)
-                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 1)
-                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 3)
-                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 5)
-                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 7)
+                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 2)
+                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 4)
+                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 6)
+                self.arduino_test = self.create_label(self.arduino_test_msg, CONST_LABEL_SIZE, 0, 8)
         except:
             print("Elevator attributes could not be displayed")
 

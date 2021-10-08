@@ -13,6 +13,7 @@ CONST_ELEVATOR_REQUEST_LABEL = 'Request Elevator'
 REQUEST_MSG = 'An elevator will arrive shortly'
 
     #KEYPAD MACROS:
+KEYPAD_LABEL = 'Elevator Keypad'
 CONST_LABEL_SIZE = 15
 CURRENT_FLOOR_LABEL = 'Current Floor:'
 CURRENT_TEMPERATURE_LABEL = 'Current Temp: '
