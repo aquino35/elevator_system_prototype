@@ -149,9 +149,9 @@ class App():
     def build_third_keypad_layer(self):
         """ Makes buttons for third layer of the keypad"""
 
-        self.f7_button = self.create_button("f10_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(TENTH_FLOOR_LABEL), 3, 1)
-        self.f8_button = self.create_button("f11_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(ELEVENTH_FLOOR_LABEL), 4, 1)
-        self.f9_button = self.create_button("f12_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(TWELFTH_FLOOR_LABEL), 5, 1)
+        self.f7_button = self.create_button("f7_button", self.frame, SEVENTH_FLOOR_LABEL, self.set_elevator_floor(TENTH_FLOOR_LABEL), 3, 2)
+        self.f8_button = self.create_button("f8_button", self.frame, EIGHTH_FLOOR_LABEL, self.set_elevator_floor(ELEVENTH_FLOOR_LABEL), 4, 2)
+        self.f9_button = self.create_button("f9_button", self.frame, NEIGH_FLOOR_LABEL, self.set_elevator_floor(TWELFTH_FLOOR_LABEL), 5, 2)
     
     def build_second_keypad_layer(self):
         """ Makes buttons for second layer of the keypad."""
@@ -163,7 +163,7 @@ class App():
     def build_first_keypad_layer(self):
         """ Makes label for first layer of the keypad"""
 
-        self.keypad_label = self.create_label(KEYPAD_LABEL, CONST_LABEL_SIZE, 0, 0) # title of keypad
+        self.keypad_label = self.create_label(KEYPAD_LABEL, CONST_LABEL_SIZE, 0, 3) # title of keypad
 
     def dummy(self):
         return
