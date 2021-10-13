@@ -3,23 +3,13 @@
 void MaintenanceState::start(Elevator* elev){
     elev->set_door_status(true);
     elev->set_light_status(true);
+    Serial.print("ENTERING MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + elev->get_eid() + " HAS BEEN FIXED!");
+    Serial.print("ENTER THE SPECIAL INPUT COMMAND IN ORDER TO COMPLETE MAINTENANCE!");
 }
 
-bool MaintenanceState::workMaintenance(){
-    //if opcion de maintenance en el main se elige
-    return Option = true; //porque option = input del main menu cuando se elija
-    //else{
-    return Option = false;
-    //}
-}
-
-void MaintenanceState::maintenanceState(boolean Option){ 
-    if (Option == true){
-        //que no se puedan recibir comandos and prev ones must be cleared 
-    }
-    else{
-        //with an exit option in the interface when maintenance is called, if called, exit this state
-    }
+void MaintenanceState::showWarning(){
+    Serial.print("ENTERING MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + elev->get_eid() + " HAS BEEN FIXED!");
+    Serial.print("ENTER THE SPECIAL INPUT COMMAND IN ORDER TO COMPLETE MAINTENANCE!");
 }
 
 bool MaintenanceState::canRun(){

@@ -18,8 +18,7 @@ class MaintenanceState{
         bool canRun(); 
         void setRun(bool set);
         
-        bool workMaintenance();
-        void maintenanceState(bool Option);
+        void showWarning(); //show a warning every time a user tries to us an elevator in maintenance state
         String currentState(){return this->stateName;}
         
 };
