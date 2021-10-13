@@ -19,3 +19,11 @@ void IdleState::unload(Elevator* elev, uint16_t weight){
     elev->set_load_weight(toUnload);
 }
 
+bool IdleState::canRun(){
+    return canRun;
+}
+
+void IdleState::setRun(bool set){
+    canRun = set;
+}
+

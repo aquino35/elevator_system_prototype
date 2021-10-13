@@ -9,13 +9,17 @@
 class MaintenanceState{
     
     private:
-        boolean Option; //optionOn must be equal to an input in the main file
+        bool Option; //optionOn must be equal to an input in the main file
         String stateName = "Maintenance";
+        bool canRun = false;
     
     public: 
         void start(Elevator* elev);
+        bool canRun(); 
+        void setRun(bool set);
+        
         bool workMaintenance();
-        void maintenanceState(boolean Option);
+        void maintenanceState(bool Option);
         String currentState(){return this->stateName;}
         
 };

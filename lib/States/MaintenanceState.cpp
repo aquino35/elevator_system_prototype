@@ -21,3 +21,12 @@ void MaintenanceState::maintenanceState(boolean Option){
         //with an exit option in the interface when maintenance is called, if called, exit this state
     }
 }
+
+bool MaintenanceState::canRun(){
+    return canStart;
+}
+
+void MaintenanceState::setRun(bool set){
+    canRun = set;
+}
+

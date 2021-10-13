@@ -8,26 +8,21 @@
 void EmergencyState::start(Elevator* elev){
     elev->set_door_status(true);
     elev->set_light_status(true);
+    Serial.print("ENTERING EMERGENCY STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + elev->get_eid() + " HAS BEEN FIXED!");
 }
 
-bool EmergencyState::emergency(Elevator* elev){
-    
-   if(elev->get_load_weight() > elev->get_max_load_weight() || elev->get_max_temp() > elev->get_current_temp()){
-       return true;
-   }   
-   return false;
-   
+
+void EmergencyState::showWarning(){
+    Serial.print("ENTERING EMERGENCY STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + elev->get_eid() + " HAS BEEN FIXED!");
 }
 
-void EmergencyState::emergencyWorking(Elevator* elev){ //this all needs to be heavily reworked
-    if (elev->get_state_name().compareTo("Emergency") == 0){
-        elev->get_floor();
-        //and no input should be received
-    }
-    else{
-       //return to idle state and inputs should be accepted again bc the elevator has the correct parameters
-    }
-    
+bool EmergencyState::canRun(){
+    return canRun;
 }
+
+void EmergencyState::setRun(bool set){
+    canRun = set;
+}
+
 
 
