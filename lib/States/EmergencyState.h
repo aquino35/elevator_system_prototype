@@ -11,6 +11,10 @@ class EmergencyState : public State {
         void start(Elevator* elev);
         bool canRun(); 
         void setRun(bool set);
-        void showWarning(); //show a warning every time a user tries to us an elevator in emergency state
+
+        void showWarning(Elevator* elev); //show a warning every time a user tries to us an elevator in emergency state
+        void isWorking(Elevator* elev); //show a warning every time a user tries to us an elevator in emergency state
+        void unload(Elevator* elev, uint16_t weight);
+
         String currentState(){return this->stateName;}
 };

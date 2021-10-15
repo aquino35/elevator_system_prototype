@@ -13,6 +13,7 @@ class IdleState : public State{
         
         void load(Elevator* elev, uint16_t weight);
         void unload(Elevator* elev, uint16_t weight);
+        void energySaving(Elevator* elev);
         String currentState(){return this->stateName;}
 
 };
