@@ -1,8 +1,12 @@
 #include "IdleState.h"
 
+//MISSING MOVING STATE FUNCTIONALITIES
+
 void IdleState::start(Elevator* elev){
     elev->set_door_status(true);
     elev->set_light_status(true);
+    Serial.println("ENTERING IDLE STATE!");
+
 }
 
 void IdleState::load(Elevator* elev, uint16_t weight){
@@ -17,6 +21,14 @@ void IdleState::unload(Elevator* elev, uint16_t weight){
     }
     uint16_t toUnload = elev->get_load_weight() - weight;
     elev->set_load_weight(toUnload);
+}
+
+void IdleState::energySaving(Elevator* elev){
+    Serial.println("ELEVATOR " + String(elev->get_eid()) + " HAS BEEN UNUSED FOR 30 SECONDS, ENTERING ENERGY SAVING MODE!");
+    elev->set_door_status(false);
+    if(elev->get_capacity() == 0){
+        elev->set_light_status(false);
+    }
 }
 
 bool IdleState::canRun(){

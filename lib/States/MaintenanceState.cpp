@@ -3,24 +3,31 @@
 void MaintenanceState::start(Elevator* elev){
     elev->set_door_status(true);
     elev->set_light_status(true);
+    Serial.println("ENTERING MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + String(elev->get_eid()) + " HAS BEEN FIXED!");
+    Serial.println("ENTER THE SPECIAL INPUT COMMAND IN ORDER TO COMPLETE MAINTENANCE!");
 }
 
-bool MaintenanceState::workMaintenance(){
-    //if opcion de maintenance en el main se elige
-    return Option = true; //porque option = input del main menu cuando se elija
-    //else{
-    return Option = false;
-    //}
+void MaintenanceState::showWarning(Elevator* elev){
+    Serial.println("CURRENTLY IN MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + String(elev->get_eid()) + " HAS BEEN FIXED!");
+    Serial.println("ENTER THE SPECIAL INPUT COMMAND IN ORDER TO COMPLETE MAINTENANCE!");
 }
 
-void MaintenanceState::maintenanceState(boolean Option){ 
-    if (Option == true){
-        //que no se puedan recibir comandos and prev ones must be cleared 
-    }
+
+void MaintenanceState::isWorking(Elevator* elev){
+    if(canRun) {Serial.println(String(elev->get_eid()) + " HAS BEEN FIXED! OPERATIONS RESUMING!");}
+
     else{
-        //with an exit option in the interface when maintenance is called, if called, exit this state
+        showWarning(elev);
     }
 }
+
+void MaintenanceState::check(String input, Elevator* elev){
+    if(command.compareTo(input) == 0){
+        setRun(true);
+        isWorking(elev);
+    }
+}
+
 
 bool MaintenanceState::canRun(){
     return canStart;
