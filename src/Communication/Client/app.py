@@ -163,7 +163,7 @@ class App():
     def build_first_keypad_layer(self):
         """ Makes label for first layer of the keypad"""
 
-        self.keypad_label = self.create_label(KEYPAD_LABEL, CONST_LABEL_SIZE, 3, 0) # title of keypad
+        self.keypad_label = self.create_label(KEYPAD_LABEL, CONST_LABEL_SIZE, 3.5, 0) # title of keypad
 
     def dummy(self):
         return
