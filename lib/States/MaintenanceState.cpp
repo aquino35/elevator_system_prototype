@@ -8,13 +8,13 @@ void MaintenanceState::start(Elevator* elev){
 }
 
 void MaintenanceState::showWarning(Elevator* elev){
-    Serial.println("CURRENTLY IN MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + String(elev->get_eid()) + " HAS BEEN FIXED!");
+    Serial.println("CURRENTLY IN MAINTENANCE STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR #" + String(elev->get_eid()) + " HAS BEEN FIXED!");
     Serial.println("ENTER THE SPECIAL INPUT COMMAND IN ORDER TO COMPLETE MAINTENANCE!");
 }
 
 
 void MaintenanceState::isWorking(Elevator* elev){
-    if(canRun) {Serial.println(String(elev->get_eid()) + " HAS BEEN FIXED! OPERATIONS RESUMING!");}
+    if(canRun) {Serial.println("ELEVATOR " + String(elev->get_eid()) + " HAS BEEN FIXED! OPERATIONS RESUMING!");}
 
     else{
         showWarning(elev);

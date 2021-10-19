@@ -39,7 +39,7 @@ void EmergencyState::showWarning(Elevator* elev){
 
 
 void EmergencyState::isWorking(Elevator* elev){
-    if(canRun) {Serial.println(String(elev->get_eid()) + " HAS STABILIZED! OPERATIONS RESUMING!");}
+    if(canRun) {Serial.println("ELEVATOR " + String(elev->get_eid()) + " HAS STABILIZED! OPERATIONS RESUMING!");}
 
     else{
         showWarning(elev);

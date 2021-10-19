@@ -1,24 +1,24 @@
 #pragma once
 #include "Elevator.h"
+#include "Set.h" 
+
+#define DIRECTION -1
+#define UP         1
+#define DOWN       1
 
 class Moving : public State{ 
-    /***
-     * IDEAS
-     * 
-     * Because of the direction lock, implement the floors as a stack so you can add floors when going up, and pop them top to bottom when going down
-     * 
-     * */
     private:
         String stateName = "Moving";
         bool canRun = true;
-        uint8_t toFloor;
+        uint8_t toFloor =  -1;
 
     public:
         void start(Elevator* elev, uint8_t floor);
         bool canRun(); 
         void setRun(bool set);
-        
-        void movingCycle(Elevator* elev);
+        void setRun(bool set);
+        void moving(Elevator* elev, Set* stoppingFloors);
+
         String currentState(){return this->stateName;}
 
 };
