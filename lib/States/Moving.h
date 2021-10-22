@@ -2,7 +2,6 @@
 #include "Elevator.h"
 #include "Set.h" 
 
-#define DIRECTION -1
 #define UP         1
 #define DOWN       1
 
@@ -10,6 +9,7 @@ class Moving : public State{
     private:
         String stateName = "Moving";
         bool canRun = true;
+        uint8_t direction = -1;
         uint8_t toFloor =  -1;
 
     public:

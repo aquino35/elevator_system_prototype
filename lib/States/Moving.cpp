@@ -8,17 +8,19 @@ void Moving::start(Elevator* elev, uint8_t floor){
 
     if(floor == elev->get_floor()){ //transition to idle state somehow
         Serial.println("ELEVATOR " + String(elev->get_number()) + " IS ON THIS SAME FLOOR!");
+        canRun = false;
+        return;
     }
 
     else if(floor <= elev->get_max_floor()){ 
         this->toFloor = floor;
 
         if(currentFloor < this->toFloor){ //direction lock
-            DIRECTION = UP;
+            direction = UP;
         }
 
         else if (currentFloor > this->toFloor){
-            DIRECTION = DOWN;
+            direction = DOWN;
         }
 
         Serial.println("ELEVATOR " + String(elev->get_number()) + " EN ROUTE TO FLOOR# " + String(toFloor) + "!");
@@ -26,33 +28,37 @@ void Moving::start(Elevator* elev, uint8_t floor){
 
     else{ //transition to idle state somehow
         Serial.println("FLOOR # " + String(floor) + " DOESNT EXIST!");
+        canRun = false;
+        return;
     }
 }
 
 void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List
     uint8_t currentFloor = elev->get_floor();
-    this->canRun = false;
-    while (currentFloor != this->toFloor) 
-    {
-        if(DIRECTION == UP){ //direction lock
-            currentFloor++;
-        }
 
-        else if (DIRECTION == DOWN){
-            currentFloor--;
-        }
+    if(canRun){
+        while (currentFloor != this->toFloor) 
+        {
+            if(direction == UP){ //direction lock
+                currentFloor++;
+            }
+
+            else if (direction == DOWN){
+                currentFloor--;
+            }
         
-        delay(2000000); //2 second delay
-        Serial.println("ELEVATOR " + String(elev->get_number()) + " CURRENTLY ON FLOOR # " + String(toFloor) + "!");
+            //DONT USE DELAY, transfer to idle
+            elev->set_floor(currentFloor); 
+            Serial.println("ELEVATOR " + String(elev->get_number()) + " CURRENTLY ON FLOOR # " + String(toFloor) + "!");
 
-        if(stoppingFloors.contains(currentFloor)){
-            Serial.println("ELEVATOR " + String(elev->get_number()) + " CURRENTLY LEAVING AND PICKING PEOPLE ON FLOOR # " + String(toFloor) + "!");
-            // elev->set_load_weight(), leave people here
-            // elev->set_load_weight(), and pick more people here, figure out how to decide which to do when
-            stoppingFloors.remove(currentFloor);
+            if(stoppingFloors->contains(currentFloor)){
+                Serial.println("ELEVATOR " + String(elev->get_number()) + " CURRENTLY LEAVING AND PICKING PEOPLE ON FLOOR # " + String(toFloor) + "!");
+                // elev->set_load_weight(), leave people here
+                // elev->set_load_weight(), and pick more people here, figure out how to decide which to do when
+                stoppingFloors->remove(currentFloor);
+            }
         }
     }
-    
 }
 
 

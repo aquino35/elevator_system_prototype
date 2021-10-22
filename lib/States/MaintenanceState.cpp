@@ -30,7 +30,7 @@ void MaintenanceState::check(String input, Elevator* elev){
 
 
 bool MaintenanceState::canRun(){
-    return canStart;
+    return canRun;
 }
 
 void MaintenanceState::setRun(bool set){
