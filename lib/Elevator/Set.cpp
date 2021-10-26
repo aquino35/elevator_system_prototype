@@ -1,17 +1,17 @@
-#include "LinkedList.h"
+#include "Set.h"
 
-LinkedList::LinkedList()
+Set::Set()
 {
     head = NULL;
 }
 
-LinkedList::LinkedList(uint8_t elem)
+Set::Set(uint8_t elem)
 {
     head = new Node(elem);
     currSize++;
 }
 
-void LinkedList::add(uint8_t elem)
+void Set::add(uint8_t elem)
 {
 
     if(head == NULL){
@@ -22,15 +22,23 @@ void LinkedList::add(uint8_t elem)
         Node* current = head;
 
         while(current->getNext() != nullptr){
+            if(current->getValue() == elem){ //already in list
+                return;
+            }
             current = current->getNext();
         }
-
-        current->setNext(new Node(elem)); 
+        
+        if(current->getValue() != elem){
+            current->setNext(new Node(elem)); 
+        }
+        else{
+            return;
+        }
     }
     currSize++;
 }
 
-bool LinkedList::contains(uint8_t elem)
+bool Set::contains(uint8_t elem)
 {
 
     if(head == NULL){
@@ -51,7 +59,7 @@ bool LinkedList::contains(uint8_t elem)
     }
 }
 
-bool LinkedList::remove(uint8_t elem){
+bool Set::remove(uint8_t elem){
      if(head == NULL){
         return false;
     }
@@ -84,7 +92,7 @@ bool LinkedList::remove(uint8_t elem){
     return false;
 }
 
-void LinkedList::clear()
+void Set::clear()
 {
     head = NULL;
     currSize = 0;

@@ -1,6 +1,6 @@
 #pragma once
 #include "Elevator.h"
-#include "LinkedList.h" 
+#include "Set.h" 
 
 #define UP         1
 #define DOWN       1
@@ -16,7 +16,7 @@ class Moving : public State{
         void start(Elevator* elev, uint8_t floor);
         bool canRun(); 
         void setRun(bool set);
-        void moving(Elevator* elev, LinkedList* stoppingFloors);
+        void moving(Elevator* elev, Set* stoppingFloors);
 
         String currentState(){return this->stateName;}
 

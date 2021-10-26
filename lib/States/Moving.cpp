@@ -33,7 +33,7 @@ void Moving::start(Elevator* elev, uint8_t floor){
     }
 }
 
-void Moving::moving(Elevator* elev, LinkedList* stoppingFloors){ //Set implemented with Linked List
+void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List
     uint8_t currentFloor = elev->get_floor();
 
     if(run){

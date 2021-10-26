@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 //TESTED WITH INTS, WORKS
-class LinkedList{ //singly linked
+class Set{ //singly linked
 
     private:
         class Node{
@@ -39,8 +39,8 @@ class LinkedList{ //singly linked
         int currSize = 0;
 
     public:
-        LinkedList();
-        LinkedList(uint8_t elem);
+        Set();
+        Set(uint8_t elem);
 
         void add(uint8_t elem);
         bool contains(uint8_t elem);
