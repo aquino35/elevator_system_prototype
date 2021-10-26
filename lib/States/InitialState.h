@@ -5,7 +5,7 @@ class InitialState : public State {
 
     private:
         String stateName = "Initial";
-        bool canRun = true;
+        bool run = true;
 
     public:
         void start(Elevator* elev);

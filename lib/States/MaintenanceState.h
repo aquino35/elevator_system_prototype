@@ -5,8 +5,8 @@ class MaintenanceState{
     
     private:
         String stateName = "Maintenance";
-        bool canRun = false;
-        String command = "M" //placeholder
+        bool run = false;
+        String command = "M"; //placeholder
     
     public: 
         void start(Elevator* elev);

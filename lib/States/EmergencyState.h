@@ -5,7 +5,7 @@ class EmergencyState : public State {
 
     private:
         String stateName = "Emergency";
-        bool canRun = false;
+        bool run = false;
 
     public:
         void start(Elevator* elev);

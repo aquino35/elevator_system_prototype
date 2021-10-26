@@ -4,7 +4,7 @@
 class IdleState : public State{
     private:
         String stateName = "Idle";
-        bool canRun = true;
+        bool run = true;
 
     public:
         void start(Elevator* elev);

@@ -24,7 +24,7 @@ void IdleState::unload(Elevator* elev, uint16_t weight){
 }
 
 void IdleState::energySaving(Elevator* elev){
-    Serial.println("ELEVATOR " + String(elev->get_eid()) + " HAS BEEN UNUSED FOR 30 SECONDS, ENTERING ENERGY SAVING MODE!");
+    Serial.println("ELEVATOR " + String(elev->get_number()) + " HAS BEEN UNUSED FOR 30 SECONDS, ENTERING ENERGY SAVING MODE!");
     elev->set_door_status(false);
     if(elev->get_capacity() == 0){
         elev->set_light_status(false);
@@ -32,10 +32,10 @@ void IdleState::energySaving(Elevator* elev){
 }
 
 bool IdleState::canRun(){
-    return canRun;
+    return run;
 }
 
 void IdleState::setRun(bool set){
-    canRun = set;
+    run = set;
 }
 

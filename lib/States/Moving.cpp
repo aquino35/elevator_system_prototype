@@ -8,18 +8,18 @@ void Moving::start(Elevator* elev, uint8_t floor){
 
     if(floor == elev->get_floor()){ //transition to idle state somehow
         Serial.println("ELEVATOR " + String(elev->get_number()) + " IS ON THIS SAME FLOOR!");
-        canRun = false;
+        run = false;
         return;
     }
 
     else if(floor <= elev->get_max_floor()){ 
         this->toFloor = floor;
 
-        if(currentFloor < this->toFloor){ //direction lock
+        if(elev->get_floor() < this->toFloor){ //direction lock
             direction = UP;
         }
 
-        else if (currentFloor > this->toFloor){
+        else if (elev->get_floor() > this->toFloor){
             direction = DOWN;
         }
 
@@ -28,15 +28,15 @@ void Moving::start(Elevator* elev, uint8_t floor){
 
     else{ //transition to idle state somehow
         Serial.println("FLOOR # " + String(floor) + " DOESNT EXIST!");
-        canRun = false;
+        run = false;
         return;
     }
 }
 
-void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List
+void Moving::moving(Elevator* elev, LinkedList* stoppingFloors){ //Set implemented with Linked List
     uint8_t currentFloor = elev->get_floor();
 
-    if(canRun){
+    if(run){
         while (currentFloor != this->toFloor) 
         {
             if(direction == UP){ //direction lock
@@ -63,10 +63,10 @@ void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with
 
 
 bool Moving::canRun(){
-    return canRun;
+    return run;
 }
 
 void Moving::setRun(bool set){
-    canRun = set;
+    run = set;
 }
 

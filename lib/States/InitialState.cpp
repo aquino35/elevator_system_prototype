@@ -7,13 +7,13 @@ void InitialState::start(Elevator* elev)
     elev->set_light_status(true);
     elev->set_floor(1);
     elev->set_current_temp(60);
-    Serial.println("ELEVATOR " + String(elev->get_eid()) + " INITIALIZED!");
+    Serial.println("ELEVATOR " + String(elev->get_number()) + " INITIALIZED!");
 }
 
 bool InitialState::canRun(){
-    return canRun;
+    return run;
 }
 
 void InitialState::setRun(bool set){
-    canRun = set;
+    run = set;
 }
