@@ -4,18 +4,19 @@
  * 
  */
 #pragma once
-
-#include"Elevator.h"
-#include"InitialState.h"
-#include"IdleState.h"
+#include "InitialState.h"
+#include "IdleState.h"
+#include "MaintenanceState.h"
+#include "MovingState.h"
+#include "EmergencyState.h"
 
 class FSM {
+    private:
+        Elevator* elev;
+        State* states[5] = {new InitialState(), new IdleState(), new MovingState(), new EmergencyState(), new MaintenanceState()};
 
-public:
-
-    FSM();
-
-    void setup();
-
-    void run(Elevator* elev);
+    public:
+        FSM(Elevator* elevator);
+        void setup();
+        void run(Elevator* elev);
 };

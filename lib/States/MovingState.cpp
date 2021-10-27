@@ -1,8 +1,8 @@
-#include "Moving.h"
+#include "MovingState.h"
 
 //MISSING MOVING STATE FUNCTIONALITIES
 
-void Moving::start(Elevator* elev, uint8_t floor){
+void MovingState::start(Elevator* elev, uint8_t floor){
     elev->set_door_status(false);
     elev->set_light_status(true);
 
@@ -33,7 +33,7 @@ void Moving::start(Elevator* elev, uint8_t floor){
     }
 }
 
-void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List
+void MovingState::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List
     uint8_t currentFloor = elev->get_floor();
 
     if(run){
@@ -62,11 +62,11 @@ void Moving::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with
 }
 
 
-bool Moving::canRun(){
+bool MovingState::canRun(){
     return run;
 }
 
-void Moving::setRun(bool set){
+void MovingState::setRun(bool set){
     run = set;
 }
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "Elevator.h"
+#include "State.h"
 
-class MaintenanceState{
+class MaintenanceState : public State{
     
     private:
         String stateName = "Maintenance";

@@ -5,9 +5,9 @@
 #define UP         1
 #define DOWN       1
 
-class Moving : public State{ 
+class MovingState : public State{ 
     private:
-        String stateName = "Moving";
+        String stateName = "MovingState";
         bool run = true;
         int direction;
         uint8_t toFloor;
