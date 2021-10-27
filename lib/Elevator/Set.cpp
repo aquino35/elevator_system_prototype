@@ -60,6 +60,7 @@ bool Set::contains(uint8_t elem)
 }
 
 bool Set::remove(uint8_t elem){
+    Node* toDelete;
      if(head == NULL){
         return false;
     }
@@ -72,8 +73,10 @@ bool Set::remove(uint8_t elem){
     }
 
     else if(head->getValue() == elem){ //remove head but theres more elements
+        toDelete = head;
         head = head->getNext();
         currSize--;
+        delete toDelete; //c++ has no garbage collector
         return true;
     }
 
@@ -82,8 +85,10 @@ bool Set::remove(uint8_t elem){
 
         while(current->getNext() != nullptr){
             if(current->getNext()->getValue() == elem){
+                toDelete = current->getNext();
                 current->setNext(current->getNext()->getNext());
                 currSize--;
+                delete toDelete;
                 return true;
             }
             current = current->getNext();
@@ -94,6 +99,7 @@ bool Set::remove(uint8_t elem){
 
 void Set::clear()
 {
-    head = NULL;
-    currSize = 0;
+    while(size() != 0){
+        remove(head->getValue());
+    }
 }
