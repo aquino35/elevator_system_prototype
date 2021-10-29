@@ -7,7 +7,6 @@
 #include <stdint.h>
 #include <Arduino.h>
 #include "State.h" 
-// #include "FSM.h"
 
 // Elevator parameters
 #define ELEVATOR_MAX_TEMP   120   // Maximum temperature an elevator car can reach
@@ -30,7 +29,6 @@ private:
         uint16_t load_weight; 
         uint16_t max_load_weight; //in lbs
         State* elevator_state;
-        //FSM* stateMachine;
 
 public:
 
@@ -84,4 +82,6 @@ public:
         String get_state_name(void);
 
         State* get_state(void);
+
+        void run_state(void); //run the current state
 };

@@ -7,7 +7,6 @@ Elevator::Elevator(uint8_t num)
     max_load_weight = ELEVATOR_MAX_WEIGHT;
     max_temp = ELEVATOR_MAX_TEMP;
     capacity = ELEVATOR_CAPACITY;
-    //this->statemachine = new FSM();
 }
 
 //booleans
@@ -124,4 +123,9 @@ String Elevator::get_state_name(void)
 State* Elevator::get_state(void)
 {
     return elevator_state;
+}
+
+void Elevator::run_state(void)
+{
+    elevator_state->start(this);
 }

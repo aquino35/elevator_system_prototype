@@ -2,10 +2,13 @@
 
 //MISSING MOVING STATE FUNCTIONALITIES
 
-void MovingState::start(Elevator* elev, uint8_t floor){
+void MovingState::start(Elevator* elev){
     elev->set_door_status(false);
     elev->set_light_status(true);
+}
 
+void MovingState::setup(Elevator* elev, uint8_t floor)
+{
     if(floor == elev->get_floor()){ //transition to idle state somehow
         Serial.println("ELEVATOR " + String(elev->get_number()) + " IS ON THIS SAME FLOOR!");
         run = false;
@@ -24,6 +27,7 @@ void MovingState::start(Elevator* elev, uint8_t floor){
         }
 
         Serial.println("ELEVATOR " + String(elev->get_number()) + " EN ROUTE TO FLOOR# " + String(toFloor) + "!");
+        run = true;
     }
 
     else{ //transition to idle state somehow
@@ -31,6 +35,7 @@ void MovingState::start(Elevator* elev, uint8_t floor){
         run = false;
         return;
     }
+
 }
 
 void MovingState::moving(Elevator* elev, Set* stoppingFloors){ //Set implemented with Linked List

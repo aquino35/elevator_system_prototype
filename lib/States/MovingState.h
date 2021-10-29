@@ -8,12 +8,13 @@
 class MovingState : public State{ 
     private:
         String stateName = "MovingState";
-        bool run = true;
+        bool run = false;
         int direction;
         uint8_t toFloor;
 
     public:
-        void start(Elevator* elev, uint8_t floor);
+        void start(Elevator* elev);
+        void setup(Elevator* elev, uint8_t floor);
         bool canRun(); 
         void setRun(bool set);
         void moving(Elevator* elev, Set* stoppingFloors);
