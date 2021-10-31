@@ -1,19 +1,21 @@
 #pragma once
-#include "Elevator.h"
+#include "State.h"
 
 class IdleState : public State{
     private:
         String stateName = "Idle";
         bool run = true;
+        Elevator* elev;
 
     public:
-        void start(Elevator* elev);
+        IdleState(Elevator* elevator);
+        void start();
         bool canRun(); 
         void setRun(bool set);
         
-        void load(Elevator* elev, uint16_t weight);
-        void unload(Elevator* elev, uint16_t weight);
-        void energySaving(Elevator* elev);
+        void load(uint16_t weight);
+        void unload(uint16_t weight);
+        void energySaving();
         String currentState(){return this->stateName;}
 
 };

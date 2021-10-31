@@ -61,10 +61,10 @@ void Elevator::set_max_floor(uint8_t inputFloor)
     this->max_floor = inputFloor;
 }
 
-void Elevator::set_state(State* nextState)
-{
-    this->elevator_state = nextState;
-}
+// void Elevator::set_state(State* nextState)
+// {
+//     this->elevator_state = nextState;
+// }
 
 void Elevator::set_number(uint8_t num)
 {
@@ -115,17 +115,17 @@ uint8_t Elevator::get_max_temp(void)
     return max_temp;
 }
 
-String Elevator::get_state_name(void)
-{
-    return elevator_state->currentState();
-}
+// String Elevator::get_state_name(void)
+// {
+//     return elevator_state->currentState();
+// }
 
-State* Elevator::get_state(void)
-{
-    return elevator_state;
-}
+// State* Elevator::get_state(void)
+// {
+//     return elevator_state;
+// }
 
-void Elevator::run_state(void)
-{
-    elevator_state->start(this);
-}
+// void Elevator::run_state(void)
+// {
+//     elevator_state->start(this);
+// }

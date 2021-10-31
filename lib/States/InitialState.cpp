@@ -1,6 +1,10 @@
 #include "InitialState.h"
 
-void InitialState::start(Elevator* elev)
+InitialState::InitialState(Elevator* elevator){
+    this->elev = elevator;
+}
+
+void InitialState::start()
 {
     elev->set_load_weight(0);
     elev->set_door_status(false);

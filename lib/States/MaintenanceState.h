@@ -1,5 +1,4 @@
 #pragma once
-#include "Elevator.h"
 #include "State.h"
 
 class MaintenanceState : public State{
@@ -8,15 +7,17 @@ class MaintenanceState : public State{
         String stateName = "Maintenance";
         bool run = false;
         String command = "M"; //placeholder
+        Elevator* elev;
     
     public: 
-        void start(Elevator* elev);
+        MaintenanceState(Elevator* elevator);
+        void start();
         bool canRun(); 
         void setRun(bool set);
         
-        void showWarning(Elevator* elev); //show a warning every time a user tries to us an elevator in maintenance state
-        void isWorking(Elevator* elev); //show a warning every time a user tries to us an elevator in maintenance state
-        void check(String input, Elevator* elev); //checks if the current command entered unlocks maintanence
+        void showWarning(); //show a warning every time a user tries to us an elevator in maintenance state
+        void isWorking(); //show a warning every time a user tries to us an elevator in maintenance state
+        void check(String input); //checks if the current command entered unlocks maintanence
         String currentState(){return this->stateName;}
         
 };

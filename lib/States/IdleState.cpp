@@ -2,19 +2,23 @@
 
 //MISSING MOVING STATE FUNCTIONALITIES
 
-void IdleState::start(Elevator* elev){
+IdleState::IdleState(Elevator* elevator){
+    this->elev = elevator;
+}
+
+void IdleState::start(){
     elev->set_door_status(true);
     elev->set_light_status(true);
     Serial.println("ENTERING IDLE STATE!");
 
 }
 
-void IdleState::load(Elevator* elev, uint16_t weight){
+void IdleState::load(uint16_t weight){
     uint16_t toAdd = elev->get_load_weight() + weight;
     elev->set_load_weight(toAdd);
 }
 
-void IdleState::unload(Elevator* elev, uint16_t weight){
+void IdleState::unload(uint16_t weight){
     if(weight > elev->get_max_load_weight()){ //goes into negative numbers
         Serial.println("Can't unload more weight than is currently present!");
         return;
@@ -23,7 +27,7 @@ void IdleState::unload(Elevator* elev, uint16_t weight){
     elev->set_load_weight(toUnload);
 }
 
-void IdleState::energySaving(Elevator* elev){
+void IdleState::energySaving(){
     Serial.println("ELEVATOR " + String(elev->get_number()) + " HAS BEEN UNUSED FOR 30 SECONDS, ENTERING ENERGY SAVING MODE!");
     elev->set_door_status(false);
     if(elev->get_capacity() == 0){

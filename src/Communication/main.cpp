@@ -1,11 +1,8 @@
-//#include "FSM.cpp"
-#include <Arduino.h>
-
+#include "Elevator.h"
 // String serData;
 // int serInt;
 
 // elevator* elevator = new elevator(1); 
-// FSM* state_machine = new FSM(); 
 
 void setup() {
   Serial.begin(9600);

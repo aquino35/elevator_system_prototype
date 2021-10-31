@@ -6,7 +6,7 @@
 #pragma once
 #include <stdint.h>
 #include <Arduino.h>
-#include "State.h" 
+class FSM; //forward declaration
 
 // Elevator parameters
 #define ELEVATOR_MAX_TEMP   120   // Maximum temperature an elevator car can reach
@@ -17,7 +17,6 @@ class Elevator
 {
 
 private:
-
         uint8_t eid; 
         uint8_t door_status;
         uint8_t light_status; 
@@ -28,7 +27,8 @@ private:
         uint8_t capacity; 
         uint16_t load_weight; 
         uint16_t max_load_weight; //in lbs
-        State* elevator_state;
+        // State* elevator_state;
+        FSM* state_machine;
 
 public:
 
@@ -57,7 +57,7 @@ public:
     
         void set_max_floor(uint8_t inputFloor);
 
-        void set_state(State* nexState);
+        // void set_state(State* nexState);
 
         void set_number(uint8_t num);
 
@@ -79,9 +79,9 @@ public:
 
         uint8_t get_max_temp(void);
 
-        String get_state_name(void);
+        // String get_state_name(void);
 
-        State* get_state(void);
+        // State* get_state(void);
 
-        void run_state(void); //run the current state
+        // void run_state(void); //run the current state
 };

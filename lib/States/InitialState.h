@@ -1,14 +1,16 @@
 #pragma once
-#include "Elevator.h"
+#include "State.h"
 
 class InitialState : public State {
 
     private:
         String stateName = "Initial";
         bool run = true;
+        Elevator* elev;
 
     public:
-        void start(Elevator* elev);
+        InitialState(Elevator* elevator);
+        void start();
         bool canRun(); 
         void setRun(bool set);
         String currentState(){return this->stateName;}

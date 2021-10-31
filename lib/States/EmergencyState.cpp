@@ -1,18 +1,22 @@
 #include "EmergencyState.h"
 
-void EmergencyState::start(Elevator* elev){
+EmergencyState::EmergencyState(Elevator* elevator){
+    this->elev = elevator;
+}
+
+void EmergencyState::start(){
     elev->set_door_status(true);
     elev->set_light_status(true);
     Serial.println("ENTERING EMERGENCY STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + String(elev->get_number()) + " STABILIZES!");
 }
 
 
-void EmergencyState::unload(Elevator* elev, uint16_t weight){
+void EmergencyState::unload(uint16_t weight){
     uint16_t toUnload = elev->get_load_weight() - weight;
     elev->set_load_weight(toUnload);
 }
 
-void EmergencyState::showWarning(Elevator* elev){
+void EmergencyState::showWarning(){
     Serial.println("CURRENTLY IN EMERGENCY STATE! NO COMMANDS WILL BE PROCESSED UNTIL THE ELEVATOR " + String(elev->get_number()) + " STABILIZES!");
     Serial.println("PARAMETERS MUST GO BACK TO THE MAXIMUM ALLOWED VALUES!");
     Serial.println("");
@@ -38,11 +42,11 @@ void EmergencyState::showWarning(Elevator* elev){
 }
 
 
-void EmergencyState::isWorking(Elevator* elev){
+void EmergencyState::isWorking(){
     if(run) {Serial.println("ELEVATOR " + String(elev->get_number()) + " HAS STABILIZED! OPERATIONS RESUMING!");}
 
     else{
-        showWarning(elev);
+        showWarning();
     }
 }
 

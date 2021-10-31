@@ -1,5 +1,5 @@
 #pragma once
-#include "Elevator.h"
+#include "State.h" 
 #include "Set.h" 
 
 #define UP         1
@@ -11,13 +11,15 @@ class MovingState : public State{
         bool run = false;
         int direction;
         uint8_t toFloor;
+        Elevator* elev;
 
     public:
-        void start(Elevator* elev);
-        void setup(Elevator* elev, uint8_t floor);
+        MovingState(Elevator* elevator);
+        void start();
+        void setup(uint8_t floor);
         bool canRun(); 
         void setRun(bool set);
-        void moving(Elevator* elev, Set* stoppingFloors);
+        void moving(Set* stoppingFloors);
 
         String currentState(){return this->stateName;}
 
