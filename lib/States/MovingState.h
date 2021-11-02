@@ -2,14 +2,12 @@
 #include "State.h" 
 #include "Set.h" 
 
-#define UP         1
-#define DOWN       1
 
 class MovingState : public State{ 
     private:
-        String stateName = "MovingState";
+        String stateName = "Moving";
         bool run = false;
-        int direction;
+        int direction_lock; //up is 1, down is 0
         uint8_t toFloor;
         Elevator* elev;
 
@@ -19,7 +17,7 @@ class MovingState : public State{
         void setup(uint8_t floor);
         bool canRun(); 
         void setRun(bool set);
-        void moving(Set* stoppingFloors);
+        void moving();
 
         String currentState(){return this->stateName;}
 

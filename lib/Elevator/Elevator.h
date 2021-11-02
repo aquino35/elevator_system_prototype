@@ -29,6 +29,7 @@ private:
         uint16_t max_load_weight; //in lbs
         // State* elevator_state;
         FSM* state_machine;
+        Set* stoppingFloors;
 
 public:
 
@@ -78,6 +79,8 @@ public:
         uint8_t get_current_temp(void);
 
         uint8_t get_max_temp(void);
+
+        Set* get_stopping_floors(void){return stoppingFloors;}
 
         // String get_state_name(void);
 

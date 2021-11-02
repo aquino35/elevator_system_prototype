@@ -23,11 +23,11 @@ void MovingState::setup(uint8_t floor)
         this->toFloor = floor;
 
         if(elev->get_floor() < this->toFloor){ //direction lock
-            direction = UP;
+            direction_lock = 1;
         }
 
         else if (elev->get_floor() > this->toFloor){
-            direction = DOWN;
+            direction_lock = 0;
         }
 
         Serial.println("ELEVATOR " + String(elev->get_number()) + " EN ROUTE TO FLOOR# " + String(toFloor) + "!");
@@ -42,17 +42,18 @@ void MovingState::setup(uint8_t floor)
 
 }
 
-void MovingState::moving(Set* stoppingFloors){ //Set implemented with Linked List
+void MovingState::moving(){ //Set implemented with Linked List
     uint8_t currentFloor = elev->get_floor();
+    Set* stoppingFloors = elev->get_stopping_floors();
 
     if(run){
         while (currentFloor != this->toFloor) 
         {
-            if(direction == UP){ //direction lock
+            if(direction_lock == 1){ //direction lock
                 currentFloor++;
             }
 
-            else if (direction == DOWN){
+            else if (direction_lock == 0){
                 currentFloor--;
             }
         
