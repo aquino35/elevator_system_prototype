@@ -43,6 +43,7 @@ class Set{ //singly linked
         Set(uint8_t elem);
 
         void add(uint8_t elem);
+        uint8_t get(int index);
         bool contains(uint8_t elem);
         bool remove(uint8_t elem);
         void clear(); 

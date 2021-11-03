@@ -97,6 +97,18 @@ bool Set::remove(uint8_t elem){
     return false;
 }
 
+uint8_t Set::get(int index)
+{
+    if(size() < 1 || index >= size()) return -1;
+
+    if(index == 0) return head->getValue();
+    Node* current = head;
+    for(int i = 1; i < index; i++){
+        current = current->getNext();
+    }
+    return current->getValue();
+}
+
 void Set::clear()
 {
     while(size() != 0){

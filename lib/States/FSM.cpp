@@ -3,108 +3,123 @@
 FSM::FSM(Elevator* elevator)
 {
     this->elev = elevator;
-    State* state[5] = {new InitialState(elev), new IdleState(elev), new MovingState(elev), new EmergencyState(elev), new MaintenanceState(elev)};
-
-    for(int i = 0; i < 5; i++){ //cant figure a way to initilaize states array 
-        states[i] = state[i];
-    }
-
+    InitialState* initial_state = new InitialState(elev); 
+    IdleState* idle_state = new IdleState(elev);
+    MovingState* moving_state = new MovingState(elev);
+    EmergencyState* emergency_state = new EmergencyState(elev); 
+    MaintenanceState* maintenance_state = new MaintenanceState(elev);
 }
 
 void FSM::setup(void)
 {
-    states[INITIAL_OFFSET]->start(); 
-    states[IDLE_OFFSET]->start();
-    currentState = states[IDLE_OFFSET]->currentState();
+    initial_state->start(); 
+    idle_state->start();
+    currentStateName = idle_state->currentState();
+}
+ 
+//should go inside some mainloop
+void FSM::energyUpdate(void)
+{
+    if(currentStateName.compareTo("Idle") == 0 && !toggle){ 
+        begin = clock();
+        time_spent = (double)(clock() - begin);
+
+        while(time_spent != 15000.0){ //15 second timer
+            time_spent = (double)(clock() - begin);
+        }
+
+        idle_state->energySaving();
+    }
 }
 
 void FSM::run(uint8_t command) //manages transitions
 {
-    if(current_state != NULL && !current_state->canRun()){ //cant run
-        Serial.print("CAN'T RUN ELEVATOR # " + String(elev->get_number()) + "! PLEASE FIX ISSUES");
-        command = 8; //set to maintenance state
+    //if you havent set a state or you're in maintenanace and haven't input the command to unlock maintenance
+    if(currentStateName.compareTo("") == 0 || (currentStateName.compareTo("Maintenance") == 0 && command != 13)){ //cant run
+        Serial.print("CAN'T RUN ELEVATOR #" + String(elev->get_number()) + "! PLEASE FIX ISSUES");
+        command = 10; //set to maintenance state
     }
 
     switch(command){
+        case 7: //load people (300 lbs)
+            if(currentStateName.compareTo("Idle") == 0){
+                idle_state->start();
+                idle_state->load(300);
+                toggle = true; //wont go into reset, means elevator was activated, reset timer
 
-        case 7: //load people  (300 lbs)
-            if(currentState.compareTo("Idle") || currentState.compareTo("Moving")){
-                IdleState* current_state = dynamic_cast<IdleState*>(states[IDLE_OFFSET]);
-                current_state->load(300);
+                if(elev->get_load_weight() > elev->get_max_load_weight()){ //EMERGENCY STATE
+                    emergency_state->start();
+                    currentStateName = emergency_state->currentState();
+                    emergency_state->showWarning();
 
-                if(elev->get_load_weight() >= elev->get_max_load_weight()){ //EMERGENCY STATE
-                    EmergencyState* current_state = dynamic_cast<EmergencyState*>(states[EMERGENCY_OFFSET]);
-                    currentState = states[EMERGENCY_OFFSET]->currentState();
-                    current_state->showWarning();
-
-                    MovingState* current_state = dynamic_cast<MovingState*>(states[MOVING_OFFSET]);
-                    // if(elev->get_floor() +1 != elev->get_max_floor()){
-                    //     current_state->setup(elev->get_floor() +1);
-                    // }
-
+                    moving_state->start();
+                    moving_state->move_nearest();
+                    emergency_state->unload(elev->get_load_weight()); //empty elevator
+                    emergency_state->isWorking();
+                    
+                    idle_state->start();
+                    currentStateName = idle_state->currentState();
+                    toggle = false;
                     break;
                 }
 
-                if(currentState.compareTo("Moving")){ //change back to moving after loading
-                    begin = clock();
-                    time_spent = (double)(clock() - begin);
-
-                    Serial.print(String(elev->get_number()) + " TRANSITIONING TO ANOTHER FLOOR!");
-
-                    while(time_spent != 3000.0){ //3 second timer
-                        time_spent = (double)(clock() - begin);
-                    }
-                    
-                    MovingState* current_state = dynamic_cast<MovingState*>(states[MOVING_OFFSET]);
-                    current_state->moving();
-                    break; //wont change current state to idle state
-
-                }
-
             }
 
-            else {Serial.print("Inacessible from the current state: " + currentState);}
-            currentState = states[IDLE_OFFSET]->currentState();
-
+            else {Serial.print("Inacessible from the current state: " + currentStateName);}
+            currentStateName = idle_state->currentState();
+            toggle = false;
             break;
 
         case 8: //unload people (300 lbs)
-            if(currentState.compareTo("Idle") || currentState.compareTo("Moving")){
-                IdleState* current_state = dynamic_cast<IdleState*>(states[IDLE_OFFSET]);
-                current_state->unload(300);
+            if(currentStateName.compareTo("Idle") == 0){
+                idle_state->start();
+                idle_state->unload(300);
+                toggle = true; //wont go into reset, means elevator was activated
+            }
 
-                if(currentState.compareTo("Moving")){ //change back to moving after loadingd
+            else {Serial.print("Inacessible from the current state: " + currentStateName);}
+            currentStateName = idle_state->currentState();
+            toggle = false;
+            break;
 
-                    begin = clock();
-                    time_spent = (double)(clock() - begin);
-
-                    Serial.print(String(elev->get_number()) + " TRANSITIONING TO ANOTHER FLOOR!");
-
-                    while(time_spent != 3000.0){ //3 second timer
-                        time_spent = (double)(clock() - begin);
+        case 9: //moving
+            if(currentStateName.compareTo("Idle") == 0){
+                currentStateName = moving_state->currentState();
+                moving_state->start();
+                moving_state->set_direction(); //direction lock
+                
+                while(moving_state->canMove()){
+                    moving_state->move();
+                    //loading and unloading
+                    if(moving_state->made_stop()){
+                        idle_state->start();
+                        idle_state->load(300); //not sure when to pick or leave people off while moving or how much 
+                        idle_state->unload(300);
                     }
-                    
-                    MovingState* current_state = dynamic_cast<MovingState*>(states[MOVING_OFFSET]);
-                    current_state->moving();
-                    break; //wont change current state to idle state
 
+                    if(moving_state->should_switch_direction()){ //switch direction lock 
+                        moving_state->set_direction();
+                    }
                 }
-
             }
 
-            else {Serial.print("Inacessible from the current state: " + currentState);}
-            currentState = states[IDLE_OFFSET]->currentState();
-
+            idle_state->start();
+            currentStateName = idle_state->currentState();
+            toggle = false;
             break;
 
-        case 9: 
-            if(currentState.compareTo("Idle")){
-
-            }
-
+        case 10:
+            currentStateName = maintenance_state->currentState();
+            maintenance_state->start();
+            maintenance_state->showWarning();
             break;
 
-        case 10: //maintenance command
+        case 13: //unlock maintenance state
+            maintenance_state->check("M");
+            maintenance_state->isWorking();
+            idle_state->start();
+            currentStateName = idle_state->currentState();
+            toggle = false;
             break;
     }
 }
@@ -112,5 +127,9 @@ void FSM::run(uint8_t command) //manages transitions
 FSM::~FSM()
 {
     delete elev;
-    delete states;
+    delete initial_state;
+    delete idle_state;
+    delete moving_state;
+    delete emergency_state;
+    delete maintenance_state;
 }
