@@ -7,13 +7,6 @@
 #include "AllStates.h"
 #include "time.h"
 
-#define INITIAL_OFFSET      0
-#define IDLE_OFFSET         1
-#define MOVING_OFFSET       2
-#define EMERGENCY_OFFSET    3
-#define MAINTENANCE_OFFSET  4
-
-
 class FSM {
     private:
         //states

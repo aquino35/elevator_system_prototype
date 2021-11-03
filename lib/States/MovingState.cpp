@@ -23,17 +23,17 @@ uint8_t MovingState::get_nearest_floor()
     if(stoppingFloors->size() == 1) return stoppingFloors->get(0); 
 
     uint8_t nearestDifference = 40; 
-    uint8_t goTo;
+    uint8_t go_to_floor;
     
     for(int i = 0; i < stoppingFloors->size(); i++) //get the nearest floor 
     {
         uint8_t currentStopping = stoppingFloors->get(i);
         if(abs(currentStopping - elev->get_floor()) <= nearestDifference && currentStopping != elev->get_floor()){
             nearestDifference = abs(currentStopping - elev->get_floor());
-            goTo = currentStopping;
+            go_to_floor = currentStopping;
         }
     }
-    return goTo;
+    return go_to_floor;
 }
 
 void MovingState::set_direction()
@@ -62,7 +62,7 @@ void MovingState::set_direction()
         run = true;
     }
 
-    else{ //transition to idle state somehow
+    else{ 
         Serial.println("FLOOR #" + String(floor) + " DOESNT EXIST!");
         run = false;
     }
