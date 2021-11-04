@@ -57,6 +57,3 @@ bool EmergencyState::canRun(){
 void EmergencyState::setRun(bool set){
     run = set;
 }
-
-
-

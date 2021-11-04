@@ -107,7 +107,7 @@ void MovingState::move(){ //Set implemented with Linked List, moves on floor at 
     Set* stoppingFloors = elev->get_stopping_floors();
     
 
-    if(run && direction_lock != NULL){
+    if(run && direction_lock != null){ 
         if(direction_lock == UP){ //direction lock
             currentFloor++;
         }

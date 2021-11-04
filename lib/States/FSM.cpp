@@ -3,11 +3,11 @@
 FSM::FSM(Elevator* elevator)
 {
     this->elev = elevator;
-    InitialState* initial_state = new InitialState(elev); 
-    IdleState* idle_state = new IdleState(elev);
-    MovingState* moving_state = new MovingState(elev);
-    EmergencyState* emergency_state = new EmergencyState(elev); 
-    MaintenanceState* maintenance_state = new MaintenanceState(elev);
+    initial_state = new InitialState(elev); 
+    idle_state = new IdleState(elev);
+    moving_state = new MovingState(elev);
+    emergency_state = new EmergencyState(elev); 
+    maintenance_state = new MaintenanceState(elev);
 }
 
 void FSM::setup(void)

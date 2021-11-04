@@ -17,5 +17,6 @@ class IdleState : public State{
         void unload(uint16_t weight);
         void energySaving();
         String currentState(){return this->stateName;}
+        ~IdleState(){};
 
 };

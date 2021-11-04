@@ -14,4 +14,5 @@ class InitialState : public State {
         bool canRun(); 
         void setRun(bool set);
         String currentState(){return this->stateName;}
+        ~InitialState(){};
 };

@@ -6,6 +6,7 @@
 #pragma once
 #include <stdint.h>
 #include <Arduino.h>
+#include "Set.h"
 class FSM; //forward declaration
 
 // Elevator parameters

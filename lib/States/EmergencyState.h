@@ -19,4 +19,5 @@ class EmergencyState : public State {
         void unload(uint16_t weight);
 
         String currentState(){return this->stateName;}
+        ~EmergencyState(){};
 };
