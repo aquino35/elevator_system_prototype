@@ -4,7 +4,7 @@
 
 #define UP 1
 #define DOWN 0
-#define null 3
+#define undefined 3
 
 /**
 * @file MovingState.h
@@ -24,7 +24,7 @@ class MovingState : public State{
         bool run = false;
 
         /* Direction lock, defined as an integer and assigned by macros, with a default value of null. Up is defined as 1 and down, 0. */
-        int directionLock = null; //up is 1, down is 0
+        int directionLock = undefined; //up is 1, down is 0
 
         /* The elevator attribute. */
         Elevator* elev;

@@ -137,7 +137,7 @@ void MovingState::move_nearest(void)
 void MovingState::move(void){ 
     uint8_t currentFloor = elev->get_floor();    
 
-    if(run && directionLock != null){ 
+    if(run && directionLock != undefined){ 
         if(directionLock == UP){ 
             currentFloor++;
         }
