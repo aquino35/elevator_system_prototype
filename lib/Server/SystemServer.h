@@ -3,11 +3,9 @@
 *  server object used to process anything given by a Client.
 */
 #pragma once
-#include <Arduino.h>
-#include <stdlib.h>
 #include "Elevator.h"
 #include <cobs.h>
-#include "Set.h"
+
 /* MACROS */
 #define ELEVATOR_COUNT   2      /* amount of elevators present in server*/
 #define SERVICES        15      /* amount of services available in Server */

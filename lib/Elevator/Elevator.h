@@ -1,55 +1,59 @@
-/*
- * TODO : DOCUMENT
- * 
- * 
- */
 #pragma once
-#include <stdint.h>
 #include <Arduino.h>
+#include <stdlib.h>
 #include "Set.h"
-class FSM; //forward declaration
 
-// Elevator parameters
+/* Elevator Parameter Macros */
 #define ELEVATOR_MAX_TEMP   120   // Maximum temperature an elevator car can reach
 #define ELEVATOR_CAPACITY   10    // The max amount of people that can be stored
 #define ELEVATOR_MAX_WEIGHT 1200  // The maximum allowed weight
 
-class Elevator 
-{
-
-private:
+/**
+* @file Elevator.h
+*
+* @brief The elevator class. Contains its attributes, commands, and more.
+*
+* @author Yariel Mercado (Implementation & Documentation)
+* @author Osvaldo Aquino (Implementation)
+*/
+class Elevator {
+    private:
+        /* The elevator's ID. */
         uint8_t eid; 
-        uint8_t door_status;
-        uint8_t light_status; 
+        /* Boolean determining whether a door is open or closed. */
+        bool doorStatus;
+        /* Boolean determining whether the elevator lights are on or off. */
+        bool lightStatus; 
+        /* The elevator's current floor. */
         uint8_t floor;
-        uint8_t max_floor;
-        uint8_t current_temp;
-        uint8_t max_temp;
+        /* The last and highest floor in the elevator's building. */
+        uint8_t maxFloor;
+        /* The elevator's current temperature, in fahrenheit. */
+        uint8_t currentTemp;
+        /* The elevator's maximum allowable temperature, in fahrenheit. */
+        uint8_t maxTemp;
+        /* The amount of people the elevator is carrying. */
         uint8_t capacity; 
-        uint16_t load_weight; 
-        uint16_t max_load_weight; //in lbs
-        // State* elevator_state;
-        FSM* state_machine;
+        /* The elevator's current weight, in pounds. */
+        uint16_t loadWeight; 
+        /* The elevator's maximum allowable weight, in pounds. */
+        uint16_t maxLoad; 
+        /* Set containing the elevator's requested floors. */
         Set* stoppingFloors;
 
-public:
-
-        // Constructors
+    public:
         Elevator(uint8_t num);
+        ~Elevator();
 
-        //booleans
-        uint8_t is_door_status(void);
+        /* Setters */
 
-        uint8_t is_light_status(void);
+        void set_door_status(bool inputDoorST);
 
-        //setters
-        void set_door_status(uint8_t inputDoorST);
-
-        void set_load_weight(uint16_t inputLoad); //increases load weight
+        void set_load_weight(uint16_t inputLoad); 
 
         void set_floor(uint8_t inputFloor);
 
-        void set_light_status(uint8_t inputLight);
+        void set_light_status(bool inputLight);
 
         void set_max_temp(uint8_t inputTemp);
 
@@ -59,11 +63,13 @@ public:
     
         void set_max_floor(uint8_t inputFloor);
 
-        // void set_state(State* nexState);
+        void set_stopping_floors(Set* floors);
 
-        void set_number(uint8_t num);
+        /* Getters */
+        
+        bool is_door_open(void);
 
-        //getters
+        bool is_light_on(void);
 
         uint8_t get_number(void);
         
@@ -81,11 +87,15 @@ public:
 
         uint8_t get_max_temp(void);
 
-        Set* get_stopping_floors(void){return stoppingFloors;}
+        Set* get_stopping_floors(void);
 
-        // String get_state_name(void);
+        /* Specific actions */
 
-        // State* get_state(void);
+        void open(void);
 
-        // void run_state(void); //run the current state
+        void close(void);
+
+        void turn_lights_on();
+
+        void turn_lights_off();
 };
