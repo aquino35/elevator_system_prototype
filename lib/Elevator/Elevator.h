@@ -1,12 +1,40 @@
 #pragma once
-#include <Arduino.h>
-#include <stdlib.h>
+#include "SystemServer.h"
 #include "Set.h"
 
 /* Elevator Parameter Macros */
 #define ELEVATOR_MAX_TEMP   120   // Maximum temperature an elevator car can reach
 #define ELEVATOR_CAPACITY   10    // The max amount of people that can be stored
 #define ELEVATOR_MAX_WEIGHT 1200  // The maximum allowed weight
+
+typedef struct Person{
+    uint16_t weight;
+    uint8_t temp;
+    String identifer; 
+
+    Person(uint8_t type){
+        switch(type){
+            case 1:
+                weight = 160;
+                temp = 5;
+                identifer = "Adult";
+                break;
+
+            case 2:
+                weight = 50;
+                temp = 3;
+                identifer = "Child";
+                break;
+
+            case 3:
+                weight = 135;
+                temp = 4;
+                identifer = "Elderly";
+                break;
+        }
+
+    }
+}person;
 
 /**
 * @file Elevator.h
