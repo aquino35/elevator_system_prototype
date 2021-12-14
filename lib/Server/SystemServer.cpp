@@ -1,202 +1,326 @@
-#include "SystemServer.h"
-// Global objects
-SystemServer::pkt_t* rxMsg; // rx signal
-SystemServer::pkt_t* txMsg; // tx signal
+#include <SystemServer.h>
+
+
 SystemServer::SystemServer()
 {
+  /* header */ 
+  this->byte_counter = 0;
+  this->eid = 0;
+  this->sid = 2;
+  /* payload */
+  this->door_status = 0;   // elev-> is_door_open()
+  this->light_status = 0;  // elev-> is_light_on()
+  this->current_floor = 0;  // elev-> get_floor()
+  this->temp = 0;        // elev-> get_temp()
+  this->load = 0;         // elev-> get_load_weight()
+  this->person_counter = 0; // elev-> get_person_count()
+  this->maintenance = 0; // elev-> get_person_count()
+  this->direction = 0; // elev-> get_person_count()
+  this->moving = 0; // elev-> get_person_count()
+  this->msg_to_user = 0; // TODO: mapping of msgs on pyserial side
+  this->queue = (uint8_t*) malloc(sizeof(uint8_t) * QUEUE_SIZE); // for incoming serial data
 }
-void SystemServer::begin(void)
-{
-  Serial.begin(9600);
-  Serial.println("-- Welcome to the Elevator System Prototype! --");
-}
-void SystemServer::run(void)
-{
-   while(!terminate){
-       uint8_t* data[256];
-       memcpy(data, recieve_data(), sizeof(recieve_data())); //copy encoded buffer into data
-       pkt_t* pkt = decode_data(data);
-       verify_header(pkt);
-   }
-}
-// Transmit to serial channel
-void SystemServer::transmit_data(const unsigned char* msg_buffer, uint8_t msg_size)
-{
-   size_t bytesToSend = msg_size;
-  size_t encoded_buffer_length = (msg_size) + (msg_size) / 254 + 2;
-  uint8_t* encoded_buffer = (uint8_t *) malloc(encoded_buffer_length);
-  size_t encodedLength = cobs_encode( msg_buffer, msg_size, encoded_buffer );
-   while(bytesToSend)
-  {
-      bytesToSend -= Serial.write(encoded_buffer, encodedLength);
-      if (bytesToSend > msg_size)
-      {
-          break;
-      }
-  }
-  free(encoded_buffer);
-}
-// Read from serial channel
-uint8_t* SystemServer::recieve_data()
-{
-  int cobsByte;
-  int nextByte;
-  int index = 0;
-  uint8_t encodedMsg[256]; /* Stores incoming bytes */
-  while(Serial.available() > 0)
-  {
-      cobsByte = Serial.read();  
-      nextByte = Serial.read(); //checks the next byte, COBS ends in 00
-      while(cobsByte != 0 && nextByte != 0){
-          encodedMsg[index] = cobsByte;
-          encodedMsg[++index] = nextByte;
-      }
-      index = 0; //reset the index
-  }
-  return encodedMsg;
-}
- 
-void SystemServer::decode_data(uint8_t* encodedData, size_t lenEncoded, uint8_t* buff){ //pointer decay, function sees array as pointer instead
-  pkt_t pkt;
-  uint8_t decoded[12]; 
 
-  cobs_decode(encodedData, lenEncoded, &decoded);  //decoded is now a 12 element array of pointers
-  pkt.eid = decoded[EID_OFFSET]; //Saves the elevatorId
-  pkt.sid = decoded[SAID_OFFSET]; //Saves the serviceId
-  pkt.aid = decoded[AID_OFFSET]; //Saves the attributeId
-  pkt.payload[DOOR] = decoded[DOOR_OFFSET]; //Saves the doorOpen bool
-  pkt.payload[LIGHTS] = decoded[LIGHTS_OFFSET]; //Saves the lightsOn bool
-  pkt.payload[FLOOR] = decoded[FLOOR_OFFSET]; //Saves the floor
-  pkt.payload[TEMP] = decoded[TEMP_OFFSET]; //Saves the temp
-  pkt.payload[LOAD] = decoded[LOAD_OFFSET]; //Saves the current load
 
-  //Saves weight, two bytes
-  memcpy(&pkt.payload[WEIGHT], decoded + WEIGHT_OFFSET, 2); //dest, src, number of bytes
-  pkt.payload[DIRECTION] = decoded[DIRECTION_OFFSET]; //Saves direction bool, true is up
-  pkt.payload[MOVING] = decoded[MOVING_OFFSET]; //Saves moving bool
+void SystemServer::setup(void) 
+{
+  // put your setup code here, to run once:
+  Serial.begin(BAUDRATE);
+  delay(0.5); // avoids any nonetypes in transmission
+}
 
-  // buff[PAYLOAD_OFFSET] = pkt;
+
+void SystemServer::loop(void) 
+{
+  // put your main code here, to run repeatedly:
+  serial_service_tx(this->queue, STD_ENCODE_SIZE);
+  delay(0.5);
+  serial_service_rx();
+}
+
+
+void SystemServer::serial_service_tx(uint8_t* pkt, size_t pkt_size)
+{
+    /* Standard packet for transmission */
+    static uint8_t std_pkt[STD_COBS_BUFF_SIZE] = {this->eid, this->sid, this->door_status, this->light_status, this->current_floor, this->temp, 
+                                                  this->load, this->person_counter, this->maintenance, this->direction, this->moving, this->msg_to_user,  COBS_DELIMETER};
+
+    
+    this->byte_counter = cobs_encode(std_pkt, pkt_size, pkt);
+    size_t bytes_to_send = pkt_size;
+
+    while (bytes_to_send)
+    {
+        bytes_to_send -= Serial.write(&pkt[pkt_size - bytes_to_send], bytes_to_send);
+        Serial.flush();
+        free(this->queue);
+        this->byte_counter = 0;
+
+        // Arithmetic overflow due to sending more bytes than expected
+        if (bytes_to_send > pkt_size)
+        {
+            break;
+        }
+
+    }
+}
+
+
+void SystemServer::serial_service_rx(void)
+{
+    uint8_t recieved_byte;
+
+    while ((recieved_byte = Serial.read())>=0) 
+    {
+            if(verify_byte(recieved_byte))
+            {
+                decode_std_pkt(this->queue);
+                //serial_service_tx(this->queue,STD_ENCODE_SIZE); //tentative could change when connected to elev
+            }
+    }
+}
+
+
+bool SystemServer::verify_byte(uint8_t data)
+{
+    if (!data)
+    {
+        return true;
+    }
+
+    if (this->byte_counter < QUEUE_SIZE) 
+    {
+      queue[this->byte_counter++] = data; 
+    }
+    else 
+    {
+        this->queue[0] = data;
+        this->byte_counter = 1;
+    }
+    return false;
+}
+
+
+void SystemServer::decode_std_pkt(uint8_t* pkt) 
+{
+    static uint8_t encoded_buffer[STD_DECODE_SIZE];
+    memcpy(encoded_buffer, pkt, byte_counter);  // Pass encoded pkt to inner pkt
+
+    this->byte_counter = cobs_decode(encoded_buffer, byte_counter, pkt);
+    extract_pkt_data(pkt);
+}
+
+
+void SystemServer::extract_pkt_data(uint8_t* pkt)
+{
+    /* Extracts standard pkt data */
+    
+    this->eid =  pkt[EID_OFFSET];
+    this->sid =  pkt[SID_OFFSET];
+    this->door_status =  pkt[DOOR_OFFSET];
+    this->light_status =  pkt[LIGHT_OFFSET];
+    this->current_floor =  pkt[FLOOR_OFFSET];
+    this->temp =  pkt[TEMP_OFFSET];
+    this->load = pkt[LOAD_OFFSET];
+    this->person_counter = pkt[PERSON_OFFSET];
+    this->maintenance = pkt[MAINTENANCE_OFFSET];
+    this->direction = pkt[DIRECTION_OFFSET];
+    this->moving = pkt[MOVING_OFFSET];
+    this->msg_to_user = pkt[MSG_OFFSET];
+
+    exec_service();
+    free(this->queue);
+    this->byte_counter= 0;
 
 }
+
+
+void SystemServer::exec_service(void) 
+{
+    if(this->sid == 0)
+    {
+        set_elev_attr(this->queue);
+    }
+    if(this->sid == 1)
+    {
+        get_elev_attr();
+    }
+}
+
+
+void SystemServer::set_elev_attr(uint8_t* pkt)
+{
+    //eid = pkt[EID_OFFSET];  
+    //Serial.println("Setting");
+    this->msg_to_user = 0;
+}
+
+
+void SystemServer::get_elev_attr(void)
+{
+    //Serial.println("Getting");
+    this->msg_to_user = 1;
+}
+
+
+void SystemServer::set_eid(uint8_t eid)
+{
+    this->eid = eid;
+}
+
+
+void SystemServer::set_sid(uint8_t sid)
+{
+    this->sid = sid;
+}
+
+
+void SystemServer::set_door_status(uint8_t door_status)
+ {
+    this->door_status = door_status;
+}
+
+
+void SystemServer::set_light_status(uint8_t light_status)
+{
+    this->light_status = light_status;
+}
+
+
+void SystemServer::set_floor(uint8_t current_floor)
+{
+    this->current_floor = current_floor;
+}
+
+
+void SystemServer::set_temp(uint8_t temp)
+{
+    this->temp = temp;
+}
+
+
+void SystemServer::set_load(uint8_t load)
+{
+    this->load = load;
+}
+
+
+void SystemServer::set_person_counter(uint8_t person_counter)
+{
+    this->person_counter = person_counter;
+}
+
+
+void SystemServer::set_msg_to_usesr(uint8_t msg_to_user)
+{
+    this->msg_to_user = msg_to_user;
+}
+
+
+uint8_t SystemServer::get_sid(void) 
+{
+    return this->sid;
+}
+
+
+uint8_t SystemServer::get_door_status(void) 
+{
+    return this->door_status;
+}
+
+
+uint8_t SystemServer::get_light_status(void) 
+{
+    return this->light_status;
+}
+
+
+uint8_t SystemServer::get_floor(void) 
+{
+    return this->current_floor;
+}
+
+
+uint8_t SystemServer::get_temp(void) 
+{
+    return this->temp;
+}
+
+
+uint8_t SystemServer::get_load(void) 
+{
+    return this->load;
+}
+
+
+uint8_t SystemServer::get_person_counter(void) 
+{
+    return this->person_counter;
+}
+
+
+uint8_t SystemServer::get_msg_to_user(void) 
+{
+    return this->msg_to_user;
+}
+
+
+uint8_t* SystemServer::get_queue(void) 
+{
+    return this->queue;
+}
+
+
+size_t SystemServer::cobs_encode(const uint8_t * input, size_t length, uint8_t * output)
+{
+    size_t read_index = 0;
+    size_t write_index = 1;
+    size_t code_index = 0;
+    uint8_t code = 1;
+    while(read_index < length)
+    {
+        output[write_index++] = input[read_index++];
+        code++;
+        if(code == 0xFF)
+        {
+            output[code_index] = code;
+            code = 1;
+            code_index = write_index++;
+        }
+    }
+    output[code_index] = code;
+    return write_index;
+}
+
+
+size_t SystemServer::cobs_decode(const uint8_t * input, size_t length, uint8_t * output)
+{
+    size_t read_index = 0;
+    size_t write_index = 0;
+    uint8_t code;
+    uint8_t i;
+
+    while(read_index < length)
+    {
+        code = input[read_index];
+
+        if(read_index + code > length && code != 1)
+        {
+            return 0;
+        }
+
+        read_index++; /* move to packet */
+        /* read all normal bytes */ 
+        for(i = 1; i < code; i++)
+        {
+            output[write_index++] = input[read_index++];
+        }
  
-bool SystemServer::terminate(pkt_t* pkt)
-{
-  clear_queue();
-  delete elements;
-  delete service_handler;
-  delete pkt;
-  if(is_queue_empty()){
-      Serial.println("SystemServer has been cleared, elevator system service terminated.");
-      return true;
-  }
-  else{
-      Serial.println("SystemServer not cleared correctly, an error has occured.");
-      return false;
-  }
- }
-void SystemServer::register_service(const char* service_msg, uint8_t sid, void (*cb)(void))
-{
-  service_handler[service_count] = {service_msg, sid, cb};
-}
- 
-void SystemServer::verify_header(pkt_t* pkt)
-{
-  pkt->cobs_overhead = pkt->buffer[COBS_OFFSET]; // Masking attribute with bits to extract
-  pkt->sid = pkt->buffer[SERVICEID_OFFSET];
-  pkt->eid = pkt->buffer[ELEVATORID_OFFSET];
-  pkt->payload = pkt->buffer[PAYLOAD_OFFSET];
-}
-void SystemServer::build_header(pkt_t* pkt)
-{
-  pkt->buffer[SERVICEID_OFFSET] = pkt->sid; //increase as the next tasknumber
-  pkt->buffer[ELEVATORID_OFFSET] = pkt->eid;
-  pkt->buffer[PAYLOAD_OFFSET] = pkt->payload;
-}
- 
-void SystemServer::verify_pkt_buffer(pkt_t* pkt)
-{
-}
-uint8_t SystemServer::get_pkt_size(pkt_t* pkt)
-{
-  uint8_t size = 0;
-  int i = 0;
-  while(pkt->buffer[i] != NULL){ //empty spots in the buffer should be null
-      size++;
-      i++;
-  }  
-  return size;
-}
-uint8_t SystemServer::get_eid(pkt_t* pkt)
-{
-  return pkt->eid;
-}
-uint8_t SystemServer::get_sid(pkt_t* pkt)
-{
-  return pkt->sid;
-}
- 
-uint8_t SystemServer::get_aid(pkt_t* pkt)
-{
-  return pkt->aid;
-}
- 
-uint8_t* SystemServer::get_payload(pkt_t* pkt)
-{
-  return pkt->payload;
-}
-void SystemServer::allocate_pkt(pkt_t* pkt)
-{
-  pkt = (pkt_t*)malloc(sizeof(pkt_t));
-}
-void SystemServer::deallocate_pkt(pkt_t* pkt)
-{
-  free(pkt); //memory must be free once again
-}
-void SystemServer::allocate_request(request_t* request)
-{
-  request = (request_t*)malloc(sizeof(request_t));
-}
-void SystemServer::deallocate_request(request_t* request)
-{
-  free(request);
-}
-void SystemServer::enqueue(request_t* request)
-{
-  if (this->is_queue_full())
-      Serial.println("Request queue is full!");
-  this->elements[this->tail] = request;
-  this->tail = (this->tail + 1) % BUFSIZE;
-  this->queue_size++;
-}
-SystemServer::request_t* SystemServer::dequeue(void)
-{
-  if(this->is_queue_empty())
-      return NULL;
-  request_t* result = this->peek_queue();
-  this->elements[this->head] = NULL;
-  this->head = (this->head + 1) % BUFSIZE;
-  this->queue_size--;
-  return result;
-}
-uint8_t SystemServer::is_queue_full(void)
-{
-  return (this->get_queue_size() == BUFSIZE);
-}
-uint8_t SystemServer::is_queue_empty(void)
-{
-  return this->get_queue_size() == 0;
-}
-void SystemServer::clear_queue(void)
-{
-  while (this->dequeue() != NULL);
-}
-SystemServer::request_t* SystemServer::peek_queue(void)
-{
-  if(this->is_queue_empty())
-      return NULL;
-  return this->elements[this->head];
-}
-int SystemServer::get_queue_size(void)
-{
-  return this->queue_size;
+        // transform last encoded byte to zero
+        if (code == 0xFF)
+        {
+            output[write_index++] = '\0';
+        }
+    }
+    return write_index;
 }

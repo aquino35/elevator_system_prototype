@@ -2,113 +2,120 @@
 *  This script contains all the methods of the
 *  server object used to process anything given by a Client.
 */
-#pragma once
-#include "Elevator.h"
-#include <cobs.h>
+#include <Arduino.h>
+//#include <cobs.h>
 
-/* MACROS */
-#define ELEVATOR_COUNT   2      /* amount of elevators present in server*/
-#define SERVICES        15      /* amount of services available in Server */
-#define BUFSIZE         256
-/* OFFSETS */
-#define COBS_OFFSET           0
-#define SERVICEID_OFFSET      1
-#define ELEVATORID_OFFSET     2
-#define PAYLOAD_OFFSET        3
+#define BAUDRATE              9600
+#define COBS_DELIMETER        0xFF
+#define QUEUE_SIZE            255
 
-#define EID_OFFSET             0
-#define SAID_OFFSET            1
-#define AID_OFFSET             2
+#define COBS_DECODE_SIZE      14
+#define STD_COBS_BUFF_SIZE    13
+#define STD_ENCODE_SIZE       14
+#define STD_DECODE_SIZE       14
 
-#define DOOR_OFFSET             3
-#define LIGHTS_OFFSET           4
-#define FLOOR_OFFSET            5
-#define TEMP_OFFSET             6
-#define LOAD_OFFSET             7
-#define WEIGHT_OFFSET           8
-#define DIRECTION_OFFSET        10
-#define MOVING_OFFSET           11
-/* PAYLOAD MACROS */
-#define PAYLOAD_SIZE     8
-#define DOOR             0
-#define LIGHTS           1
-#define FLOOR            2
-#define TEMP             3
-#define LOAD             4
-#define WEIGHT           5
-#define DIRECTION        6
-#define MOVING           7
- 
- 
+/* Macros for packet structure */
+#define EID_OFFSET            0
+#define SID_OFFSET            1
+#define DOOR_OFFSET           2
+#define LIGHT_OFFSET          3
+#define FLOOR_OFFSET          4
+#define TEMP_OFFSET           5
+#define LOAD_OFFSET           6
+#define PERSON_OFFSET         7
+#define MAINTENANCE_OFFSET    8
+#define DIRECTION_OFFSET      9
+#define MOVING_OFFSET         10
+#define MSG_OFFSET            11
+
+
 class SystemServer
 {
-      public:
-        /*
-        The following serial packet (or message) structure is
-        defined to meet the UART protocol and communicate with the Client.
-        */
-        typedef struct packet
-        {
-                uint8_t buffer[BUFSIZE]; /* temporary memory allocation */
-                uint8_t eid; /* indicates what elevator is being requested */
-                uint8_t sid; /* indicates what service is being requested  */
-                uint8_t aid; /* Indicates what attribute we're referring to */
-                uint8_t cobs_overhead; /* First cobs encode byte*/
-                uint8_t payload[PAYLOAD_SIZE]; /* Contains specific information about the elevator */
-        }pkt_t;
-        /*
-        We use this next structure "request" to define more
-        clearly what it is the client is asking to perfom.
-        */
-        typedef struct request
-        {
-                uint8_t eid; /* indicates what elevator is being requested */
-                uint8_t sid; /* indicates what service is being requested  */
-        }request_t;
-        
-        Set* floorRequests; //NEEDS TO BE INITIALIZED FOR THE ELEVATORS
-        /*
-        Contains specific information about the elevator such as
-        what floor the elevator is on, the elevator num, and so on.
-        */
-        SystemServer(); /* Constructor */
-        /* Queue attributes */
-        int head=-1, tail=-1, queue_size=0;
-        request_t* elements[BUFSIZE]; /* container for holding requests*/
-        /* Array of function pointer that will create a table to handle all our services. */
-        int service_count = 0;
-        void(*service_handler[SERVICES])(const char* service_msg, uint8_t service_num, void (*cb)(void));
-        //const unsigned char* msg_buffer[BUFSIZE]; // buffer for msg packet
-        /* Server Methods */
-        void begin(void);
-        void run(void);
-        void transmit_data(const unsigned char* msgBuffer, uint8_t msg_size); /* tx */
-        uint8_t* recieve_data(); /* rx */
-        void decode_data(uint8_t* encodedData, size_t lenEncoded, uint8_t* buff); /* Decodes recieved packet */
-        bool terminate(pkt_t* pkt); /* end server life */
-        void register_service(const char* service_msg, uint8_t service_num, void (*cb)(void)); /* function is still incompleate */
-        /* Packet Methods */
-        void verify_header(pkt_t* pkt); /* rx */
-        void build_header(pkt_t* pkt); /* rx */
-        void verify_pkt_buffer(pkt_t* pkt);/* check if buffer is full */
-        uint8_t get_pkt_size(pkt_t* pkt); /* get size of pkt */
-        uint8_t get_eid(pkt_t* pkt); /* returns elevator id from pkt */
-        uint8_t get_sid(pkt_t* pkt); /* returns service id from pkt */
-        uint8_t get_aid(pkt_t* pkt);
-        uint8_t* get_payload(pkt_t* pkt);
-        void allocate_pkt(pkt_t* pkt); /* allocate structure in memory */
-        void deallocate_pkt(pkt_t* pkt); /* deallocate structure in memory */
-        
-        /* Request Methods */
-        void allocate_request(request_t* request); /* allocate structure in memory */
-        void deallocate_request(request_t* request); /* deallocate structure in memory */
-        /* Queue Methods */
-        void enqueue(request_t* request); /* adds request to queue */
-        request_t* dequeue(void); /* removes request from queue */
-        uint8_t is_queue_full(void); /* verifies if queue is full */
-        uint8_t is_queue_empty(void); /* verifies if queue is empty */
-        void clear_queue(void); /* clears queue */
-        request_t* peek_queue(void); /* gets the value of the front of the queue */
-        int get_queue_size(void); /* return current size of queue */
+        private:
+
+                uint8_t* queue; // buffer for rx and tx operations.
+                size_t byte_counter; 
+
+                /* Variables for elevator attirbutes that will be transmitted always */
+
+                /* header */ 
+                uint8_t eid; 
+                uint8_t sid;
+                /* payload */
+                uint8_t door_status;   // elev-> is_door_open()
+                uint8_t light_status;  // elev-> is_light_on()
+                uint8_t current_floor;  // elev-> get_floor()
+                uint8_t temp;        // elev-> get_temp()
+                uint8_t load;         // elev-> get_load_weight()
+                uint8_t person_counter; // elev-> get_person_count()
+                uint8_t maintenance; // elev-> get_person_count()
+                uint8_t direction; // elev-> get_person_count()
+                uint8_t moving; // elev-> get_person_count()
+                uint8_t msg_to_user; // TODO: mapping of msgs on pyserial side
+
+        public: 
+                SystemServer();
+
+                void setup(void);
+                 
+                void loop(void);
+
+                void serial_service_tx(uint8_t* pkt, size_t pkt_size);
+
+                void serial_service_rx(void);
+
+                void exec_service(void);
+
+                void extract_pkt_data(uint8_t* pkt);
+
+                void decode_std_pkt(uint8_t* pkt);
+
+                bool verify_byte(uint8_t data);
+
+                void set_elev_attr(uint8_t* pkt);
+
+                void get_elev_attr(void);
+
+                void set_queue(uint8_t* queue);
+
+                void set_eid(uint8_t eid);
+
+                void set_sid(uint8_t sid);
+
+                void set_door_status(uint8_t door_status);
+
+                void set_light_status(uint8_t light_status);
+
+                void set_floor(uint8_t current_floor);
+
+                void set_temp(uint8_t temp);
+
+                void set_load(uint8_t load);
+                               
+                void set_person_counter(uint8_t person_counter);
+
+                void set_msg_to_usesr(uint8_t msg_to_user);
+
+                uint8_t get_sid(void);
+
+                uint8_t get_door_status(void);
+
+                uint8_t get_light_status(void);
+
+                uint8_t get_floor(void);
+
+                uint8_t get_temp(void);
+
+                uint8_t get_load(void);
+
+                uint8_t get_person_counter(void);
+
+                uint8_t get_msg_to_user(void);
+
+                uint8_t* get_queue(void);
+
+                size_t cobs_decode(const uint8_t * input, size_t length, uint8_t * output);
+
+                size_t cobs_encode(const uint8_t * input, size_t length, uint8_t * output);
+
 };
- 
