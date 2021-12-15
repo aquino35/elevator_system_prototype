@@ -166,7 +166,7 @@ void FSM::update_server(){
     server->set_temp(elev->get_current_temp());
     server->set_load(elev->get_load_weight());
     //server->set_person_counter(); ???
-    //server->serial_service_tx()   ???
+    server->serial_service_tx(server->get_queue(), (uint8_t) 15);
 }
 
 /**
