@@ -28,7 +28,7 @@ void SystemServer::setup(void)
 }
 
 
-void SystemServer::loop(void) 
+void SystemServer::communicate(void) 
 {
   // put your main code here, to run repeatedly:
   serial_service_tx(this->queue, STD_ENCODE_SIZE);

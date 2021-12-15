@@ -57,7 +57,7 @@ class SystemServer
 
                 void setup(void);
                  
-                void loop(void);
+                void communicate(void);
 
                 void serial_service_tx(uint8_t* pkt, size_t pkt_size);
 
