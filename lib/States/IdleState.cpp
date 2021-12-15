@@ -47,7 +47,22 @@ void IdleState::load(uint16_t weight){
 *
 * @param weight The value of the weight to unload off the elevator, in pounds. 
 */ 
-void IdleState::unload(uint16_t weight){
+void IdleState::unload(uint8_t person_type){
+    uint16_t weight;
+    switch(person_type){
+        case 1:
+            weight = 160;
+            break;
+
+        case 2:
+            weight = 50;
+            break;
+
+        case 3:
+            weight = 135;
+            break;
+    }
+
     if(weight > elev->get_max_load_weight()){
         Serial.println("CAN'T UNLOAD MORE WEIGHT THAN IS CURRENTLY PRESENT!");
         return;

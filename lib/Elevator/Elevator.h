@@ -14,26 +14,26 @@
 typedef struct Person{
     uint16_t weight;
     uint8_t temp;
-    String identifer; 
+    uint8_t identifer; 
 
     Person(uint8_t type){
         switch(type){
             case ADULT:
                 weight = 160;
                 temp = 5;
-                identifer = "Adult";
+                identifer = 1;
                 break;
 
             case CHILD:
                 weight = 50;
                 temp = 3;
-                identifer = "Child";
+                identifer = 2;
                 break;
 
             case ELDERLY:
                 weight = 135;
                 temp = 4;
-                identifer = "Elderly";
+                identifer = 3;
                 break;
         }
     }
@@ -46,7 +46,7 @@ typedef struct Person{
         return temp;
     }
 
-    String get_person(){
+    uint8_t get_person(){
         return identifer;
     }
 
@@ -84,6 +84,8 @@ class Elevator {
         uint16_t maxLoad; 
         /* Set containing the elevator's requested floors. */
         Set* stoppingFloors;
+
+        uint8_t num_people;
 
     public:
         Elevator(uint8_t num);
@@ -133,6 +135,8 @@ class Elevator {
 
         Set* get_stopping_floors(void);
 
+        uint8_t get_people();
+
         /* Specific actions */
 
         void open(void);
@@ -142,4 +146,6 @@ class Elevator {
         void turn_lights_on();
 
         void turn_lights_off();
+
+        person* load_people_in();
 };

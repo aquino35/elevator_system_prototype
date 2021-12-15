@@ -34,7 +34,7 @@ class IdleState : public State{
        
         void load(uint16_t weight);
 
-        void unload(uint16_t weight);
+        void unload(uint8_t person_type);
 
         void energy_saving();
 

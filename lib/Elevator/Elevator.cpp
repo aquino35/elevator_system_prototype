@@ -217,6 +217,10 @@ Set* Elevator::get_stopping_floors(void)
     return stoppingFloors;
 }
 
+uint8_t Elevator::get_people(){
+    return num_people;
+}
+
 /**
 * An elevator command, which forces its doors open by setting the necessary boolean attribute to true.
 */
@@ -247,6 +251,12 @@ void Elevator::turn_lights_on()
 void Elevator::turn_lights_off()
 {
     set_light_status(false);
+}
+
+person* Elevator::load_people_in(){
+    person* human = new Person(random(1, 4));
+    num_people++;
+    return human;
 }
 
 /**

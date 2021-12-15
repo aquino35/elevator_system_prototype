@@ -17,6 +17,19 @@
 #define MAINTENANCE_COMMAND          10
 #define FIX_MAINTENANCE_COMMAND      13
 
+#define MADE_STOP                 20
+#define LOADED                    21
+#define UNLOADED                  22
+#define EMERGENCY                 23
+#define ENERGY_SAVING             24
+#define IDLE                      25
+#define MAINTENANCE               26
+#define MOVED                     27
+#define CHANGED_DIRECTION         28
+#define INITIAL                   29
+#define ERROR                     40
+
+
 /**
 * @file FSM.h
 *
@@ -56,6 +69,10 @@ class FSM {
         /* Transmits data between the FSM and the server. */
         SystemServer* server;
 
+        uint8_t message;
+
+        Set* people_in;
+
 
     public:
         FSM(Elevator* elevator); 
@@ -73,6 +90,10 @@ class FSM {
         void moving_loop();
 
         void update_server();
+
+        void load_in();
+        
+        void unload_person();
 
         ~FSM(); 
 };

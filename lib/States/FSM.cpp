@@ -16,6 +16,7 @@ FSM::FSM(Elevator* elevator)
 
     server = new SystemServer();
     server->setup();
+    people_in = new Set();
 }
 
 /**
@@ -45,6 +46,7 @@ void FSM::energy_update(void) //should go in some mainloop
 
         idleState->energy_saving();
     }
+    message = ENERGY_SAVING;
     update_server();
 }
 
@@ -61,6 +63,7 @@ void FSM::emergency_toggle()
     movingState->start();
     movingState->move_nearest();
     emergencyState->unload(elev->get_load_weight()); //empty elevator
+    people_in->clear();
     elev->set_current_temp(65);
     emergencyState->is_working();
 
@@ -68,6 +71,7 @@ void FSM::emergency_toggle()
     currState = IDLE_STATE;
     toggle = false;
 
+    message = EMERGENCY;
     update_server();
 
 }
@@ -86,14 +90,15 @@ void FSM::moving_loop()
     while(movingState->can_move()){
         movingState->move();
 
+        message = MOVED;
         update_server();
 
         //loading and unloading
         if(movingState->made_stop()){
-            idleState->load(300); //not sure when to pick or leave people off while moving or how much 
-            idleState->unload(300);
+            load_in();
             elev->close();
-            
+
+            message = LOADED;
             update_server();
 
 
@@ -105,7 +110,7 @@ void FSM::moving_loop()
 
         if(movingState->should_switch_direction()){ //switch direction lock 
             movingState->set_direction();
-            
+            message = CHANGED_DIRECTION;
             update_server();
 
         }
@@ -114,6 +119,7 @@ void FSM::moving_loop()
     idleState->start();
     currState = IDLE_STATE;
     toggle = false;
+    message = IDLE;
     update_server();
 
 }
@@ -128,26 +134,32 @@ void FSM::warning()
     switch(currState){
         case 1:
             state = initialState->current_state();
+            message = INITIAL;
             break;
             
         case 2:
             state = idleState->current_state();
+            message = IDLE;
             break;
 
         case 3:
             state = movingState->current_state();
+            message = MOVED;
             break; 
 
         case 4:
             state = emergencyState->current_state();
+            message = EMERGENCY;
             break;
 
         case 5:
             state = maintenanceState->current_state();
+            message = MAINTENANCE;
             break;
 
         default: 
             state = "no set state";
+            message = ERROR;
             break;
 
     }
@@ -157,16 +169,45 @@ void FSM::warning()
 
 }
 
+
 void FSM::update_server(){
     server->set_eid(elev->get_number());
-    // server->set_sid(elev->get_number()); ???
     server->set_door_status(elev->is_door_open());
     server->set_light_status(elev->is_light_on());
     server->set_floor(elev->get_floor());
     server->set_temp(elev->get_current_temp());
     server->set_load(elev->get_load_weight());
-    //server->set_person_counter(); ???
-    server->serial_service_tx(server->get_queue(), (uint8_t) 15);
+    server->set_person_counter(elev->get_people()); 
+    server->serial_service_tx(server->get_queue(), (uint8_t) 14);
+    server->set_msg_to_usesr(message);
+}
+
+void FSM::load_in(){
+    person* human = elev->load_people_in();
+    people_in->add(human->get_person());
+    idleState->load(human->get_weight());
+    elev->set_current_temp(elev->get_current_temp() + human->get_temp());
+}
+
+void FSM::unload_person(){
+    uint8_t person_type = people_in->remove(0);
+    uint8_t temp;
+    idleState->unload(person_type); //remnove people with their ID
+    switch(person_type){
+        case 1:
+            temp = 5;
+            break;
+
+        case 2:
+            temp = 3;
+            break;
+
+        case 3:
+            temp = 4;
+            break;
+    }
+    elev->set_current_temp(elev->get_current_temp() - temp);
+
 }
 
 /**
@@ -192,9 +233,8 @@ void FSM::run(int command) //manages transitions
         case LOAD_COMMAND: //load people (300 lbs)
             if(currState == IDLE_STATE){
                 idleState->start();
-                idleState->load(300);
                 toggle = true; //wont go into reset, means elevator was activated, reset timer
-
+                load_in();
                 if(elev->get_load_weight() > elev->get_max_load_weight() || elev->get_current_temp() > elev->get_max_temp()){ //EMERGENCY STATE
                     this->emergency_toggle();
                     break;
@@ -204,18 +244,20 @@ void FSM::run(int command) //manages transitions
 
             else warning();
             toggle = false;
+            message = LOADED;
             update_server();
             break;
 
         case UNLOAD_COMMAND: //unload people (300 lbs)
             if(currState == IDLE_STATE){
                 idleState->start();
-                idleState->unload(300);
+                unload_person();
                 toggle = true; //wont go into reset, means elevator was activated
             }
 
             else warning();
             toggle = false;
+            message = UNLOADED;
             update_server();
             break;
 
@@ -226,12 +268,14 @@ void FSM::run(int command) //manages transitions
             }
 
             else warning();
+            message = MOVED;
             update_server();
             break;
 
         case MAINTENANCE_COMMAND: //lock maintenance state
             currState = MAINTENANCE_STATE;
             maintenanceState->start();
+            message = MAINTENANCE;
             update_server();
             break;
 
@@ -244,11 +288,13 @@ void FSM::run(int command) //manages transitions
             }
 
             else warning();
+            message = IDLE;
             update_server();
             break;
 
         default: 
             Serial.println("Command #" + String(command) + " isn't a registered command! Please enter a valid command." );
+            message = ERROR;
             update_server();
             break;
     }
