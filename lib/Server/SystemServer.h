@@ -16,10 +16,10 @@
 
 /* Macros for packet structure */
 #define EID_OFFSET            0
-#define SID_OFFSET            1
-#define DOOR_OFFSET           2
-#define LIGHT_OFFSET          3
-#define FLOOR_OFFSET          4
+#define DOOR_OFFSET           1
+#define LIGHT_OFFSET          2
+#define FLOOR_OFFSET          3
+#define PID_OFFSET            4
 #define TEMP_OFFSET           5
 #define LOAD_OFFSET           6
 #define PERSON_OFFSET         7
@@ -36,22 +36,21 @@ class SystemServer
                 uint8_t* queue; // buffer for rx and tx operations.
                 size_t byte_counter; 
 
-                /* Variables for elevator attirbutes that will be transmitted always */
-
+                /* PACKET STRUCTURE */
                 /* header */ 
                 uint8_t eid; 
-                uint8_t sid;
                 /* payload */
-                uint8_t door_status;   // elev-> is_door_open()
-                uint8_t light_status;  // elev-> is_light_on()
-                uint8_t current_floor;  // elev-> get_floor()
-                uint8_t temp;        // elev-> get_temp()
-                uint8_t load;         // elev-> get_load_weight()
-                uint8_t person_counter; // elev-> get_person_count()
-                uint8_t maintenance; // elev-> get_person_count()
-                uint8_t direction; // elev-> get_person_count()
-                uint8_t moving; // elev-> get_person_count()
-                uint8_t msg_to_user; // TODO: mapping of msgs on pyserial side
+                uint8_t door_status;    // Door status attribute for elevator
+                uint8_t light_status;   // Light status attribute for elevator
+                uint8_t current_floor;  // Current floor attribute for elevator
+                uint8_t pid;            // Person identifier for elevator
+                uint8_t temp;           // Temperatur attribute for elevator
+                uint8_t load;           // Load attribute for elevator
+                uint8_t person_counter; // Keeps track of any person that enters an elevators
+                uint8_t maintenance;    // elev-> get_person_count()
+                uint8_t direction;      // elev-> get_person_count()
+                uint8_t moving;         // elev-> get_person_count()
+                uint8_t msg_to_user;    // TODO: mapping of msgs on pyserial side
 
         public: 
                 SystemServer();
@@ -63,8 +62,6 @@ class SystemServer
                 void serial_service_tx(uint8_t* pkt, size_t pkt_size);
 
                 void serial_service_rx(void);
-
-                void exec_service(void);
 
                 void extract_pkt_data(uint8_t* pkt);
 
@@ -80,13 +77,13 @@ class SystemServer
 
                 void set_eid(uint8_t eid);
 
-                void set_sid(uint8_t sid);
-
                 void set_door_status(uint8_t door_status);
 
                 void set_light_status(uint8_t light_status);
 
                 void set_floor(uint8_t current_floor);
+
+                void set_pid(uint8_t pid);
 
                 void set_temp(uint8_t temp);
 
@@ -96,13 +93,15 @@ class SystemServer
 
                 void set_msg_to_usesr(uint8_t msg_to_user);
 
-                uint8_t get_sid(void);
+                uint8_t get_eid(void);
 
                 uint8_t get_door_status(void);
 
                 uint8_t get_light_status(void);
 
                 uint8_t get_floor(void);
+
+                uint8_t get_pid(void);
 
                 uint8_t get_temp(void);
 

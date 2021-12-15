@@ -1,24 +1,22 @@
-#include "SystemServer.h"
+#include <SystemServer.h>
 
 
 SystemServer::SystemServer()
 {
-  /* header */ 
   this->byte_counter = 0;
   this->eid = 0;
-  this->sid = 2;
-  /* payload */
-  this->door_status = 0;   // elev-> is_door_open()
-  this->light_status = 0;  // elev-> is_light_on()
-  this->current_floor = 0;  // elev-> get_floor()
-  this->temp = 0;        // elev-> get_temp()
-  this->load = 0;         // elev-> get_load_weight()
-  this->person_counter = 0; // elev-> get_person_count()
-  this->maintenance = 0; // elev-> get_person_count()
-  this->direction = 0; // elev-> get_person_count()
-  this->moving = 0; // elev-> get_person_count()
-  this->msg_to_user = 0; // TODO: mapping of msgs on pyserial side
-  this->queue = (uint8_t*) malloc(sizeof(uint8_t) * QUEUE_SIZE); // for incoming serial data
+  this->door_status = 0;    
+  this->light_status = 0;   
+  this->current_floor = 0;  
+  this->pid = 0;
+  this->temp = 0;          
+  this->load = 0;           
+  this->person_counter = 0; 
+  this->maintenance = 0;    
+  this->direction = 0;      
+  this->moving = 0;         
+  this->msg_to_user = 0; 
+  this->queue = (uint8_t*) malloc(sizeof(uint8_t) * QUEUE_SIZE);
 }
 
 
@@ -42,9 +40,9 @@ void SystemServer::loop(void)
 void SystemServer::serial_service_tx(uint8_t* pkt, size_t pkt_size)
 {
     /* Standard packet for transmission */
-    static uint8_t std_pkt[STD_COBS_BUFF_SIZE] = {this->eid, this->sid, this->door_status, this->light_status, this->current_floor, this->temp, 
-                                                  this->load, this->person_counter, this->maintenance, this->direction, this->moving, this->msg_to_user,  COBS_DELIMETER};
-
+    static uint8_t std_pkt[STD_COBS_BUFF_SIZE] = {this->eid, this->door_status, this->light_status, this->current_floor, this->pid, this->temp, 
+                                                  this->load, this->person_counter, this->maintenance, this->direction, this->moving, 
+                                                  this->msg_to_user,  COBS_DELIMETER};
     
     this->byte_counter = cobs_encode(std_pkt, pkt_size, pkt);
     size_t bytes_to_send = pkt_size;
@@ -116,10 +114,10 @@ void SystemServer::extract_pkt_data(uint8_t* pkt)
     /* Extracts standard pkt data */
     
     this->eid =  pkt[EID_OFFSET];
-    this->sid =  pkt[SID_OFFSET];
     this->door_status =  pkt[DOOR_OFFSET];
     this->light_status =  pkt[LIGHT_OFFSET];
     this->current_floor =  pkt[FLOOR_OFFSET];
+    this->pid =  pkt[PID_OFFSET];
     this->temp =  pkt[TEMP_OFFSET];
     this->load = pkt[LOAD_OFFSET];
     this->person_counter = pkt[PERSON_OFFSET];
@@ -128,50 +126,15 @@ void SystemServer::extract_pkt_data(uint8_t* pkt)
     this->moving = pkt[MOVING_OFFSET];
     this->msg_to_user = pkt[MSG_OFFSET];
 
-    exec_service();
     free(this->queue);
     this->byte_counter= 0;
 
 }
 
 
-void SystemServer::exec_service(void) 
-{
-    if(this->sid == 0)
-    {
-        set_elev_attr(this->queue);
-    }
-    if(this->sid == 1)
-    {
-        get_elev_attr();
-    }
-}
-
-
-void SystemServer::set_elev_attr(uint8_t* pkt)
-{
-    //eid = pkt[EID_OFFSET];  
-    //Serial.println("Setting");
-    this->msg_to_user = 0;
-}
-
-
-void SystemServer::get_elev_attr(void)
-{
-    //Serial.println("Getting");
-    this->msg_to_user = 1;
-}
-
-
 void SystemServer::set_eid(uint8_t eid)
 {
     this->eid = eid;
-}
-
-
-void SystemServer::set_sid(uint8_t sid)
-{
-    this->sid = sid;
 }
 
 
@@ -190,6 +153,12 @@ void SystemServer::set_light_status(uint8_t light_status)
 void SystemServer::set_floor(uint8_t current_floor)
 {
     this->current_floor = current_floor;
+}
+
+
+void SystemServer::set_pid(uint8_t pid)
+{
+    this->pid = pid;
 }
 
 
@@ -217,9 +186,9 @@ void SystemServer::set_msg_to_usesr(uint8_t msg_to_user)
 }
 
 
-uint8_t SystemServer::get_sid(void) 
+uint8_t SystemServer::get_eid(void) 
 {
-    return this->sid;
+    return this->eid;
 }
 
 
@@ -238,6 +207,12 @@ uint8_t SystemServer::get_light_status(void)
 uint8_t SystemServer::get_floor(void) 
 {
     return this->current_floor;
+}
+
+
+uint8_t SystemServer::get_pid(void) 
+{
+    return this->pid;
 }
 
 

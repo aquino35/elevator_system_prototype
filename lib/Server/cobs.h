@@ -12,7 +12,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-size_t cobs_encode(const uint8_t * __restrict__ input, size_t length, uint8_t *  __restrict__ output); //__restrict__ wont work on all C++ compilers
-size_t cobs_decode(const uint8_t * __restrict__ input, size_t length, uint8_t *  __restrict__ output);
+size_t cobs_encode(const uint8_t * input, size_t length, uint8_t * output);
+size_t cobs_decode(const uint8_t * input, size_t length, uint8_t * output);
 
 #endif

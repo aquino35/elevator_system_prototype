@@ -16,10 +16,10 @@ STD_ENCODE_SIZE          =   14
 STD_DECODE_SIZE          =   14
 
 EID_OFFSET               =   1
-SID_OFFSET               =   2
-DOOR_OFFSET              =   3
-LIGHT_OFFSET             =   4
-FLOOR_OFFSET             =   5
+DOOR_OFFSET              =   2
+LIGHT_OFFSET             =   3
+FLOOR_OFFSET             =   4
+PID_OFFSET               =   5
 TEMP_OFFSET              =   6
 LOAD_OFFSET              =   7
 PERSON_OFFSET            =   8
@@ -60,11 +60,11 @@ class ElevatorManager:
 
     def init_elev_attrs(self) -> None:
 
-        self.eid = 0
-        self.sid = 0
-        self.door_status = 0
+        self.eid = 0 # elevator identifier
+        self.door_status = 0 # 
         self.light_status = 0
         self.current_floor = 0
+        self.pid = 0
         self.temp = 0
         self.load = 0
         self.person_counter  = 0
@@ -141,12 +141,10 @@ class ElevatorManager:
             print(current_tid)          
             self.tid_list.append(current_tid)
 
-
             self.serial_service_rx(arduino)
 
-            self.request = self.initialize_cobs_pkt_list(self.eid, self.sid, 
-                            self.door_status, self.light_status, 
-                            self.current_floor, self.temp, self.load, self.person_counter, 
+            self.request = self.initialize_cobs_pkt_list(self.eid, self.door_status, self.light_status, 
+                            self.current_floor, self.pid, self.temp, self.load, self.person_counter, 
                             self.maintenance, self.direction, self.moving, self.msg_to_user)
 
             self.serial_service_tx(arduino, self.request)
@@ -222,10 +220,10 @@ class ElevatorManager:
     def extract_pkt_data(self, pkt:list) -> None:
 
         self.eid = pkt[EID_OFFSET]
-        self.sid = pkt[SID_OFFSET]
         self.door_status = pkt[DOOR_OFFSET]
         self.light_status = pkt[LIGHT_OFFSET]
         self.current_floor = pkt[FLOOR_OFFSET]
+        self.pid = pkt[PID_OFFSET]
         self.temp = pkt[TEMP_OFFSET]
         self.load = pkt[LOAD_OFFSET]
         self.person_counter  = pkt[PERSON_OFFSET]
@@ -242,10 +240,10 @@ class ElevatorManager:
 
         #testing stuff 
         print(decoded_pkt[EID_OFFSET])
-        print(decoded_pkt[SID_OFFSET])
         print(decoded_pkt[DOOR_OFFSET])
         print(decoded_pkt[LIGHT_OFFSET])
         print(decoded_pkt[FLOOR_OFFSET])
+        print(decoded_pkt[PID_OFFSET])
         print(decoded_pkt[TEMP_OFFSET])
         print(decoded_pkt[LOAD_OFFSET])
         print(decoded_pkt[PERSON_OFFSET])
@@ -281,12 +279,7 @@ class ElevatorManager:
     # have to verify 
     def get_eid(self) -> int:
         """ Return eid of a designated elevator to display to the user. """
-
         return self.eid
-
-
-    def get_sid(self) -> int:
-        return self.sid
 
 
     def get_door_status(self) -> int:
@@ -299,6 +292,10 @@ class ElevatorManager:
 
     def get_floor(self) -> int:
         return self.current_floor
+
+    
+    def get_pid(self) -> int:
+        return self.pid
 
 
     def get_temp(self) -> int:
@@ -317,16 +314,16 @@ class ElevatorManager:
         self.eid = eid
 
 
-    def set_sid(self, sid)-> None:
-        self.sid = sid
-
-
     def set_door_status(self, door_status:int) -> None:
         self.door_status = door_status
 
 
     def set_light_status(self, light_status:int) -> None:
         self.light_status = light_status
+
+
+    def set_pid(self, pid:int) -> None:
+        self.current_floor = pid
 
 
     def set_floor(self, current_floor:int) -> None:
