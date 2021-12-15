@@ -157,8 +157,7 @@ void FSM::warning()
 
 }
 
-void FSM::update_server()
-{
+void FSM::update_server(){
     server->set_eid(elev->get_number());
     // server->set_sid(elev->get_number()); ???
     server->set_door_status(elev->is_door_open());
