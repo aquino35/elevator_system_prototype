@@ -1,5 +1,6 @@
 #pragma once
 #include "AllStates.h"
+#include "SystemServer.h"
 
 /* Macros, used to map the FSM's commands. */
 
@@ -52,6 +53,9 @@ class FSM {
         /* Boolean representing whether the elevator has been recently used or not. Helps keep track of when to activate energy saving mode.*/
         bool toggle = false; 
 
+        /* Transmits data between the FSM and the server. */
+        SystemServer* server;
+
 
     public:
         FSM(Elevator* elevator); 
@@ -67,6 +71,8 @@ class FSM {
         void emergency_toggle();
 
         void moving_loop();
+
+        void update_server();
 
         ~FSM(); 
 };

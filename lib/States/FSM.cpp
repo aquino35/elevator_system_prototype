@@ -13,6 +13,9 @@ FSM::FSM(Elevator* elevator)
     movingState = new MovingState(elev);
     emergencyState = new EmergencyState(elev); 
     maintenanceState = new MaintenanceState(elev);
+
+    server = new SystemServer();
+    server->setup();
 }
 
 /**
@@ -42,6 +45,7 @@ void FSM::energy_update(void) //should go in some mainloop
 
         idleState->energy_saving();
     }
+    update_server();
 }
 
 /**
@@ -63,6 +67,9 @@ void FSM::emergency_toggle()
     idleState->start();
     currState = IDLE_STATE;
     toggle = false;
+
+    update_server();
+
 }
 
 /**
@@ -78,12 +85,17 @@ void FSM::moving_loop()
                 
     while(movingState->can_move()){
         movingState->move();
-        elev->get_stopping_floors()->print();
+
+        update_server();
+
         //loading and unloading
         if(movingState->made_stop()){
             idleState->load(300); //not sure when to pick or leave people off while moving or how much 
             idleState->unload(300);
             elev->close();
+            
+            update_server();
+
 
             if(elev->get_load_weight() > elev->get_max_load_weight() || elev->get_current_temp() > elev->get_max_temp()){
                 this->emergency_toggle();
@@ -93,12 +105,17 @@ void FSM::moving_loop()
 
         if(movingState->should_switch_direction()){ //switch direction lock 
             movingState->set_direction();
+            
+            update_server();
+
         }
     }
 
     idleState->start();
     currState = IDLE_STATE;
     toggle = false;
+    update_server();
+
 }
 
 /**
@@ -134,7 +151,22 @@ void FSM::warning()
             break;
 
     }
+
     Serial.println("CAN'T RUN ELEVATOR #" + String(elev->get_number()) + " FROM THE CURRENT STATE: " + state );
+    update_server();
+
+}
+
+void FSM::update_server(){
+    server->set_eid(elev->get_number());
+    // server->set_sid(elev->get_number()); ???
+    server->set_door_status(elev->is_door_open());
+    server->set_light_status(elev->is_light_on());
+    server->set_floor(elev->get_floor());
+    server->set_temp(elev->get_current_temp());
+    server->set_load(elev->get_load_weight());
+    //server->set_person_counter(); ???
+    //server->serial_service_tx()   ???
 }
 
 /**
@@ -172,6 +204,7 @@ void FSM::run(int command) //manages transitions
 
             else warning();
             toggle = false;
+            update_server();
             break;
 
         case UNLOAD_COMMAND: //unload people (300 lbs)
@@ -183,20 +216,23 @@ void FSM::run(int command) //manages transitions
 
             else warning();
             toggle = false;
+            update_server();
             break;
 
         case MOVE_COMMAND: //moving
             if(currState ==  IDLE_STATE){
                 currState = MOVING_STATE;
                 this->moving_loop();
-                
             }
+
             else warning();
+            update_server();
             break;
 
         case MAINTENANCE_COMMAND: //lock maintenance state
             currState = MAINTENANCE_STATE;
             maintenanceState->start();
+            update_server();
             break;
 
         case FIX_MAINTENANCE_COMMAND: //unlock maintenance state
@@ -208,10 +244,12 @@ void FSM::run(int command) //manages transitions
             }
 
             else warning();
+            update_server();
             break;
 
         default: 
             Serial.println("Command #" + String(command) + " isn't a registered command! Please enter a valid command." );
+            update_server();
             break;
     }
 }
@@ -227,4 +265,5 @@ FSM::~FSM(void)
     delete movingState;
     delete emergencyState;
     delete maintenanceState;
+    delete server;
 }

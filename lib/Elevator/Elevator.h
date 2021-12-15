@@ -1,11 +1,15 @@
 #pragma once
-#include "SystemServer.h"
 #include "Set.h"
 
 /* Elevator Parameter Macros */
 #define ELEVATOR_MAX_TEMP   120   // Maximum temperature an elevator car can reach
 #define ELEVATOR_CAPACITY   10    // The max amount of people that can be stored
 #define ELEVATOR_MAX_WEIGHT 1200  // The maximum allowed weight
+
+#define ADULT   1
+#define CHILD   2
+#define ELDERLY 3
+
 
 typedef struct Person{
     uint16_t weight;
@@ -14,26 +18,38 @@ typedef struct Person{
 
     Person(uint8_t type){
         switch(type){
-            case 1:
+            case ADULT:
                 weight = 160;
                 temp = 5;
                 identifer = "Adult";
                 break;
 
-            case 2:
+            case CHILD:
                 weight = 50;
                 temp = 3;
                 identifer = "Child";
                 break;
 
-            case 3:
+            case ELDERLY:
                 weight = 135;
                 temp = 4;
                 identifer = "Elderly";
                 break;
         }
-
     }
+
+    uint16_t get_weight(){
+        return weight;
+    }
+
+    uint8_t get_temp(){
+        return temp;
+    }
+
+    String get_person(){
+        return identifer;
+    }
+
 }person;
 
 /**
