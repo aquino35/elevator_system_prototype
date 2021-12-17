@@ -36,12 +36,13 @@ void FSM::setup(void) //dont initialize idle start here
 void FSM::energy_update(void) //should go in some mainloop
 {
     if(currState == IDLE_STATE && elev->get_load_weight() == 0){ 
-        begin = clock();
-        timeSpent = (double)(clock() - begin);
+        start = millis();
+        elapsed = (millis() - start)/1000;
+        delay(1000);          // wait a second so as not to send massive amounts of data
 
         while(true){ //15 second timer
-            timeSpent = (double)(clock() - begin);
-            if(timeSpent >= 15000.00) return;
+            elapsed = (millis() - start)/1000;
+            if(elapsed >= 15) return;
         }
 
         idleState->energy_saving();

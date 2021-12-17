@@ -91,14 +91,14 @@ void MovingState::set_direction(void)
 */ 
 void MovingState::moving_timer(void)
 {
-    begin = clock();
-    timeSpent = (double)(clock() - begin);
+    begin = millis();
+    elapsed = (millis() - begin)/1000;
 
     Serial.println( "ELEVATOR #" + String(elev->get_number()) + " TRANSITIONING TO ANOTHER FLOOR!");
 
     while(true){ //2 second timer
-        timeSpent = (double)(clock() - begin);
-        if(timeSpent >= 2000.00) return;
+        elapsed = (millis() - begin)/1000;
+        if(elapsed >= 2) return;
     }
 }
 

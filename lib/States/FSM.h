@@ -57,11 +57,8 @@ class FSM {
         /* Keeps track of the current state, an integer, denoted by that states macro variable.*/
         int currState = null; 
 
-        /* Used to count elapsed time, based on the time.h library. */
-        clock_t begin;
-
-        /* The elapsed time since the clock timer began, as a double. */
-        double timeSpent;
+        unsigned long elapsed;
+        unsigned long start;
 
         /* Boolean representing whether the elevator has been recently used or not. Helps keep track of when to activate energy saving mode.*/
         bool toggle = false; 

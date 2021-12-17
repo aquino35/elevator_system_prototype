@@ -35,11 +35,8 @@ class MovingState : public State{
         /* Boolean used to flag whether the elevator has made a stop on a floor. */
         bool stopped = false;
 
-        /* Used to count elapsed time, based on the time.h library. */
-        clock_t begin;
-
-        /* The elapsed time since the clock timer began, as a double. */
-        double timeSpent;
+        unsigned long elapsed;
+        unsigned long begin; //has a conflict with start()
 
     public:
         MovingState(Elevator* elevator);
